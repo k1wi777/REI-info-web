@@ -46,3 +46,12 @@ next-env.d.ts
 
 .rei
 .opencode
+
+# Impeccable: artefactos locales de iteración
+/.impeccable/mocks/
+/.impeccable/review/
+/.impeccable/questions/*.hand.json
+/.impeccable/questions/*.log
+/.impeccable/questions/*.state.json
+/.impeccable/questions/*.pid
+/.impeccable/questions/answer*.txt
