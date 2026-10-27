@@ -8,6 +8,7 @@ export const SITE_NAME = "REI Web";
 export const PRODUCT_NAME = "REI Harness";
 export const PRODUCT_SHORT_NAME = "REI";
 export const DOCUMENTED_VERSION = "v0.3.0";
+export const DOCUMENTED_VERSION_DATE = "2026-10-26";
 
 export const REPOSITORY_URL = "https://github.com/k1wi777/REI-Harness";
 export const RELEASES_URL = "https://github.com/k1wi777/REI-Harness/releases";
@@ -197,8 +198,15 @@ export const DOCS_SECTIONS: DocsSection[] = [
   {
     id: "referencia",
     label: "Referencia",
-    path: "/docs/referencia/comandos",
+    path: "/docs/referencia",
     pages: [
+      {
+        slug: "referencia",
+        path: "/docs/referencia",
+        title: "Referencia",
+        description:
+          "Hechos exactos del arnés: comandos, configuración, estados, plantillas y adaptadores.",
+      },
       {
         slug: "comandos",
         path: "/docs/referencia/comandos",
@@ -206,19 +214,75 @@ export const DOCS_SECTIONS: DocsSection[] = [
         description:
           "Referencia del CLI rei: comandos, flags y ejemplos agrupados por tarea.",
       },
+      {
+        slug: "configuracion",
+        path: "/docs/referencia/configuracion",
+        title: "Configuración",
+        description:
+          ".rei/config.json: checks, integración con GitHub, visor y códigos de salida.",
+      },
+      {
+        slug: "meta",
+        path: "/docs/referencia/meta",
+        title: "meta.json",
+        description:
+          "Campos, identificador, tipo, estado y commits del registro duradero de cada Work Item.",
+      },
+      {
+        slug: "estados",
+        path: "/docs/referencia/estados",
+        title: "Estados",
+        description:
+          "Los siete estados del workflow, sus transiciones, el límite de un in_progress y --force.",
+      },
+      {
+        slug: "plantillas",
+        path: "/docs/referencia/plantillas",
+        title: "Plantillas",
+        description:
+          "Las plantillas canónicas de current.md, history.md y meta.json y cómo se archiva la sesión.",
+      },
+      {
+        slug: "adaptadores",
+        path: "/docs/referencia/adaptadores",
+        title: "Adaptadores",
+        description:
+          "El contrato canónico de rol, la generación de subagentes nativos y el fallback sin adaptador.",
+      },
     ],
   },
   {
     id: "operacion",
     label: "Operación",
-    path: "/docs/operacion/faq",
+    path: "/docs/operacion",
     pages: [
+      {
+        slug: "operacion",
+        path: "/docs/operacion",
+        title: "Operación",
+        description:
+          "Diagnóstico y cambios: qué hacer cuando algo falla, dudas frecuentes y la versión documentada.",
+      },
+      {
+        slug: "troubleshooting",
+        path: "/docs/operacion/troubleshooting",
+        title: "Solución de problemas",
+        description:
+          "Síntomas, causa y siguiente paso para los fallos habituales del arnés y del CLI.",
+      },
       {
         slug: "faq",
         path: "/docs/operacion/faq",
         title: "Preguntas frecuentes",
         description:
           "Dudas reales sobre Work Items en paralelo, cambios directos, checks, git e historial.",
+      },
+      {
+        slug: "changelog",
+        path: "/docs/operacion/changelog",
+        title: "Changelog",
+        description:
+          "La versión documentada, su fecha y los temas verificables de la release v0.3.0.",
       },
     ],
   },

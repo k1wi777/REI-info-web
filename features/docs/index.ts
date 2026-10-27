@@ -5,6 +5,8 @@ export { DocsModeLandingPage } from "./components/docs-mode-landing-page";
 export {
   CONCEPTOS_MODE_PATH,
   GUIAS_MODE_PATH,
+  OPERACION_MODE_PATH,
+  REFERENCIA_MODE_PATH,
 } from "./data/modes";
 
 export {
@@ -17,6 +19,13 @@ export { GUIAS_ACTUALIZAR_PATH } from "./data/pages/guias-actualizar";
 export { GUIAS_CHECKS_PATH } from "./data/pages/guias-checks";
 export { GUIAS_GITHUB_PATH } from "./data/pages/guias-github";
 export { GUIAS_VISOR_PATH } from "./data/pages/guias-visor";
+export { OPERACION_CHANGELOG_PATH } from "./data/pages/operacion-changelog";
+export { OPERACION_TROUBLESHOOTING_PATH } from "./data/pages/operacion-troubleshooting";
+export { REFERENCIA_ADAPTADORES_PATH } from "./data/pages/referencia-adaptadores";
+export { REFERENCIA_CONFIGURACION_PATH } from "./data/pages/referencia-configuracion";
+export { REFERENCIA_ESTADOS_PATH } from "./data/pages/referencia-estados";
+export { REFERENCIA_META_PATH } from "./data/pages/referencia-meta";
+export { REFERENCIA_PLANTILLAS_PATH } from "./data/pages/referencia-plantillas";
 
 export type {
   DocContent,

@@ -1,6 +1,7 @@
 import {
   DOCS_PAGES,
   DOCS_SECTIONS,
+  DOCUMENTED_VERSION_DATE,
   FOOTER_GROUPS,
   NAV_ITEMS,
   PRIMARY_CTA,
@@ -91,6 +92,36 @@ describe("árbol de documentación", () => {
 
     const sectionPaths = DOCS_SECTIONS.map((section) => section.path);
     expect(new Set(sectionPaths).size).toBe(sectionPaths.length);
+  });
+
+  it("abre cada sección por su landing", () => {
+    for (const section of DOCS_SECTIONS) {
+      expect(section.pages[0].path).toBe(section.path);
+    }
+  });
+
+  it("publica las rutas nuevas de Referencia y Operación", () => {
+    const newPaths = [
+      "/docs/referencia",
+      "/docs/referencia/comandos",
+      "/docs/referencia/configuracion",
+      "/docs/referencia/meta",
+      "/docs/referencia/estados",
+      "/docs/referencia/plantillas",
+      "/docs/referencia/adaptadores",
+      "/docs/operacion",
+      "/docs/operacion/troubleshooting",
+      "/docs/operacion/faq",
+      "/docs/operacion/changelog",
+    ];
+
+    for (const path of newPaths) {
+      expect(ROUTES).toContain(path);
+    }
+  });
+
+  it("declara la fecha de la versión documentada en ISO", () => {
+    expect(DOCUMENTED_VERSION_DATE).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
   it("rellena slug, título y descripción de cada página", () => {

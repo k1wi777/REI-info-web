@@ -15,7 +15,14 @@ export type DocsContentPath =
   | "/docs/guias/github"
   | "/docs/guias/visor"
   | "/docs/guias/checks"
-  | "/docs/guias/actualizar";
+  | "/docs/guias/actualizar"
+  | "/docs/referencia/configuracion"
+  | "/docs/referencia/meta"
+  | "/docs/referencia/estados"
+  | "/docs/referencia/plantillas"
+  | "/docs/referencia/adaptadores"
+  | "/docs/operacion/troubleshooting"
+  | "/docs/operacion/changelog";
 
 export type DocContent = {
   path: DocsContentPath;
@@ -24,4 +31,4 @@ export type DocContent = {
   sections: DocSection[];
 };
 
-export type DocsModeId = "conceptos" | "guias";
+export type DocsModeId = "conceptos" | "guias" | "referencia" | "operacion";

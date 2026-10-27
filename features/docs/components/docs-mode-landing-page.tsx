@@ -26,20 +26,14 @@ export function DocsModeLandingPage({ mode }: DocsModeLandingPageProps) {
 
   const entries: DocsEntry[] = section.pages
     .filter((candidate) => candidate.path !== section.path)
-    .map((candidate) => {
-      if (!isDocsContentPath(candidate.path)) {
-        throw new Error(
-          `La página del modo no tiene documento: ${candidate.path}`,
-        );
-      }
-
-      return {
-        title: candidate.title,
-        mode: DOCS_DOCUMENTS[candidate.path].eyebrow,
-        description: candidate.description,
-        href: candidate.path,
-      };
-    });
+    .map((candidate) => ({
+      title: candidate.title,
+      mode: isDocsContentPath(candidate.path)
+        ? DOCS_DOCUMENTS[candidate.path].eyebrow
+        : section.label,
+      description: candidate.description,
+      href: candidate.path,
+    }));
 
   return (
     <div>
