@@ -55,6 +55,39 @@ describe("comandos del CLI", () => {
     }
   });
 
+  it("completa los flags documentados de check y review-diff", () => {
+    const check = COMMANDS.find((command) => command.id === "check");
+    const reviewDiff = COMMANDS.find(
+      (command) => command.id === "review-diff",
+    );
+
+    expect(check?.flags.map((flag) => flag.flag)).toContain("--quiet, -q");
+    expect(reviewDiff?.flags.map((flag) => flag.flag)).toContain("--full");
+  });
+
+  it("declara notes y exitCodes opcionales con forma válida", () => {
+    for (const command of COMMANDS) {
+      if (command.notes) {
+        expect(command.notes.length).toBeGreaterThan(0);
+        expect(new Set(command.notes).size).toBe(command.notes.length);
+        for (const note of command.notes) {
+          expect(note.trim()).not.toBe("");
+        }
+      }
+
+      if (command.exitCodes) {
+        const codes = command.exitCodes.map((exitCode) => exitCode.code);
+
+        expect(codes.length).toBeGreaterThan(0);
+        expect(new Set(codes).size).toBe(codes.length);
+        for (const exitCode of command.exitCodes) {
+          expect(["0", "1", "2"]).toContain(exitCode.code);
+          expect(exitCode.meaning.trim()).not.toBe("");
+        }
+      }
+    }
+  });
+
   it("mantiene al menos un comando en cada categoría", () => {
     for (const category of CATEGORY_IDS) {
       expect(commandsByCategory(category).length).toBeGreaterThan(0);

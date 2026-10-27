@@ -1,4 +1,4 @@
-import type { WorkItemState } from "./types";
+import type { StateTransition, WorkItemState } from "./types";
 
 /** Los cinco estados del ciclo, en orden. */
 export const CYCLE_STATES: WorkItemState[] = [
@@ -54,4 +54,63 @@ export const BRANCH_STATES: WorkItemState[] = [
 export const WORK_ITEM_STATES: WorkItemState[] = [
   ...CYCLE_STATES,
   ...BRANCH_STATES,
+];
+
+/**
+ * Aristas del workflow. Las salidas a `blocked` se derivan de los estados no
+ * terminales para que un estado nuevo herede la rama sin duplicar listas.
+ */
+export const STATE_TRANSITIONS: StateTransition[] = [
+  {
+    from: "pending",
+    to: "ready",
+    kind: "cycle",
+    note: "El Spec Author termina la planificación.",
+  },
+  {
+    from: "ready",
+    to: "in_progress",
+    kind: "cycle",
+    note: "Exige aprobación humana explícita.",
+  },
+  {
+    from: "in_progress",
+    to: "review",
+    kind: "cycle",
+    note: "El Implementer cierra con su reporte.",
+  },
+  {
+    from: "review",
+    to: "done",
+    kind: "cycle",
+    note: "Veredicto favorable del Reviewer.",
+  },
+  {
+    from: "review",
+    to: "changes_requested",
+    kind: "branch",
+    note: "El Reviewer rechaza la implementación.",
+  },
+  {
+    from: "changes_requested",
+    to: "in_progress",
+    kind: "branch",
+    note: "El Implementer aplica las correcciones.",
+  },
+  ...WORK_ITEM_STATES.filter(
+    (state) => state.id !== "blocked" && !state.terminal,
+  ).map(
+    (state): StateTransition => ({
+      from: state.id,
+      to: "blocked",
+      kind: "branch",
+      note: "El trabajo no puede continuar.",
+    }),
+  ),
+  {
+    from: "done",
+    to: "blocked",
+    kind: "force",
+    note: "Transición no estándar: exige --force y una orden explícita.",
+  },
 ];

@@ -15,6 +15,11 @@ export type CommandFlag = {
   description: string;
 };
 
+export type CommandExitCode = {
+  code: "0" | "1" | "2";
+  meaning: string;
+};
+
 export type Command = {
   id: string;
   name: string;
@@ -22,6 +27,10 @@ export type Command = {
   category: CommandCategoryId;
   flags: CommandFlag[];
   example: string;
+  /** Comportamientos específicos ya documentados por `--help` o `usage.md`. */
+  notes?: string[];
+  /** Códigos de salida propios del comando; si faltan, aplica la convención. */
+  exitCodes?: CommandExitCode[];
 };
 
 export type WorkItemStateId =
@@ -39,6 +48,16 @@ export type WorkItemState = {
   meaning: string;
   kind: "cycle" | "branch";
   terminal?: boolean;
+};
+
+/** Tipo de arista: ciclo estándar, rama del workflow o transición forzada. */
+export type StateTransitionKind = "cycle" | "branch" | "force";
+
+export type StateTransition = {
+  from: WorkItemStateId;
+  to: WorkItemStateId;
+  kind: StateTransitionKind;
+  note?: string;
 };
 
 export type AgentRoleId =

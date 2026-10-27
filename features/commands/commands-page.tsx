@@ -1,7 +1,11 @@
 import { DocArticle } from "@/components/layout/doc-article";
+import { CommandDetail } from "@/features/commands/components/command-detail";
+import { CommandIndexTable } from "@/features/commands/components/command-index-table";
 import {
   COMMANDS_PATH,
   COMMANDS_TOC,
+  COMMAND_EXIT_CODE_CONVENTION,
+  COMMAND_EXIT_CODE_TOC_ID,
   COMMAND_GROUPS,
 } from "@/features/commands/data/commands";
 
@@ -16,6 +20,55 @@ export function CommandsPage() {
       toc={COMMANDS_TOC}
     >
       <div className="flex flex-col gap-12">
+        <section
+          id={COMMAND_EXIT_CODE_TOC_ID}
+          aria-labelledby={`${COMMAND_EXIT_CODE_TOC_ID}-heading`}
+        >
+          <h2
+            id={`${COMMAND_EXIT_CODE_TOC_ID}-heading`}
+            className="type-docs-heading text-foreground"
+          >
+            Códigos de salida
+          </h2>
+          <p className="mt-2 max-w-(--container-reading) type-docs text-secondary">
+            La convención general se aplica salvo que el comando documente sus
+            propios códigos en el detalle. El código de salida es la señal que
+            usa el workflow para saber si una verificación pasó.
+          </p>
+          <div className="mt-4 w-full min-w-0 max-w-full overflow-x-auto border border-hairline">
+            <table className="w-full border-collapse text-left">
+              <caption className="sr-only">
+                Convención de códigos de salida del CLI
+              </caption>
+              <thead>
+                <tr className="border-b border-hairline-strong">
+                  <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
+                    Código
+                  </th>
+                  <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
+                    Significado
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMMAND_EXIT_CODE_CONVENTION.map((exitCode) => (
+                  <tr
+                    key={exitCode.code}
+                    className="border-b border-hairline last:border-b-0"
+                  >
+                    <td className="px-3 py-2.5 type-code text-foreground">
+                      {exitCode.code}
+                    </td>
+                    <td className="px-3 py-2.5 type-docs text-secondary">
+                      {exitCode.meaning}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {COMMAND_GROUPS.map(({ category, commands }) => (
           <section
             key={category.id}
@@ -32,83 +85,12 @@ export function CommandsPage() {
               {category.description}
             </p>
 
-            <div className="mt-4 w-full min-w-0 max-w-full overflow-x-auto border border-hairline">
-              <table className="w-full min-w-[44rem] border-collapse text-left">
-                <caption className="sr-only">
-                  {category.label}: comandos, descripción, flags y ejemplo
-                </caption>
-                <thead>
-                  <tr className="border-b border-hairline-strong">
-                    <th
-                      scope="col"
-                      className="px-3 py-2 type-meta text-muted-strong"
-                    >
-                      Comando
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 type-meta text-muted-strong"
-                    >
-                      Qué hace
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 type-meta text-muted-strong"
-                    >
-                      Flags
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 type-meta text-muted-strong"
-                    >
-                      Ejemplo
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {commands.map((command) => (
-                    <tr
-                      key={command.id}
-                      className="border-b border-hairline align-top last:border-b-0"
-                    >
-                      <th
-                        scope="row"
-                        className="px-3 py-3 font-normal type-code text-foreground"
-                      >
-                        {command.name}
-                      </th>
-                      <td className="px-3 py-3 type-docs text-secondary">
-                        {command.summary}
-                      </td>
-                      <td className="px-3 py-3">
-                        {command.flags.length > 0 ? (
-                          <ul className="flex flex-col gap-1.5">
-                            {command.flags.map((flag) => (
-                              <li key={flag.flag}>
-                                <code className="type-code text-foreground">
-                                  {flag.flag}
-                                </code>
-                                <span className="mt-0.5 block type-meta-sm text-muted-strong">
-                                  {flag.description}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <span className="type-docs text-muted-strong">
-                            —
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-3 py-3">
-                        <code className="block whitespace-nowrap type-code text-secondary">
-                          {command.example}
-                        </code>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <CommandIndexTable category={category} commands={commands} />
+
+            <div className="mt-8 flex flex-col gap-8">
+              {commands.map((command) => (
+                <CommandDetail key={command.id} command={command} />
+              ))}
             </div>
           </section>
         ))}
