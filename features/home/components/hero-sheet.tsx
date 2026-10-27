@@ -29,11 +29,10 @@ export function HeroSheet() {
             id="home-tesis"
             className="type-display mt-6 max-w-[22ch] text-balance text-foreground"
           >
-            <span className="block">Tu agente escribe código.</span>{" "}
+            <span className="block">Tu agente escribe.</span>{" "}
             <span className="block">
-              REI decide{" "}
               <span className="underline decoration-accent decoration-2 underline-offset-4">
-                qué código
+                Tú decides
               </span>
               .
             </span>
