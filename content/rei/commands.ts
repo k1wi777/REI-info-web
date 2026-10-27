@@ -214,7 +214,20 @@ export const COMMANDS: Command[] = [
       "Abre el visor local de solo lectura: documentos, validación, sesión, TOC, diff y FICHA.",
     category: "verificacion",
     flags: [
+      {
+        flag: "--open",
+        description:
+          "Arranca o reutiliza el servidor en segundo plano y abre el navegador sin bloquear.",
+      },
       { flag: "--stop", description: "Detiene el servidor del visor." },
+      {
+        flag: "--enable",
+        description: "Activa viewer.autoOpenOnReady en .rei/config.json.",
+      },
+      {
+        flag: "--disable",
+        description: "Desactiva viewer.autoOpenOnReady en .rei/config.json.",
+      },
     ],
     example: "rei view 2026-10-27_01-54__mi-feature",
   },
