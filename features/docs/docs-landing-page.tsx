@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DocsEntryGrid } from "@/features/docs/components/docs-entry-grid";
 import { DOCS_ENTRIES } from "@/features/docs/data/entries";
 
 /** Landing de documentación: orienta por intención, sin UI falsa. */
@@ -17,29 +18,7 @@ export function DocsLandingPage() {
         </p>
       </header>
 
-      <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-        {DOCS_ENTRIES.map((entry) => (
-          <li key={entry.href}>
-            <Link
-              href={entry.href}
-              className="flex h-full flex-col border border-hairline p-5 transition-colors duration-(--duration-fast) hover:border-border-strong"
-            >
-              <span className="type-meta-sm text-muted-strong">
-                {entry.mode}
-              </span>
-              <h2 className="mt-3 type-docs-heading text-foreground">
-                {entry.title}
-              </h2>
-              <span className="mt-2 type-docs text-secondary">
-                {entry.description}
-              </span>
-              <span className="mt-5 type-meta text-foreground">
-                Abrir <span aria-hidden="true">→</span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <DocsEntryGrid entries={DOCS_ENTRIES} />
 
       <section
         aria-labelledby="ruta-recomendada"

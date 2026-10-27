@@ -18,6 +18,10 @@ export type DocBlock =
       tone: "info" | "warning";
       title: string;
       text: string;
+    }
+  | {
+      kind: "links";
+      links: { label: string; href: string; external?: boolean }[];
     };
 
 export type DocSection = {
@@ -30,3 +34,11 @@ export type TocItem = {
   id: string;
   title: string;
 };
+
+/** Deriva la tabla de contenidos del orden real de las secciones. */
+export function sectionsToToc(sections: DocSection[]): TocItem[] {
+  return sections.map((section) => ({
+    id: section.id,
+    title: section.title,
+  }));
+}

@@ -64,6 +64,56 @@ describe("rutas del sitio", () => {
 });
 
 describe("árbol de documentación", () => {
+  it("declara los cinco modos con su etiqueta y en orden", () => {
+    expect(DOCS_SECTIONS.map((section) => section.id)).toEqual([
+      "empezar",
+      "conceptos",
+      "guias",
+      "referencia",
+      "operacion",
+    ]);
+    expect(DOCS_SECTIONS.map((section) => section.label)).toEqual([
+      "Empezar",
+      "Conceptos",
+      "Guías",
+      "Referencia",
+      "Operación",
+    ]);
+  });
+
+  it("publica la ruta de cada sección entre sus páginas y en ROUTES", () => {
+    for (const section of DOCS_SECTIONS) {
+      expect(section.pages.some((page) => page.path === section.path)).toBe(
+        true,
+      );
+      expect(ROUTES).toContain(section.path);
+    }
+
+    const sectionPaths = DOCS_SECTIONS.map((section) => section.path);
+    expect(new Set(sectionPaths).size).toBe(sectionPaths.length);
+  });
+
+  it("rellena slug, título y descripción de cada página", () => {
+    for (const page of DOCS_PAGES) {
+      expect(page.slug.trim()).not.toBe("");
+      expect(page.title.trim()).not.toBe("");
+      expect(page.description.trim()).not.toBe("");
+    }
+  });
+
+  it("devuelve la adyacencia exacta de cada página en el pager", () => {
+    DOCS_PAGES.forEach((page, index) => {
+      const { previous, next } = getDocsPager(page.path);
+
+      expect(previous).toBe(
+        index > 0 ? DOCS_PAGES[index - 1] : undefined,
+      );
+      expect(next).toBe(
+        index < DOCS_PAGES.length - 1 ? DOCS_PAGES[index + 1] : undefined,
+      );
+    });
+  });
+
   it("declara páginas únicas dentro de ROUTES", () => {
     const paths = DOCS_PAGES.map((page) => page.path);
     expect(new Set(paths).size).toBe(paths.length);

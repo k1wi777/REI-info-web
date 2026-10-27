@@ -82,7 +82,7 @@ export type DocsPage = {
 };
 
 export type DocsSection = {
-  id: "empezar" | "referencia" | "operacion";
+  id: "empezar" | "conceptos" | "guias" | "referencia" | "operacion";
   label: string;
   path: string;
   pages: DocsPage[];
@@ -107,6 +107,90 @@ export const DOCS_SECTIONS: DocsSection[] = [
         title: "Primer Work Item",
         description:
           "Recorrer el ciclo completo de un Work Item: inicializar, planificar, aprobar, implementar y revisar.",
+      },
+    ],
+  },
+  {
+    id: "conceptos",
+    label: "Conceptos",
+    path: "/docs/conceptos",
+    pages: [
+      {
+        slug: "conceptos",
+        path: "/docs/conceptos",
+        title: "Conceptos",
+        description:
+          "Las ideas que sostienen REI Harness: Spec Driven Development, aprobación humana, Work Items y modo directo.",
+      },
+      {
+        slug: "sdd",
+        path: "/docs/conceptos/sdd",
+        title: "Spec Driven Development",
+        description:
+          "Qué es Spec Driven Development, por qué la especificación precede al código y qué artefactos produce el arnés.",
+      },
+      {
+        slug: "aprobacion-humana",
+        path: "/docs/conceptos/aprobacion-humana",
+        title: "Aprobación humana",
+        description:
+          "Qué significa aprobar una planificación, qué no significa y cómo se registra la puerta desde el CLI.",
+      },
+      {
+        slug: "work-items-y-estados",
+        path: "/docs/conceptos/work-items-y-estados",
+        title: "Work Items y estados",
+        description:
+          "Feature frente a Task, los estados del ciclo, sus ramas y el límite de un solo Work Item en in_progress.",
+      },
+      {
+        slug: "modo-directo",
+        path: "/docs/conceptos/modo-directo",
+        title: "Modo directo",
+        description:
+          "Qué es el modo directo, cuándo se permite, cuándo se niega y por qué no es un atajo del workflow.",
+      },
+    ],
+  },
+  {
+    id: "guias",
+    label: "Guías",
+    path: "/docs/guias",
+    pages: [
+      {
+        slug: "guias",
+        path: "/docs/guias",
+        title: "Guías",
+        description:
+          "Recetas para activar GitHub, abrir el visor, configurar checks y actualizar el arnés.",
+      },
+      {
+        slug: "github",
+        path: "/docs/guias/github",
+        title: "GitHub",
+        description:
+          "Activar, consultar y desactivar la integración opcional con GitHub y operar issue, rama, PR y backlog.",
+      },
+      {
+        slug: "visor",
+        path: "/docs/guias/visor",
+        title: "Visor",
+        description:
+          "Abrir rei view, leer sus vistas, controlar su ciclo de vida y respetar sus límites de solo lectura.",
+      },
+      {
+        slug: "checks",
+        path: "/docs/guias/checks",
+        title: "Checks",
+        description:
+          "Declarar los checks rápidos en .rei/config.json y ejecutarlos con rei check o rei test.",
+      },
+      {
+        slug: "actualizar",
+        path: "/docs/guias/actualizar",
+        title: "Actualizar",
+        description:
+          "Actualizar el arnés con rei init --update y el binario con rei update, incluido el caso de Windows.",
       },
     ],
   },

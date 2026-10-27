@@ -1,5 +1,6 @@
 import type { DocBlock, DocSection } from "@/content/docs";
 import { CodeBlock } from "@/components/ui/code-block";
+import { LinkList } from "@/components/ui/link-list";
 import { cn } from "@/lib/cn";
 
 type DocBlocksProps = {
@@ -107,6 +108,9 @@ export function DocBlockView({ block }: { block: DocBlock }) {
           <p className="mt-1 type-docs text-secondary">{block.text}</p>
         </aside>
       );
+
+    case "links":
+      return <LinkList links={block.links} />;
   }
 }
 

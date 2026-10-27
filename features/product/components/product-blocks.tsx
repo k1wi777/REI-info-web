@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { DocBlockView } from "@/components/layout/doc-blocks";
-import { isExternal } from "@/content/site";
+import { LinkList } from "@/components/ui/link-list";
 import { CommandList } from "@/features/product/components/command-list";
 import { EvidenceTable } from "@/features/product/components/evidence-table";
 import { FlowSteps } from "@/features/product/components/flow-steps";
@@ -8,39 +7,8 @@ import { RoleList } from "@/features/product/components/role-list";
 import { StateTable } from "@/features/product/components/state-table";
 import type {
   ProductBlock,
-  ProductLink,
   ProductSection,
 } from "@/features/product/types";
-
-function LinkList({ links }: { links: ProductLink[] }) {
-  return (
-    <ul className="flex max-w-(--container-reading) flex-col gap-2">
-      {links.map((link) => {
-        const className =
-          "inline-flex border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground";
-
-        return (
-          <li key={link.href}>
-            {isExternal(link.href) ? (
-              <a
-                className={className}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link className={className} href={link.href}>
-                {link.label}
-              </Link>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
 
 function ProductBlockView({ block }: { block: ProductBlock }) {
   switch (block.kind) {
