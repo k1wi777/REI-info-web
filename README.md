@@ -19,6 +19,12 @@ Este README es también el contexto de referencia para la personalización inici
 
 ---
 
+## Estrategia de producto
+
+La estrategia de producto y arquitectura de información del sitio —qué debe contar la web, para quién, cómo se organiza y cómo se ve— está en [`docs/product-strategy.md`](docs/product-strategy.md). Es la referencia de los Work Items de implementación; este README no la duplica.
+
+---
+
 ## Qué es este repositorio
 
 **REI Web** es la página oficial de REI Harness. Su objetivo es que una persona pueda entender qué es REI, cómo funciona y cómo adoptarlo sin tener que leer el repositorio del CLI de principio a fin.
@@ -241,6 +247,7 @@ pnpm dev
 ├── README.md                 # Este documento
 ├── .gitignore                # Dependencias, build, env y harness local
 ├── AGENTS.md                 # Punto de entrada para agentes
+├── docs/                     # Estrategia de producto y arquitectura de información
 ├── app/                      # App Router
 ├── public/                   # Assets estáticos
 ├── .rei/                     # Arnés REI: docs, agentes, plantillas y estado
@@ -401,43 +408,6 @@ La ruta no decide cómo se ve la página ni dónde viven sus datos. Solo la expo
 
 ---
 
-## Dirección visual y UX
-
-La referencia de partida es el **«manual de servicio»** del visor de REI: una interfaz técnica y sobria, con fondo grafito cálido, un único acento violeta y una tipografía de lectura cómoda para documentos largos.
-
-| Rol | Valor de partida |
-|-----|------------------|
-| Lienzo | `#14161a` |
-| Superficie | `#1a1d22` |
-| Superficie elevada | `#23272e` |
-| Hairline | `#2b3039` |
-| Texto | `#eae7e0` |
-| Texto secundario | `#9aa0a8` |
-| Acento | `#9a86f5` |
-| Acento de acción | `#5a49c9` |
-| Éxito / aviso / error / revisión | `#7fb98a` / `#e0a33a` / `#e5646b` / `#6bb0d6` |
-
-Esta paleta es un punto de partida, no una decisión cerrada. Cualquier cambio debe mantener la legibilidad y la coherencia entre páginas.
-
-### Accesibilidad
-
-- Contraste suficiente para texto normal y grande; no usar el color como único portador de significado.
-- Navegación completa por teclado y foco visible.
-- HTML semántico: un `h1` por página, jerarquía de encabezados correcta, listas y tablas reales.
-- Respeto a `prefers-reduced-motion`.
-- Diseño responsive desde 360 px; las tablas de referencia deben poder leerse en móvil.
-- Enlaces con texto descriptivo; no «haz clic aquí».
-
-### Rendimiento y SEO
-
-- Contenido estático y mínimo JavaScript de cliente.
-- Imágenes optimizadas; assets propios cuando sea posible.
-- Metadata por ruta: título, descripción, canonical y Open Graph.
-- `sitemap.ts` y `robots.ts` cuando existan las rutas definitivas.
-- Sin animaciones pesadas ni librerías de UI que dominen el bundle.
-- La fuente canónica de versiones y novedades es GitHub Releases; la web puede resumir, pero no inventar.
-
----
 
 ## Verificación
 
