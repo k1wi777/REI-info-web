@@ -1,0 +1,152 @@
+{
+  "title": "Elige el mundo visual de REI",
+  "question": "La tirada asignada es Juego de planos. Consérvala, toma una alternativa o vuelve a tirar.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Juego de planos",
+      "kicker": "LA TIRADA",
+      "lineage": "Juegos de planos técnicos, bloques de título y nubes de revisión",
+      "thesis": "Cada Work Item es una hoja; la aprobación es su bloque de firmas.",
+      "palette": ["#101312", "#171B19", "#D8D3C4", "#D0563B", "#7FA083", "#C9A45C"],
+      "materials": ["film de dibujo", "grafito", "lápiz rojo", "hachuras", "bloque de título"],
+      "viewport": "Una hoja a sangre: tesis a la izquierda, Work Item con puerta de aprobación a la derecha y los cinco estados como línea de cotas.",
+      "risk": "El plano técnico es un tropo de devtools; sin disciplina se vuelve papel tapiz o portafolio de arquitectura.",
+      "raised": [
+        {
+          "from": "challenger-single-hue",
+          "raise": "La puerta de aprobación ocupa una hoja entera en rojo óxido; no es un acento sobre una tarjeta."
+        },
+        {
+          "from": "challenger-ikebana",
+          "raise": "El vacío alrededor de la puerta se compone en asimetría; no se rellena con features."
+        },
+        {
+          "from": "challenger-silk",
+          "raise": "Las bandas de Leader, Spec Author e Implementer se cruzan en la puerta; el flujo no es una fila."
+        }
+      ],
+      "html": ".impeccable/mocks/decision/assigned.html"
+    },
+    {
+      "id": "model-pick",
+      "label": "Sala de pruebas",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Mesas de pruebas de imprenta, galeradas y lápiz rojo",
+      "thesis": "Un plan es una prueba de imprenta: se marca y se firma antes de que la máquina arranque.",
+      "palette": ["#0E0E0C", "#191813", "#E7DFCE", "#D14B32", "#6F8F6A", "#6F8FA6"],
+      "materials": ["papel de prueba", "lápiz graso rojo", "marcas de registro", "folios", "sello"],
+      "viewport": "Una prueba oscura: tesis en serif a la izquierda, Work Item marcado a la derecha y un sello de firma pendiente.",
+      "risk": "La nostalgia editorial puede leerse como blog literario; el sello no debe sugerir que la web aprueba.",
+      "html": ".impeccable/mocks/decision/pick.html"
+    },
+    {
+      "id": "challenger-film",
+      "label": "Mesa de montaje",
+      "kicker": "RETADOR",
+      "verdict": "competitive",
+      "lineage": "Mesas de montaje cinematográfico, copias de trabajo y banderines de papel",
+      "thesis": "Cada Work Item es una toma: se monta, se marca y se aprueba antes de entrar en la película.",
+      "palette": ["#080808", "#E2602C", "#EDE6D8", "#8C8C86"],
+      "materials": ["film 16 mm", "perforaciones", "lápiz graso", "banderines", "grano"],
+      "viewport": "Un rail perforado cruza la hoja; los pasos son fotogramas y la puerta de aprobación es el banderín donde se detuvo el montaje.",
+      "case": "Aguanta la claridad del flujo como tira de estados; pierde identificación: el visitante ve cine, no su repositorio.",
+      "risk": "Naranja sobre negro roza el cliché de IA; el rail puede volverse decoración y el docs pierde sobriedad.",
+      "html": ".impeccable/mocks/decision/film.html",
+      "hero": "https://impeccable.style/worlds/cards/operate-a-cutting-bench-select-rail-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/operate-a-cutting-bench-select-rail.webp"
+    },
+    {
+      "id": "challenger-onebit",
+      "label": "Escritorio de un bit",
+      "kicker": "RETADOR",
+      "verdict": "competitive",
+      "lineage": "Escritorios de un bit, tramas ordenadas y ventanas con barra de título",
+      "thesis": "El arnés como un escritorio de un bit: cada Work Item es una ventana, cada estado una trama.",
+      "palette": ["#000000", "#FFFFFF", "#BDBDBD", "#5A5A5A"],
+      "materials": ["dither ordenado", "chrome de 1 px", "iconos de 32 px", "hormigas marchando"],
+      "viewport": "Un escritorio con ventanas solapadas: el Work Item pide aprobación en un diálogo con borde de hormigas.",
+      "case": "Aguanta identificación: habla el idioma de una generación de desarrolladores; pierde claridad en lectura larga: la puerta y los estados caben mal en dos tintas y el chrome pesa en docs.",
+      "risk": "Nostalgia retro y legibilidad frágil; dos colores no bastan para estados ni para documentación larga.",
+      "html": ".impeccable/mocks/decision/onebit.html",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-one-bit-desktop-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/medium-native-one-bit-desktop.webp"
+    },
+    {
+      "id": "challenger-passport",
+      "label": "Pasaporte",
+      "kicker": "RETADOR",
+      "verdict": "competitive",
+      "lineage": "Pasaportes visados, sellos de entrada y papel de seguridad",
+      "thesis": "El repositorio es el pasaporte del trabajo: cada aprobación deja una visa.",
+      "palette": ["#5A1F2B", "#C6A15B", "#D8B7B0", "#B7C9B1", "#1B1714"],
+      "materials": ["guilloché", "sellos", "tinta OCR-B", "capitales grabadas"],
+      "viewport": "Un pasaporte abierto: la página de identidad de REI a la izquierda y las visas de los Work Items a la derecha.",
+      "case": "Aguanta la claridad de la evidencia acumulada; pierde identificación: el visitante ve fronteras y turismo, no un arnés de desarrollo.",
+      "risk": "Burocrático y literal; el sello puede leerse como aprobación real y el docs como una libreta de viaje.",
+      "html": ".impeccable/mocks/decision/passport.html",
+      "hero": "https://impeccable.style/worlds/cards/vernacular-ephemera-well-traveled-passport-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/vernacular-ephemera-well-traveled-passport.webp"
+    },
+    {
+      "id": "challenger-single-hue",
+      "label": "Anuncio de una sola tinta",
+      "kicker": "RETADOR",
+      "verdict": "declined",
+      "lineage": "Programas de marca de una sola tinta, logotipo script y estrella",
+      "thesis": "Un solo rosa posee la marca entera: fondo, tipo, producto y empaque.",
+      "palette": ["#E63E8C", "#FFFFFF", "#1A1A1A"],
+      "materials": ["tinta saturada", "gloss", "script", "estrella"],
+      "viewport": "Un campo rosa a sangre con el logotipo barrido y una estrella como única puntuación.",
+      "case": "Pierde en ambos ejes: no identifica a un desarrollador y no explica el proceso.",
+      "kept": "Un solo color puede poseer una región completa; la puerta de aprobación será esa región.",
+      "risk": "Marca de juguete, no herramienta seria; el rosa a sangre no sostiene lectura larga."
+    },
+    {
+      "id": "challenger-ikebana",
+      "label": "Arreglo de ikebana",
+      "kicker": "RETADOR",
+      "verdict": "declined",
+      "lineage": "Tokonoma, ikebana y el vacío activo de ma",
+      "thesis": "El flujo se compone como tres líneas: una rama, tres iris y un vacío que sostiene.",
+      "palette": ["#D9D2C4", "#6B6A5E", "#3E5F8A", "#5B4636"],
+      "materials": ["yeso", "pino", "iris", "bronce"],
+      "viewport": "Un alféizar claro con una rama inclinada, tres iris y un triángulo de vacío más activo que cualquier flor.",
+      "case": "Pierde en ambos ejes: es hermoso pero abstracto; no dice qué es REI ni cómo se adopta.",
+      "kept": "El vacío alrededor de la puerta se compone en asimetría; no se rellena con features.",
+      "risk": "Demasiado abstracto y claro para el contexto nocturno; el proceso desaparece en la metáfora."
+    },
+    {
+      "id": "challenger-silk",
+      "label": "Toldo de seda",
+      "kicker": "RETADOR",
+      "verdict": "declined",
+      "lineage": "Toldos de seda translúcidos y acordes de color computados",
+      "thesis": "Los roles son bandas de seda que se cruzan: el color del cruce es el estado.",
+      "palette": ["#2E3A8C", "#8E2F4A", "#D9A62E", "#F4EFE3"],
+      "materials": ["seda translúcida", "luz de sol", "tramas", "color compuesto"],
+      "viewport": "Un patio blanco bajo bandas índigo, madder y azafrán; el cruce de dos bandas produce un acorde.",
+      "case": "Pierde en ambos ejes: el estado depende del color y el visitante no reconoce su trabajo.",
+      "kept": "Las bandas de responsabilidad se cruzan en la puerta; el flujo no es una fila.",
+      "risk": "El color como único portador de estado es inaccesible; la metáfora es visualmente seductora y funcionalmente opaca."
+    }
+  ],
+  "reroll": {
+    "registers": ["safer", "bolder"]
+  },
+  "buildPath": {
+    "value": "code",
+    "toggle": false
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Lo que la categoría espera: hero oscuro, terminal, rejilla de features y acento eléctrico.",
+    "palette": ["#0A0A0B", "#F5F5F5", "#8B5CF6", "#A1A1AA"],
+    "materials": ["panel oscuro", "terminal", "rejilla de tarjetas", "acento violeta"],
+    "viewport": "Titular centrado, subtítulo, dos CTA y una ventana de terminal; debajo, tres tarjetas de features.",
+    "risk": "Indistinguible de la competencia por diseño; es el punto de partida que la estrategia ya recomendaba.",
+    "html": ".impeccable/mocks/decision/canon.html"
+  },
+  "steer": true
+}

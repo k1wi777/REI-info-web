@@ -1,0 +1,89 @@
+{
+  "title": "La dirección híbrida de REI",
+  "question": "Plano en grafito conserva la estructura de Juego de planos y adopta la paleta de El estándar. ¿La eliges, vuelves a la original o tomas el estándar?",
+  "options": [
+    {
+      "id": "hybrid",
+      "label": "Plano en grafito",
+      "kicker": "LA CANDIDATA",
+      "lineage": "Juego de planos + la paleta de El estándar",
+      "thesis": "Cada Work Item es una hoja en grafito; la aprobación es su bloque de firmas.",
+      "palette": [
+        "#0A0A0B",
+        "#0E0E10",
+        "#111114",
+        "#2E2E35",
+        "#A1A1AA",
+        "#F5F5F5",
+        "#8B5CF6",
+        "#7FB98A"
+      ],
+      "materials": [
+        "grafito",
+        "hairlines",
+        "violeta de decisión",
+        "tramas",
+        "panel de metadata"
+      ],
+      "viewport": "Una hoja única: tesis a la izquierda, matriz de responsabilidades con la puerta violeta a la derecha y los estados como línea de cotas.",
+      "risk": "La paleta del estándar es familiar; sin la matriz y la puerta, el plano se vuelve un devtool oscuro genérico.",
+      "html": ".impeccable/mocks/decision/hybrid.html"
+    },
+    {
+      "id": "original",
+      "label": "Juego de planos",
+      "kicker": "ALTERNATIVA",
+      "verdict": "competitive",
+      "lineage": "Planos técnicos, bloques de título y nubes de revisión",
+      "thesis": "Cada Work Item es una hoja; la aprobación es su bloque de firmas.",
+      "palette": [
+        "#101312",
+        "#171B19",
+        "#D8D3C4",
+        "#D0563B",
+        "#7FA083",
+        "#C9A45C"
+      ],
+      "materials": [
+        "film de dibujo",
+        "grafito",
+        "lápiz rojo",
+        "hachuras",
+        "bloque de título"
+      ],
+      "viewport": "Una hoja a sangre: tesis a la izquierda, Work Item con puerta de aprobación a la derecha y los cinco estados como línea de cotas.",
+      "case": "Conserva la calidez del papel y el óxido; pierde la consistencia con la paleta del estándar y se siente como otra marca.",
+      "risk": "El plano técnico es un tropo de devtools; sin disciplina se vuelve papel tapiz o portafolio de arquitectura.",
+      "html": ".impeccable/mocks/decision/assigned.html"
+    }
+  ],
+  "buildPath": {
+    "value": "code",
+    "toggle": false
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Lo que la categoría espera: hero oscuro, terminal, rejilla de features y acento eléctrico.",
+    "palette": [
+      "#0A0A0B",
+      "#F5F5F5",
+      "#8B5CF6",
+      "#A1A1AA"
+    ],
+    "materials": [
+      "panel oscuro",
+      "terminal",
+      "rejilla de tarjetas",
+      "acento violeta"
+    ],
+    "viewport": "Titular centrado, subtítulo, dos CTA y una ventana de terminal; debajo, tres tarjetas de features.",
+    "risk": "Indistinguible de la competencia por diseño; es el punto de partida que la estrategia ya recomendaba.",
+    "html": ".impeccable/mocks/decision/canon.html"
+  },
+  "status": "confirmed",
+  "chosen": "hybrid",
+  "chosenLabel": "Plano en grafito",
+  "confirmedBy": "user",
+  "confirmedAt": "2026-10-27"
+}
