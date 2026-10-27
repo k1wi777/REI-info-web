@@ -9,6 +9,8 @@ type NavLinksProps = {
   items: NavItem[];
   className?: string;
   itemClassName?: string;
+  /** Marca solo la ruta exacta; sin `exact` se conserva el prefijo actual. */
+  exact?: boolean;
 };
 
 function isActive(pathname: string, href: string): boolean {
@@ -22,13 +24,20 @@ function isActive(pathname: string, href: string): boolean {
  * Enlaces de navegación con `aria-current`. Es el único punto que necesita
  * conocer la ruta activa en cliente; el resto del shell sigue en servidor.
  */
-export function NavLinks({ items, className, itemClassName }: NavLinksProps) {
+export function NavLinks({
+  items,
+  className,
+  itemClassName,
+  exact = false,
+}: NavLinksProps) {
   const pathname = usePathname();
 
   return (
     <ul className={cn("flex items-center", className)}>
       {items.map((item) => {
-        const active = !item.external && isActive(pathname, item.href);
+        const active =
+          !item.external &&
+          (exact ? pathname === item.href : isActive(pathname, item.href));
         const classes = cn(
           "inline-flex items-center text-nav font-mono uppercase tracking-[0.08em] transition-colors duration-(--duration-fast)",
           active

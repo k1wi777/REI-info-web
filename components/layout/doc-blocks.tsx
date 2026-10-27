@@ -6,7 +6,8 @@ type DocBlocksProps = {
   sections: DocSection[];
 };
 
-function Block({ block }: { block: DocBlock }) {
+/** Renderiza un bloque genérico; compartido con el contenido de producto. */
+export function DocBlockView({ block }: { block: DocBlock }) {
   switch (block.kind) {
     case "paragraph":
       return (
@@ -127,7 +128,7 @@ export function DocBlocks({ sections }: DocBlocksProps) {
           </h2>
           <div className="mt-4 flex flex-col gap-4">
             {section.blocks.map((block, index) => (
-              <Block key={`${section.id}-${index}`} block={block} />
+              <DocBlockView key={`${section.id}-${index}`} block={block} />
             ))}
           </div>
         </section>
