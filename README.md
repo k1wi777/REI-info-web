@@ -237,6 +237,9 @@ pnpm dev
 | `pnpm build` | Build de producción; también valida TypeScript. |
 | `pnpm start` | Sirve el build de producción. |
 | `pnpm lint` | Ejecuta ESLint. |
+| `pnpm test` | Ejecuta la suite de Jest sobre lógica y datos (`content/`, `lib/`, `features/**/data/`). |
+| `pnpm test:watch` | Repite la suite al cambiar archivos. |
+| `pnpm test:coverage` | Ejecuta la suite con informe de cobertura, sin umbrales. |
 
 ---
 
@@ -411,20 +414,22 @@ La ruta no decide cómo se ve la página ni dónde viven sus datos. Solo la expo
 
 ## Verificación
 
-Mientras no exista una suite de tests, los checkpoints recomendados son:
+Los checkpoints recomendados son:
 
 | ID | Comando | Qué valida |
 |----|---------|------------|
 | `V1` | `pnpm lint` | ESLint y convenciones del proyecto. |
+| `V4` | `pnpm test` | Lógica y datos: comandos, estados, agentes, navegación, docs y utilidades puras. |
 | `V2` | `pnpm build` | Compilación de producción, TypeScript y rutas. |
 | `V3` | Revisión manual | Responsive, teclado, contraste, enlaces y contenido. |
 
-`V1` es rápido y puede ejecutarse muchas veces al día; `V2` es más lento y se reserva para cerrar un Work Item. Cuando se incorporen tests, se añadirán a `.rei/config.json` y a `.rei/docs/project/verification.md` con sus propios IDs.
+`V1` y `V4` son rápidos y pueden ejecutarse muchas veces al día; `V2` es más lento y se reserva para cerrar un Work Item. `V4` solo cubre lógica y datos: no hay tests de UI, DOM, CSS, snapshots ni navegador.
 
 Antes de solicitar revisión:
 
 ```bash
 pnpm lint
+pnpm test
 pnpm build
 ```
 

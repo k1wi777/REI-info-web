@@ -75,7 +75,7 @@ No continúes hasta completar estos pasos.
 - **Estilos:** Tailwind CSS `4` con el loader `@tailwindcss/turbopack`; tokens en `app/globals.css`.
 - **Paquetes:** `pnpm@11.18.0`; Node.js `>=20.9.0`.
 - **Base de datos:** ninguna en v1. Contenido estático y versionado en el repositorio; sin backend, API, autenticación ni CMS.
-- **Testing:** no hay suite de tests ni script de test todavía. La verificación es linter, build y revisión manual.
+- **Testing:** `pnpm test` con Jest 30 y `next/jest`, solo para lógica y datos (`content/`, `lib/`, `features/**/data/`), en entorno `node` y sin UI ni DOM. `@types/jest` aporta los globales (`describe`, `it`, `expect`) que `pnpm build` necesita al compilar los tests.
 - **Despliegue:** sin proveedor ni dominio decidido todavía.
 
 ## Comandos principales
@@ -85,10 +85,13 @@ No continúes hasta completar estos pasos.
 - `pnpm install` — Instalar dependencias.
 - `pnpm dev` — Servidor de desarrollo en `http://localhost:3000`.
 - `pnpm lint` — ESLint con `eslint-config-next` (`core-web-vitals` + TypeScript).
+- `pnpm test` — Jest sobre lógica y datos; no cubre UI, DOM ni navegador.
+- `pnpm test:watch` — Repite la suite al cambiar archivos.
+- `pnpm test:coverage` — Suite con informe de cobertura; sin umbrales.
 - `pnpm build` — Build de producción; también valida TypeScript.
 - `pnpm start` — Servir el build de producción.
 
-> No existe `pnpm test` ni un script de typecheck separado: `pnpm build` es la comprobación de tipos.
+> No hay un script de typecheck separado: `pnpm build` es la comprobación de tipos. `pnpm test` solo ejecuta la suite de lógica.
 
 ---
 
