@@ -1,4 +1,4 @@
-import { AGENT_ROLES } from "@/content/rei";
+import { WORK_ITEM_ROLES } from "@/content/rei";
 import { INSTALL_PATH } from "@/content/site";
 import type { FinalCta, HomeBlock } from "@/features/home/types";
 
@@ -112,7 +112,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
     title: "Roles explícitos, límites explícitos",
     intro:
       "Cada rol tiene un contrato propio y no invade el trabajo del otro. El runtime es una capa opcional: el valor está en el contrato.",
-    items: AGENT_ROLES.map((role) => ({
+    items: WORK_ITEM_ROLES.map((role) => ({
       title: role.name,
       description: `${role.responsibility} ${role.limit}`,
     })),
@@ -221,7 +221,7 @@ export const FINAL_CTA: FinalCta = {
     href: INSTALL_PATH,
   },
   secondary: {
-    label: "Ver el primer Work Item",
-    href: "/docs/empezar/primer-work-item",
+    label: "Explorar el producto",
+    href: "/producto",
   },
 };

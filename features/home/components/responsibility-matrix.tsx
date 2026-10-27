@@ -1,4 +1,4 @@
-import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
+import { APPROVAL_GATE, WORK_ITEM_ROLES } from "@/content/rei";
 
 /**
  * Matriz de responsabilidades: cuatro bandas cruzan la puerta y la banda de
@@ -6,8 +6,8 @@ import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
  * desde el primer render.
  */
 export function ResponsibilityMatrix() {
-  const beforeApproval = AGENT_ROLES.slice(0, 2);
-  const afterApproval = AGENT_ROLES.slice(2);
+  const beforeApproval = WORK_ITEM_ROLES.slice(0, 2);
+  const afterApproval = WORK_ITEM_ROLES.slice(2);
 
   return (
     <div>
