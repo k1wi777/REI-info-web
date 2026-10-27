@@ -1,0 +1,86 @@
+{
+  "title": "Elige la voz tipográfica de Plano en grafito",
+  "question": "La hoja, la paleta y la puerta no cambian. ¿Qué sistema lleva la tesis, el cuerpo y el mono?",
+  "options": [
+    {
+      "id": "type-archivo",
+      "label": "Archivo Expandido",
+      "kicker": "RECOMENDADA",
+      "lineage": "Archivo 600 112% + Geist 400/500 + Geist Mono 400",
+      "thesis": "El plano se ensancha: un grotesco industrial para la tesis, Geist para leer.",
+      "palette": [
+        "#0A0A0B",
+        "#0E0E10",
+        "#111114",
+        "#2E2E35",
+        "#F5F5F5",
+        "#8B5CF6",
+        "#7FB98A"
+      ],
+      "materials": [
+        "Archivo 112%",
+        "Geist",
+        "Geist Mono"
+      ],
+      "viewport": "La tesis ocupa la hoja como un rótulo de gran formato; la matriz y la puerta violeta siguen mandando.",
+      "risk": "El ancho puede volverse cartel industrial; el titular necesita control de línea y no debe invadir docs.",
+      "comp": "http://127.0.0.1:4173/type-home-a.png"
+    },
+    {
+      "id": "type-stix",
+      "label": "STIX Two Text",
+      "kicker": "ALTERNATIVA",
+      "lineage": "STIX Two Text 600 + Geist 400/500 + Geist Mono 400",
+      "thesis": "La hoja se vuelve estándar: un serif científico para la tesis, Geist para el trabajo.",
+      "palette": [
+        "#0A0A0B",
+        "#0E0E10",
+        "#111114",
+        "#2E2E35",
+        "#F5F5F5",
+        "#8B5CF6",
+        "#7FB98A"
+      ],
+      "materials": [
+        "STIX Two Text",
+        "Geist",
+        "Geist Mono"
+      ],
+      "viewport": "La tesis tiene autoridad de documento técnico; el contraste serif/mono hace el impacto sin gritar.",
+      "risk": "El serif puede leerse como paper académico o blog si domina demasiado; debe quedarse en display.",
+      "comp": "http://127.0.0.1:4173/type-home-b.png"
+    },
+    {
+      "id": "type-martian",
+      "label": "Martian Mono",
+      "kicker": "ALTERNATIVA",
+      "lineage": "Martian Mono 600/400 + Geist 400/500",
+      "thesis": "La hoja se mide: un mono ancho para la tesis y los estados, Geist para leer.",
+      "palette": [
+        "#0A0A0B",
+        "#0E0E10",
+        "#111114",
+        "#2E2E35",
+        "#F5F5F5",
+        "#8B5CF6",
+        "#7FB98A"
+      ],
+      "materials": [
+        "Martian Mono",
+        "Geist"
+      ],
+      "viewport": "La tesis se vuelve un bloque medido; la matriz, los estados y el código hablan la misma lengua mono.",
+      "risk": "El mono puede leerse como terminal o IDE; el código pierde densidad y docs necesita más ancho.",
+      "comp": "http://127.0.0.1:4173/type-home-c.png"
+    }
+  ],
+  "buildPath": {
+    "value": "code",
+    "toggle": false
+  },
+  "status": "confirmed",
+  "chosen": "type-archivo",
+  "chosenLabel": "Archivo Expandido",
+  "confirmedBy": "user",
+  "confirmedAt": "2026-10-27"
+}
