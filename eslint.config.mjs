@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Informe generado por `pnpm test:coverage`; no se versiona.
+    "coverage/**",
     // Copia local de REI Harness; no forma parte del repositorio.
     "REI-HARNESS-SDD/**",
   ]),
