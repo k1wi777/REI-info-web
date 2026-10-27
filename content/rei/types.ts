@@ -45,12 +45,15 @@ export type AgentRoleId =
   | "leader"
   | "spec-author"
   | "implementer"
-  | "reviewer";
+  | "reviewer"
+  | "initializer";
 
 export type AgentRole = {
   id: AgentRoleId;
   name: string;
   responsibility: string;
+  /** Cuándo interviene el rol dentro del arnés. */
+  when: string;
   limit: string;
 };
 

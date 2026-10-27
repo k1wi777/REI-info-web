@@ -1,4 +1,4 @@
-export { AGENT_ROLES, APPROVAL_GATE } from "./agents";
+export { AGENT_ROLES, APPROVAL_GATE, WORK_ITEM_ROLES } from "./agents";
 export {
   COMMAND_CATEGORIES,
   COMMANDS,
