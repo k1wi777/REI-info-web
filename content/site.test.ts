@@ -4,10 +4,12 @@ import {
   FOOTER_GROUPS,
   NAV_ITEMS,
   PRIMARY_CTA,
+  PRODUCT_PAGES,
   ROUTES,
   SITE_URL_FALLBACK,
   getDocsPageOrThrow,
   getDocsPager,
+  getProductPageOrThrow,
   getSiteUrl,
   isExternal,
 } from "@/content/site";
@@ -94,6 +96,41 @@ describe("árbol de documentación", () => {
     expect(getDocsPager(first.path).previous).toBeUndefined();
     expect(getDocsPager(first.path).next).toBe(DOCS_PAGES[1]);
     expect(getDocsPager(last.path).next).toBeUndefined();
+  });
+});
+
+describe("árbol de producto", () => {
+  it("declara seis páginas de producto únicas dentro de ROUTES", () => {
+    const paths = PRODUCT_PAGES.map((page) => page.path);
+    expect(paths.length).toBe(6);
+    expect(new Set(paths).size).toBe(paths.length);
+    for (const path of paths) {
+      expect(ROUTES).toContain(path);
+    }
+  });
+
+  it("rellena slug, etiqueta, título y descripción de cada página", () => {
+    for (const page of PRODUCT_PAGES) {
+      expect(page.slug.trim()).not.toBe("");
+      expect(page.label.trim()).not.toBe("");
+      expect(page.title.trim()).not.toBe("");
+      expect(page.description.trim()).not.toBe("");
+      expect(page.path.startsWith("/producto")).toBe(true);
+    }
+  });
+
+  it("lanza al pedir una página de producto inexistente", () => {
+    expect(getProductPageOrThrow(PRODUCT_PAGES[0].path)).toBe(
+      PRODUCT_PAGES[0],
+    );
+    expect(() => getProductPageOrThrow("/producto/no-existe")).toThrow(
+      /no existe/,
+    );
+  });
+
+  it("apunta la entrada Producto de la cabecera al hub", () => {
+    const entry = NAV_ITEMS.find((item) => item.label === "Producto");
+    expect(entry?.href).toBe("/producto");
   });
 });
 

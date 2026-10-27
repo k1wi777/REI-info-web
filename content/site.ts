@@ -38,7 +38,7 @@ export function hasDeployedSiteUrl(): boolean {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Producto", href: "/" },
+  { label: "Producto", href: "/producto" },
   { label: "Docs", href: "/docs" },
   { label: "GitHub", href: REPOSITORY_URL, external: true },
 ];
@@ -144,11 +144,92 @@ export const DOCS_PAGES: DocsPage[] = DOCS_SECTIONS.flatMap(
   (section) => section.pages,
 );
 
+export type ProductPageSlug =
+  | "producto"
+  | "como-funciona"
+  | "agentes"
+  | "work-items"
+  | "visor"
+  | "github";
+
+export type ProductPage = {
+  slug: ProductPageSlug;
+  path: string;
+  label: string;
+  title: string;
+  description: string;
+};
+
+export const PRODUCT_PAGES: ProductPage[] = [
+  {
+    slug: "producto",
+    path: "/producto",
+    label: "Producto",
+    title: "Qué es REI",
+    description:
+      "Qué es REI Harness, qué problema resuelve y por qué el proceso importa antes que los comandos.",
+  },
+  {
+    slug: "como-funciona",
+    path: "/producto/como-funciona",
+    label: "Cómo funciona",
+    title: "Cómo funciona",
+    description:
+      "El flujo completo de un Work Item, la puerta de aprobación humana, los estados y el modo directo.",
+  },
+  {
+    slug: "agentes",
+    path: "/producto/agentes",
+    label: "Agentes",
+    title: "Agentes",
+    description:
+      "Los cinco roles de REI Harness, su responsabilidad, su límite y el momento en que intervienen.",
+  },
+  {
+    slug: "work-items",
+    path: "/producto/work-items",
+    label: "Work Items",
+    title: "Work Items",
+    description:
+      "Feature frente a Task, ciclo de vida, aprobación previa y evidencia versionada con revisión por diff.",
+  },
+  {
+    slug: "visor",
+    path: "/producto/visor",
+    label: "Visor",
+    title: "Visor",
+    description:
+      "rei view: visor local de solo lectura, recarga en vivo, FICHA y límites.",
+  },
+  {
+    slug: "github",
+    path: "/producto/github",
+    label: "GitHub",
+    title: "GitHub",
+    description:
+      "Integración opcional con GitHub: issue y rama para Features, PR y merge bajo orden, GitHub como proyección.",
+  },
+];
+
 export const ROUTES: string[] = [
   "/",
   "/docs",
   ...DOCS_PAGES.map((page) => page.path),
+  ...PRODUCT_PAGES.map((page) => page.path),
 ];
+
+export function getProductPage(path: string): ProductPage | undefined {
+  return PRODUCT_PAGES.find((page) => page.path === path);
+}
+
+/** Falla en build si una ruta declara una página que no está en el árbol. */
+export function getProductPageOrThrow(path: string): ProductPage {
+  const page = getProductPage(path);
+  if (!page) {
+    throw new Error(`La página de producto no existe: ${path}`);
+  }
+  return page;
+}
 
 export function getDocsPage(path: string): DocsPage | undefined {
   return DOCS_PAGES.find((page) => page.path === path);
