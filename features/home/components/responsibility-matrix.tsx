@@ -38,19 +38,19 @@ export function ResponsibilityMatrix() {
           </li>
         ))}
 
-        <li className="matrix-band relative my-3 overflow-hidden bg-accent px-4 py-3.5 text-on-accent">
+        <li className="matrix-band relative my-3 overflow-hidden border border-accent/40 bg-accent/10 px-4 py-3.5">
           <span
             aria-hidden="true"
-            className="gate-close absolute inset-x-0 top-0 h-0.5 bg-on-accent/70"
+            className="gate-close absolute inset-x-0 top-0 h-0.5 bg-accent/40"
           />
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-            <p className="type-meta">{APPROVAL_GATE.label}</p>
-            <p className="type-meta">{APPROVAL_GATE.status}</p>
+            <p className="type-meta text-accent-text">{APPROVAL_GATE.label}</p>
+            <p className="type-meta text-accent-text">{APPROVAL_GATE.status}</p>
           </div>
-          <p className="mt-2 type-docs">{APPROVAL_GATE.detail}</p>
+          <p className="mt-2 type-docs text-secondary">{APPROVAL_GATE.detail}</p>
           <span
             aria-hidden="true"
-            className="signature-line mt-4 block h-px w-2/3 bg-on-accent/70"
+            className="signature-line mt-4 block h-px w-2/3 bg-accent/40"
           />
         </li>
 

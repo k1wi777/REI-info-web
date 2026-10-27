@@ -11,29 +11,29 @@ export const HOME_BLOCKS: HomeBlock[] = [
   {
     id: "problema",
     eyebrow: "01 · Problema",
-    title: "La velocidad sin proceso se paga en retrabajo",
+    title: "La IA escribe rápido; sin proceso, el retrabajo también",
     intro:
-      "Cuando decidir, planificar y ejecutar viven en la misma conversación, nada queda registrado y nadie puede revisar la decisión.",
+      "Los agentes de IA y los LLM escriben código a partir de una conversación. Cuando decidir, planificar y ejecutar viven en la misma conversación, nada queda registrado y nadie puede revisar la decisión.",
     items: [
       {
-        title: "Desarrollo a ciegas",
-        description: "Se escribe antes de que el alcance esté claro.",
+        title: "Alcance tardío",
+        description: "El LLM escribe antes de que el alcance esté claro.",
       },
       {
         title: "Alucinaciones",
-        description: "APIs o datos inventados presentados como ciertos.",
+        description: "El LLM inventa APIs o datos y los presenta como ciertos.",
       },
       {
         title: "Decisiones no autorizadas",
-        description: "Arquitectura o alcance cambiados sin aprobación.",
+        description: "El agente cambia arquitectura o alcance sin aprobación.",
       },
       {
         title: "Acciones fuera de límite",
-        description: "Entornos y datos que no se deberían tocar.",
+        description: "El agente toca entornos o datos que no debería tocar.",
       },
       {
         title: "Retrabajo",
-        description: "Código rápido y caro de corregir.",
+        description: "El código rápido del agente es caro de corregir.",
       },
     ],
   },
@@ -42,12 +42,12 @@ export const HOME_BLOCKS: HomeBlock[] = [
     eyebrow: "02 · Proceso",
     title: "Una hoja, una firma, evidencia",
     intro:
-      "REI separa decidir, planificar y ejecutar. Cada etapa deja un artefacto que se puede leer y revisar.",
+      "REI no frena al agente: le da un proceso. Separa decidir, planificar y ejecutar; cada etapa deja un artefacto que se puede leer y revisar.",
     items: [
       {
         title: "Especificación primero",
         description:
-          "La planificación existe antes de la primera línea de código.",
+          "La planificación existe antes de que el agente escriba la primera línea.",
       },
       {
         title: "Aprobación humana",
@@ -75,7 +75,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
     eyebrow: "03 · Flujo",
     title: "Cómo funciona",
     intro:
-      "Un Work Item recorre cinco estados. La puerta de aprobación no es un trámite: es el punto donde la persona recupera el control antes de que se escriba código.",
+      "Un Work Item recorre cinco estados. La puerta de aprobación no es un trámite: es el punto donde la persona recupera el control antes de que el agente escriba código.",
     items: [
       {
         title: "Work Item",
@@ -111,7 +111,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
     eyebrow: "04 · Roles",
     title: "Roles explícitos, límites explícitos",
     intro:
-      "Cada rol tiene un contrato propio y no invade el trabajo del otro. El runtime es una capa opcional: el valor está en el contrato.",
+      "Cada agente de IA recibe un contrato propio y no invade el trabajo de otro. El runtime es una capa opcional: el valor está en el contrato.",
     items: WORK_ITEM_ROLES.map((role) => ({
       title: role.name,
       description: `${role.responsibility} ${role.limit}`,
@@ -124,7 +124,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
     eyebrow: "05 · Visor",
     title: "rei view muestra el Work Item, no lo aprueba",
     intro:
-      "El visor local sirve para revisar el trabajo con documentos renderizados, tabla de contenidos y diff, sin botones que finjan aprobar.",
+      "El visor local sirve para revisar el trabajo del agente con documentos renderizados, tabla de contenidos y diff, sin botones que finjan aprobar.",
     items: [
       {
         title: "Qué muestra",
@@ -215,7 +215,7 @@ export const FINAL_CTA: FinalCta = {
   eyebrow: "08 · Siguiente paso",
   title: "Instala REI y abre tu primer Work Item",
   intro:
-    "Un binario, un comando y una planificación aprobada antes de implementar. La evidencia queda en tu repositorio.",
+    "Tu agente escribe; tú decides. Un binario, un comando y una planificación aprobada antes de implementar. La evidencia queda en tu repositorio.",
   primary: {
     label: "Instalar REI",
     href: INSTALL_PATH,

@@ -22,14 +22,21 @@ export function HeroSheet() {
       <div className="relative grid lg:grid-cols-12">
         <div className="border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-7 lg:border-b-0 lg:border-r lg:px-10 lg:py-14">
           <p className="type-meta text-muted-strong">
-            Spec Driven Development · Arnés de agentes
+            Spec Driven Development · Arnés de agentes de IA
           </p>
 
           <h1
             id="home-tesis"
-            className="type-display mt-6 max-w-[15ch] text-foreground"
+            className="type-display mt-6 max-w-[22ch] text-balance text-foreground"
           >
-            El código empieza después de la aprobación
+            <span className="block">Tu agente escribe código.</span>{" "}
+            <span className="block">
+              REI decide{" "}
+              <span className="underline decoration-accent decoration-2 underline-offset-4">
+                qué código
+              </span>
+              .
+            </span>
           </h1>
 
           <p className="type-body mt-6 max-w-[46ch] text-secondary">

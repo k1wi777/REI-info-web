@@ -42,7 +42,10 @@
 
 Reglas: `--color-muted` no se usa para texto pequeño; aviso y error nunca
 aparecen sin etiqueta o trama textual. La banda de aprobación es la única región
-violeta de la home; el foco y la selección son estados interactivos, no regiones.
+violeta de la home y no es un relleno sólido: usa borde y fondo en alfa
+(`border-accent/40 bg-accent/10`), etiqueta y estado en `accent-text` y detalle
+en `secondary`; sus líneas decorativas van al 40 % del acento. El verde sigue
+reservado a `done`; el foco y la selección son estados interactivos, no regiones.
 
 ### Tipografía
 
@@ -159,7 +162,7 @@ con `DocBlock` (`paragraph`, `list`, `code`, `table`, `note`) en
 ## Momento memorable
 
 Solo en la matriz de la home: las bandas entran desde el borde de la hoja
-(`matrix-band-in`), la banda violeta se cierra sobre el eje horizontal
+(`matrix-band-in`), la banda de aprobación se cierra sobre el eje horizontal
 (`gate-close`) y la firma se dibuja al final (`signature-draw`). Solo se animan
 `transform` y `opacity`, una vez por carga, sin JavaScript ni librerías. Los
 elementos decorativos son `aria-hidden` y el texto existe desde el primer
@@ -200,8 +203,9 @@ y se muestra el estado final.
 1. No declarar colores literales en componentes: usar los tokens de color.
 2. No añadir familias tipográficas ni pesos fuera de Archivo 600, Geist 400/500
    y Geist Mono 400.
-3. No usar violeta como decoración: en la home solo la banda de aprobación; en
-   docs, el bloque de aprobación.
+3. No usar violeta como decoración: en la home solo la banda de aprobación, con
+   tratamiento en alfa (borde y fondo, no bloque relleno); en docs, el bloque de
+   aprobación.
 4. No crear UI para funciones inexistentes (búsqueda, selector de versiones,
    tabs sin ruta).
 5. Mantener el contenido legible sin JavaScript; cualquier nuevo cliente debe
