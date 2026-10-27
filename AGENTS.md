@@ -27,63 +27,68 @@ No continúes hasta completar estos pasos.
 
 # 2. Propósito del proyecto
 
-> **Personaliza esta sección** al adaptar REI Harness a tu repositorio. Describe el producto concreto, no el arnés.
-
-<!-- REI:PENDIENTE -->
-
 *Resume aquí el objetivo del proyecto. Esta información guía las decisiones del agente y evita cambios que contradigan la visión del producto.*
 
 ## Qué construimos
 
-<Una o dos frases que describan claramente el producto y el problema que resuelve.>
+**REI Web** es la página oficial de [REI Harness](https://github.com/k1wi777/REI-Harness): un sitio que permite entender qué es el arnés de Spec Driven Development, cómo funciona su flujo con aprobación humana y cómo adoptarlo, sin tener que leer el repositorio del CLI de principio a fin. La web no sustituye a la documentación del arnés: la hace accesible. La fuente de verdad de versiones sigue siendo GitHub Releases.
 
 ## Para quién
 
-- <Usuario principal.>
-- <Usuarios secundarios, si existen.>
-- <Otros interesados, si aplica.>
+- Desarrolladores que ya trabajan con agentes de IA y quieren introducir un proceso SDD verificable.
+- Personas que revisan y aprueban planificaciones antes de que se implementen.
+- Equipos que alternan entre OpenCode, Claude Code, Cursor o Codex.
+- Mantenedores que necesitan una referencia pública del CLI y de sus contratos de rol.
 
 ## Principios
 
 *Todas las decisiones deben respetar estos principios.*
 
-- **<Principio>** — <Qué implica en la práctica.>
-- **<Principio>** — <Qué implica en la práctica.>
-- **<Principio>** — <Qué implica en la práctica.>
+- **Aprobación humana obligatoria** — el flujo que explica la web es el real: nada pasa a implementación sin aprobación explícita; la web nunca sugiere atajos que el arnés no permite.
+- **La documentación es la fuente de verdad** — lo que la web afirma debe poder rastrearse a `README.md`, `.rei/docs/` o al repositorio de REI Harness; las decisiones viven en archivos, no en la conversación.
+- **Sin datos inventados** — nada de testimonios, clientes, métricas de adopción ni comparativas no demostrables.
+- **Una sola fuente por dato** — comandos, estados y agentes se definen una vez y se reutilizan; no se duplica texto entre páginas.
+- **Código propio y dependencias mínimas** — se prefiere la plataforma (Next.js, React, Tailwind) y código propio antes que añadir librerías.
+- **Español directo** — el contenido es claro, sin relleno, en español, coherente con la documentación de REI.
+- **Mostrar límites** — el visor es de solo lectura, la integración con GitHub es opcional y el modo directo tiene restricciones; la web lo dice.
 
 ## Qué NO es
 
 *Acota explícitamente el alcance del proyecto para evitar feature creep.*
 
-- <Fuera del alcance.>
-- <Otro límite importante.>
+- **No es el repositorio del CLI.** El código de REI Harness vive en `k1wi777/REI-Harness`.
+- **No es el visor de specs.** `rei view` es una herramienta local de solo lectura; esta web es un sitio público de documentación y presentación.
+- **No es un panel de control ni un editor web.** No ejecuta comandos, no modifica Work Items y no sustituye al CLI.
+- **No es un escaparate de métricas.** No hay clientes, testimonios ni cifras que no puedan demostrarse.
+- **No tiene backend, base de datos, autenticación ni CMS en v1.** El contenido es estático y versionado.
 
 ---
 
 # 3. Stack técnico
 
-> **Personaliza esta sección** con el stack y los comandos reales de tu proyecto.
-
-<!-- REI:PENDIENTE -->
-
 *Documenta únicamente la información técnica esencial para comprender el proyecto.*
 
 ## Tecnologías principales
 
-- **Lenguaje:** <...>
-- **Framework:** <...>
-- **Base de datos:** <...>
-- **Testing:** <...>
-- **Despliegue:** <...>
+- **Lenguaje:** TypeScript 5 en modo estricto (`strict: true`), con alias `@/*` → raíz del repo.
+- **Framework:** Next.js `16.4.3` con App Router, Server Components por defecto, Turbopack (`cacheComponents`, `partialPrefetching`) y React `19.3.0`.
+- **Estilos:** Tailwind CSS `4` con el loader `@tailwindcss/turbopack`; tokens en `app/globals.css`.
+- **Paquetes:** `pnpm@11.18.0`; Node.js `>=20.9.0`.
+- **Base de datos:** ninguna en v1. Contenido estático y versionado en el repositorio; sin backend, API, autenticación ni CMS.
+- **Testing:** no hay suite de tests ni script de test todavía. La verificación es linter, build y revisión manual.
+- **Despliegue:** sin proveedor ni dominio decidido todavía.
 
 ## Comandos principales
 
-*Comandos que cualquier agente utilizará con frecuencia.*
+*Comandos que cualquier agente utilizará con frecuencia. Se ejecutan desde la raíz del repositorio.*
 
-- `<comando>` — Desarrollo.
-- `<comando>` — Tests.
-- `<comando>` — Linter.
-- `<comando>` — Build.
+- `pnpm install` — Instalar dependencias.
+- `pnpm dev` — Servidor de desarrollo en `http://localhost:3000`.
+- `pnpm lint` — ESLint con `eslint-config-next` (`core-web-vitals` + TypeScript).
+- `pnpm build` — Build de producción; también valida TypeScript.
+- `pnpm start` — Servir el build de producción.
+
+> No existe `pnpm test` ni un script de typecheck separado: `pnpm build` es la comprobación de tipos.
 
 ---
 
@@ -99,6 +104,7 @@ No continúes hasta completar estos pasos.
 | `content/` | Navegación, enlaces y metadata global del sitio. |
 | `lib/` | Utilidades puras y helpers compartidos. |
 | `public/` | Assets estáticos. |
+| `docs/` | Documentación de producto y estrategia del sitio. |
 | `README.md` (raíz) | Documentación del repositorio: producto, stack, arquitectura y estado. |
 | `.rei/specs/` | Work Items y planificación del REI Harness. |
 | `.rei/progress/` | Estado actual (`current.md`), historial general (`history.md`) y detalle de Work Items. |
