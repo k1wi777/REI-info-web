@@ -43,6 +43,8 @@
   --text-docs--line-height: 1.7;
   --text-meta: 0.625rem;
   --text-meta--line-height: 1.4;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
   --text-meta-sm: 0.59375rem;
   --text-meta-sm--line-height: 1.4;
   --text-code: 0.78125rem;
@@ -61,6 +63,7 @@
   /* Forma y retícula */
   --radius-xs: 2px;
   --radius-sm: 4px;
+  --radius-window: 0.625rem;
   --container-site: 84rem;
   --container-reading: 72ch;
   --container-sidebar: 15rem;
@@ -71,6 +74,17 @@
   --duration-fast: 150ms;
   --duration-slow: 700ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /*
+   * Elevación: solo la usan las ventanas de producto (terminal, visor,
+   * capturas). La hoja y las bandas siguen planas.
+   */
+  --shadow-sheet:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.04),
+    0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -20px rgb(0 0 0 / 0.9);
+  --shadow-window:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.06),
+    0 2px 6px rgb(0 0 0 / 0.5), 0 32px 64px -32px rgb(0 0 0 / 0.95);
 }
 
 @layer base {
@@ -204,6 +218,13 @@
   text-transform: uppercase;
 }
 
+/* Prosa pequeña en caja baja: pies de captura y notas dentro de marcos. */
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+}
+
 @utility type-code {
   font-family: var(--font-mono);
   font-size: var(--text-code);
@@ -218,6 +239,34 @@
     linear-gradient(to bottom, var(--color-hairline) 1px, transparent 1px);
   background-size: var(--layout-grid) var(--layout-grid);
   background-position: -1px -1px;
+}
+
+/*
+ * Luz de escenario: ilumina muy tenuemente el borde superior de una zona con
+ * capturas para que el producto se lea como un objeto apoyado en la hoja.
+ */
+@utility stage-light {
+  background-image: radial-gradient(
+    120% 80% at 50% 0%,
+    color-mix(in oklab, var(--color-foreground) 6%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Capturas largas: el borde inferior se disuelve en lugar de cortarse. */
+@utility fade-bottom {
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 100%);
+}
+
+/* Salidas que se desplazan en horizontal: el borde derecho avisa. */
+@utility fade-right {
+  mask-image: linear-gradient(to right, #000 84%, transparent 100%);
+}
+
+/* Barras de desplazamiento de código y terminales, dentro de la paleta. */
+@utility scroll-code {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -238,12 +287,14 @@
 @keyframes demo-reveal-in {
   from {
     opacity: 0;
-    transform: translateY(0.75rem);
+    transform: translateY(0.5rem);
+    filter: blur(3px);
   }
 
   to {
     opacity: 1;
     transform: none;
+    filter: blur(0);
   }
 }
 
@@ -252,27 +303,27 @@
     .demo-reveal > * {
       animation: demo-reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 60%;
+      animation-range: entry 0% entry 55%;
     }
 
     .demo-reveal > :nth-child(2) {
-      animation-range: entry 12% entry 72%;
+      animation-range: entry 8% entry 63%;
     }
 
     .demo-reveal > :nth-child(3) {
-      animation-range: entry 24% entry 84%;
+      animation-range: entry 16% entry 71%;
     }
 
     .demo-reveal > :nth-child(4) {
-      animation-range: entry 36% entry 96%;
+      animation-range: entry 24% entry 79%;
     }
 
     .demo-reveal > :nth-child(5) {
-      animation-range: entry 48% entry 100%;
+      animation-range: entry 32% entry 87%;
     }
 
     .demo-reveal > :nth-child(n + 6) {
-      animation-range: entry 60% entry 100%;
+      animation-range: entry 40% entry 95%;
     }
   }
 }
