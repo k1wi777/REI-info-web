@@ -1,8 +1,7 @@
 import { ButtonLink } from "@/components/ui/button-link";
 import { ResponsibilityMatrix } from "@/features/home/components/responsibility-matrix";
 import { StateScale } from "@/features/home/components/state-scale";
-import { WorkItemMeta } from "@/features/home/components/work-item-meta";
-import { INSTALL_PATH } from "@/content/site";
+import { DOCUMENTED_VERSION, INSTALL_PATH } from "@/content/site";
 
 /**
  * Primer viewport: hoja única con tesis, deck y CTAs a la izquierda y la
@@ -19,8 +18,16 @@ export function HeroSheet() {
         className="pointer-events-none absolute inset-0 sheet-grid opacity-40"
       />
 
+      <div className="relative grid grid-cols-2 items-baseline gap-x-4 border-b border-hairline px-4 py-3 type-meta text-muted-strong sm:grid-cols-[1fr_auto_1fr]">
+        <p>REI HARNESS / ARNÉS SDD</p>
+        <p className="hidden sm:block">PLANO EN GRAFITO · HOJA 00</p>
+        <p className="justify-self-end text-right">
+          REV. 03 · {DOCUMENTED_VERSION} · ES
+        </p>
+      </div>
+
       <div className="relative grid lg:grid-cols-12">
-        <div className="border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-7 lg:border-b-0 lg:border-r lg:px-10 lg:py-14">
+        <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-7 lg:border-b-0 lg:border-r lg:px-10 lg:py-14">
           <p className="type-meta text-muted-strong">
             Spec Driven Development · Arnés de agentes de IA
           </p>
@@ -56,18 +63,13 @@ export function HeroSheet() {
           </p>
         </div>
 
-        <div className="px-5 py-8 sm:px-8 lg:col-span-5 lg:py-10">
+        <div className="min-w-0 px-5 py-8 sm:px-8 lg:col-span-5 lg:py-10">
           <ResponsibilityMatrix />
         </div>
       </div>
 
-      <div className="relative grid border-t border-hairline lg:grid-cols-12">
-        <div className="border-b border-hairline px-5 py-6 sm:px-8 lg:col-span-7 lg:border-b-0 lg:border-r lg:px-10">
-          <WorkItemMeta />
-        </div>
-        <div className="px-5 py-6 sm:px-8 lg:col-span-5">
-          <StateScale />
-        </div>
+      <div className="relative border-t border-hairline px-5 py-6 sm:px-8 lg:px-10">
+        <StateScale />
       </div>
     </section>
   );

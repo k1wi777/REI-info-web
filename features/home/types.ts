@@ -1,10 +1,19 @@
+import type { AgentRoleId } from "@/content/rei";
+
 export type SheetMeta = {
-  workItemId: string;
+  code: string;
+  revision: string;
   title: string;
   type: string;
   state: string;
-  documents: string;
-  base: string;
+  checkpoints: string;
+  approval: string;
+};
+
+export type SheetPhase = {
+  id: string;
+  label: string;
+  roleId: AgentRoleId;
 };
 
 export type HomeItem = {

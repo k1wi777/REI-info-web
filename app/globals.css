@@ -65,7 +65,7 @@
   --container-reading: 72ch;
   --container-sidebar: 15rem;
   --layout-header-height: 4rem;
-  --layout-grid: 4.5rem;
+  --layout-grid: 7.5rem;
 
   /* Movimiento */
   --duration-fast: 150ms;
@@ -211,7 +211,7 @@
   font-variant-ligatures: none;
 }
 
-/* Retícula de 72 px de la hoja. */
+/* Retícula de 120 px de la hoja. */
 @utility sheet-grid {
   background-image:
     linear-gradient(to right, var(--color-hairline) 1px, transparent 1px),
@@ -220,76 +220,7 @@
   background-position: -1px -1px;
 }
 
-/*
- * Momento memorable: las bandas cruzan la puerta, la banda violeta se cierra
- * y la firma libera la hoja. Solo transform/opacity, una vez por carga.
- */
-@keyframes matrix-band-in {
-  from {
-    opacity: 0.35;
-    transform: translateX(-1.25rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes gate-close {
-  from {
-    opacity: 0.35;
-    transform: scaleX(0.12);
-  }
-  to {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-}
-
-@keyframes signature-draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.matrix-band {
-  animation: matrix-band-in var(--duration-slow) var(--ease-out) both;
-}
-
-.matrix-band:nth-of-type(2) {
-  animation-delay: 70ms;
-}
-
-.matrix-band:nth-of-type(3) {
-  animation-delay: 140ms;
-}
-
-.matrix-band:nth-of-type(4) {
-  animation-delay: 210ms;
-}
-
-.gate-close {
-  transform-origin: left center;
-  animation: gate-close 900ms var(--ease-out) 280ms both;
-}
-
-.signature-line {
-  transform-origin: left center;
-  animation: signature-draw 500ms var(--ease-out) 980ms both;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .matrix-band,
-  .gate-close,
-  .signature-line {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-
   *,
   *::before,
   *::after {

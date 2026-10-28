@@ -6,16 +6,20 @@ import { HOME_BLOCKS } from "@/features/home/data/home";
 
 export function HomePage() {
   return (
-    <Container className="py-8 sm:py-10 lg:py-14">
-      <HeroSheet />
-
-      <div className="mt-12 border-b border-hairline sm:mt-16">
-        {HOME_BLOCKS.map((block) => (
-          <HomeSection key={block.id} block={block} />
-        ))}
+    <>
+      <div className="mx-2 sm:mx-3 lg:mx-4">
+        <HeroSheet />
       </div>
 
-      <FinalCta />
-    </Container>
+      <Container className="pb-8 sm:pb-10 lg:pb-14">
+        <div className="mt-12 border-b border-hairline sm:mt-16">
+          {HOME_BLOCKS.map((block) => (
+            <HomeSection key={block.id} block={block} />
+          ))}
+        </div>
+
+        <FinalCta />
+      </Container>
+    </>
   );
 }
