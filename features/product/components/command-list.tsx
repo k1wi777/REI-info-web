@@ -12,13 +12,23 @@ export function CommandList({ ids }: CommandListProps) {
     .filter((command): command is Command => Boolean(command));
 
   return (
-    <ul className="flex flex-col gap-3">
+    <ol className="border-t border-hairline-strong">
       {commands.map((command) => (
-        <li key={command.id} className="border-l-2 border-hairline-strong pl-4">
-          <p className="type-code text-foreground">{command.name}</p>
-          <p className="mt-1 type-docs text-secondary">{command.summary}</p>
+        <li
+          key={command.id}
+          className="grid gap-2 border-b border-hairline py-4 lg:grid-cols-[18rem_1fr] lg:items-baseline lg:gap-8"
+        >
+          <p className="break-words type-code text-foreground">
+            <span aria-hidden="true" className="text-muted-strong">
+              $ {" "}
+            </span>
+            {command.name}
+          </p>
+          <p className="max-w-[58ch] type-body text-secondary">
+            {command.summary}
+          </p>
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }

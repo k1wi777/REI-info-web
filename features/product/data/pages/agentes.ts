@@ -1,3 +1,4 @@
+import { AGENT_ROLES, WORK_ITEM_ROLES } from "@/content/rei";
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
@@ -5,10 +6,22 @@ export const AGENTES_DOCUMENT: ProductDocument = {
   id: "agentes",
   eyebrow: "Producto · Roles",
   meta: "Cinco roles · contratos explícitos",
+  facts: [
+    { label: "Roles", value: String(AGENT_ROLES.length) },
+    { label: "En el ciclo", value: String(WORK_ITEM_ROLES.length) },
+    {
+      label: "Fuera del ciclo",
+      value: `${AGENT_ROLES.length - WORK_ITEM_ROLES.length} · Initializer`,
+    },
+    { label: "Contrato", value: "`.rei/agents/`" },
+    { label: "Adaptadores", value: "Opcionales" },
+  ],
   sections: [
     {
       id: "roles",
+      label: "Roles",
       title: "Cinco roles, cinco límites",
+      weight: "lead",
       blocks: [
         {
           kind: "paragraph",
@@ -28,6 +41,7 @@ export const AGENTES_DOCUMENT: ProductDocument = {
     },
     {
       id: "ciclo",
+      label: "Ciclo",
       title: "Los cuatro roles del ciclo",
       blocks: [
         {
@@ -44,6 +58,7 @@ export const AGENTES_DOCUMENT: ProductDocument = {
     },
     {
       id: "contratos",
+      label: "Contratos",
       title: "Contratos y adaptadores",
       blocks: [
         {
@@ -57,8 +72,14 @@ export const AGENTES_DOCUMENT: ProductDocument = {
         {
           kind: "links",
           links: [
-            { label: "Ver el ciclo de un Work Item", href: "/producto/work-items" },
-            { label: "Referencia de comandos", href: "/docs/referencia/comandos" },
+            {
+              label: "Ver el ciclo de un Work Item",
+              href: "/producto/work-items",
+            },
+            {
+              label: "Referencia de comandos",
+              href: "/docs/referencia/comandos",
+            },
             { label: "Preguntas frecuentes", href: "/docs/operacion/faq" },
             {
               label: "Repositorio de REI Harness",
@@ -71,7 +92,9 @@ export const AGENTES_DOCUMENT: ProductDocument = {
     },
     {
       id: "limites",
+      label: "Límites",
       title: "Lo que no cambia con el runtime",
+      weight: "fine",
       blocks: [
         {
           kind: "list",

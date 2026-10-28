@@ -1,33 +1,54 @@
+import { BRANCH_STATES, CYCLE_STATES } from "@/content/rei";
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
+
+/** Artefactos por tipo; la ficha y la comparación leen de aquí. */
+const FEATURE_PLANNING = ["requirements.md", "design.md", "tasks.md"];
+const TASK_PLANNING = ["plan.md"];
 
 export const WORK_ITEMS_DOCUMENT: ProductDocument = {
   id: "work-items",
   eyebrow: "Producto · Work Items",
   meta: "Feature frente a Task · evidencia versionada",
+  facts: [
+    { label: "Tipos", value: "Feature · Task" },
+    {
+      label: "Planificación",
+      value: `${FEATURE_PLANNING.length} documentos / ${TASK_PLANNING.length} documento`,
+    },
+    {
+      label: "Estados",
+      value: `${CYCLE_STATES.length} + ${BRANCH_STATES.length} ramas`,
+    },
+    { label: "En curso", value: "Uno a la vez" },
+    { label: "Revisión", value: "Por diff" },
+  ],
   sections: [
     {
       id: "tipos",
+      label: "Tipos",
       title: "Feature o Task",
+      weight: "lead",
       blocks: [
         {
           kind: "paragraph",
           text: "Todo trabajo nace como Work Item con un identificador y un tipo. El tipo decide qué planificación se genera y si la integración con GitHub Issues abre issue y rama.",
         },
         {
-          kind: "table",
-          columns: ["Tipo", "Planificación", "Cuándo usarlo"],
-          rows: [
-            [
-              "Feature",
-              "`requirements.md`, `design.md` y `tasks.md`",
-              "El trabajo necesita especificación, hay varias decisiones de diseño o cambia el comportamiento o la arquitectura.",
-            ],
-            [
-              "Task",
-              "`plan.md`",
-              "Documentación, contratos o un cambio pequeño y localizado, sin cambio de comportamiento ni de arquitectura.",
-            ],
+          kind: "choices",
+          choices: [
+            {
+              id: "feature",
+              name: "Feature",
+              planning: FEATURE_PLANNING,
+              when: "El trabajo necesita especificación, hay varias decisiones de diseño o cambia el comportamiento o la arquitectura.",
+            },
+            {
+              id: "task",
+              name: "Task",
+              planning: TASK_PLANNING,
+              when: "Documentación, contratos o un cambio pequeño y localizado, sin cambio de comportamiento ni de arquitectura.",
+            },
           ],
         },
         {
@@ -40,6 +61,7 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
     },
     {
       id: "ciclo",
+      label: "Ciclo",
       title: "Ciclo de vida y aprobación previa",
       blocks: [
         {
@@ -66,6 +88,7 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
     },
     {
       id: "evidencia",
+      label: "Evidencia",
       title: "Evidencia versionada",
       blocks: [
         {
@@ -73,40 +96,48 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
           text: "El repositorio guarda la evidencia del trabajo; el chat no es el registro. Cada documento tiene un responsable y un momento.",
         },
         {
-          kind: "table",
-          columns: ["Documento", "Qué deja", "Quién lo escribe"],
-          rows: [
-            [
-              "`impl.md`",
-              "Resumen, archivos, cambios y verificación de la implementación.",
-              "Implementer",
-            ],
-            [
-              "`review.md`",
-              "Veredicto, verificaciones, observaciones y acciones requeridas.",
-              "Reviewer",
-            ],
-            [
-              "`current.md`",
-              "Sesión viva: estado, bitácora y próximo paso.",
-              "Spec Author lo inicia; Implementer lo mantiene",
-            ],
-            [
-              "`history.md`",
-              "Archivo append-only con el resumen de cada Work Item cerrado.",
-              "Reviewer al archivar la sesión",
-            ],
-            [
-              "`meta.json`",
-              "Tipo, estado, `base_commit` y `last_review_commit`.",
-              "Leader al crear y aprobar; Reviewer al rechazar",
-            ],
+          kind: "artifacts",
+          items: [
+            {
+              id: "impl",
+              name: "impl.md",
+              detail:
+                "Resumen, archivos, cambios y verificación de la implementación.",
+              owner: "Implementer",
+            },
+            {
+              id: "review",
+              name: "review.md",
+              detail:
+                "Veredicto, verificaciones, observaciones y acciones requeridas.",
+              owner: "Reviewer",
+            },
+            {
+              id: "current",
+              name: "current.md",
+              detail: "Sesión viva: estado, bitácora y próximo paso.",
+              owner: "Spec Author lo inicia; Implementer lo mantiene",
+            },
+            {
+              id: "history",
+              name: "history.md",
+              detail:
+                "Archivo append-only con el resumen de cada Work Item cerrado.",
+              owner: "Reviewer al archivar la sesión",
+            },
+            {
+              id: "meta",
+              name: "meta.json",
+              detail: "Tipo, estado, `base_commit` y `last_review_commit`.",
+              owner: "Leader al crear y aprobar; Reviewer al rechazar",
+            },
           ],
         },
       ],
     },
     {
       id: "revision",
+      label: "Revisión",
       title: "Revisión por diff",
       blocks: [
         {
@@ -126,9 +157,15 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
               label: "Recorrer el primer Work Item",
               href: "/docs/empezar/primer-work-item",
             },
-            { label: "Referencia de comandos", href: "/docs/referencia/comandos" },
+            {
+              label: "Referencia de comandos",
+              href: "/docs/referencia/comandos",
+            },
             { label: "Preguntas frecuentes", href: "/docs/operacion/faq" },
-            { label: "Cómo funciona el flujo", href: "/producto/como-funciona" },
+            {
+              label: "Cómo funciona el flujo",
+              href: "/producto/como-funciona",
+            },
             { label: "Conocer los roles", href: "/producto/agentes" },
             {
               label: "Repositorio de REI Harness",

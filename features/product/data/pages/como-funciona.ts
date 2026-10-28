@@ -1,3 +1,4 @@
+import { BRANCH_STATES, CYCLE_STATES } from "@/content/rei";
 import { INSTALL_PATH } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
@@ -5,10 +6,19 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
   id: "como-funciona",
   eyebrow: "Producto · Flujo",
   meta: "Un Work Item · una puerta · un solo in_progress",
+  facts: [
+    { label: "Ciclo", value: `${CYCLE_STATES.length} estados` },
+    { label: "Ramas", value: String(BRANCH_STATES.length) },
+    { label: "En curso", value: "Un Work Item a la vez" },
+    { label: "Firma", value: "Humana y explícita" },
+    { label: "Registro", value: "`.rei/`" },
+  ],
   sections: [
     {
       id: "flujo",
+      label: "Flujo",
       title: "De la solicitud al cierre",
+      weight: "lead",
       blocks: [
         {
           kind: "paragraph",
@@ -23,6 +33,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
     },
     {
       id: "aprobacion",
+      label: "Puerta",
       title: "La puerta de aprobación",
       blocks: [
         {
@@ -39,6 +50,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
     },
     {
       id: "estados",
+      label: "Estados",
       title: "Estados y ramas",
       blocks: [
         {
@@ -70,6 +82,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
     },
     {
       id: "modo-directo",
+      label: "Modo directo",
       title: "Modo directo autorizado",
       blocks: [
         {
@@ -77,13 +90,34 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
           text: "Existe una vía fuera del workflow para cambios triviales solicitados explícitamente. No es un tipo de Work Item ni un estado: trabaja sobre la rama y el árbol actuales, y no crea Work Item, planificación, sesión, issue ni rama.",
         },
         {
-          kind: "list",
-          items: [
-            "Elegible: documentación, erratas, formato, comentarios o ajustes triviales sin cambio de comportamiento.",
-            "Negativa: si afecta comportamiento, seguridad, datos, dependencias, API pública, arquitectura, más de un archivo o necesita especificación, el Leader se niega y ofrece una Task o una Feature.",
-            "Autorización: el Leader pide confirmación explícita e informa de que no habrá planificación, rama ni registro.",
-            "Sin registro: la única traza es el diff o commit y la conversación; no se escribe `current.md`, `meta.json` ni `history.md`.",
-            "Entrega: sin una orden explícita no hay commit, push, PR ni merge.",
+          kind: "points",
+          variant: "ledger",
+          points: [
+            {
+              title: "Elegible",
+              detail:
+                "Documentación, erratas, formato, comentarios o ajustes triviales sin cambio de comportamiento.",
+            },
+            {
+              title: "Negativa",
+              detail:
+                "Si afecta comportamiento, seguridad, datos, dependencias, API pública, arquitectura, más de un archivo o necesita especificación o revisión, el Leader se niega y ofrece una Task o una Feature.",
+            },
+            {
+              title: "Autorización",
+              detail:
+                "El Leader pide confirmación explícita e informa de que no habrá planificación, rama ni registro.",
+            },
+            {
+              title: "Sin registro",
+              detail:
+                "La única traza es el diff o commit y la conversación; no se escribe `current.md`, `meta.json` ni `history.md`.",
+            },
+            {
+              title: "Entrega",
+              detail:
+                "Sin una orden explícita no hay commit, push, PR ni merge.",
+            },
           ],
         },
         {
@@ -96,7 +130,9 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
     },
     {
       id: "relacion",
+      label: "Contexto",
       title: "Cómo encaja con la home y la documentación",
+      weight: "fine",
       blocks: [
         {
           kind: "paragraph",
@@ -112,7 +148,10 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
             },
             { label: "Conocer los roles", href: "/producto/agentes" },
             { label: "Ver los Work Items", href: "/producto/work-items" },
-            { label: "Referencia de comandos", href: "/docs/referencia/comandos" },
+            {
+              label: "Referencia de comandos",
+              href: "/docs/referencia/comandos",
+            },
             { label: "Preguntas frecuentes", href: "/docs/operacion/faq" },
           ],
         },

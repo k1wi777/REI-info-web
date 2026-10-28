@@ -5,15 +5,25 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
   id: "github-issues",
   eyebrow: "Producto · GitHub Issues",
   meta: "Integración opcional GitHub Issues · proyección del trabajo",
+  facts: [
+    { label: "Integración", value: "Opcional" },
+    { label: "Fuente de verdad", value: "`.rei`" },
+    { label: "Ejecuta", value: "`gh` y `git`" },
+    { label: "Issue y rama", value: "Solo Features" },
+    { label: "Merge", value: "Bajo orden" },
+  ],
   sections: [
     {
       id: "opcional",
+      label: "Proyección",
       title: "Una integración opcional",
+      weight: "lead",
       blocks: [
         {
           kind: "paragraph",
           text: "GitHub Issues es una proyección del trabajo, no su fuente de verdad. La integración es opcional: si la clave `integrations.github` no existe o `enabled` es false, el flujo es idéntico y el Leader no menciona GitHub Issues.",
         },
+        { kind: "projection" },
         {
           kind: "list",
           items: [
@@ -26,6 +36,7 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
     },
     {
       id: "comandos",
+      label: "Comandos",
       title: "Activar, desactivar y consultar",
       blocks: [
         {
@@ -47,6 +58,7 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
     },
     {
       id: "puerta",
+      label: "Puerta",
       title: "Issue y rama solo para Features",
       blocks: [
         {
@@ -63,6 +75,7 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
     },
     {
       id: "pr-merge",
+      label: "PR y merge",
       title: "PR y merge bajo orden",
       blocks: [
         {
@@ -73,6 +86,7 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
     },
     {
       id: "epicas",
+      label: "Épicas",
       title: "Épicas, backlog y labels",
       blocks: [
         {
@@ -83,11 +97,19 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
           kind: "paragraph",
           text: "Los marcadores identifican; las labels solo ayudan a una persona. Si un marcador aparece duplicado o hay más de una issue con el mismo marcador, la acción se detiene y se reporta la anomalía.",
         },
+        {
+          kind: "issue",
+          number: 3,
+          caption:
+            "Cabecera de la épica #3, cerrada y con sus labels publicadas",
+        },
       ],
     },
     {
       id: "fuera",
+      label: "Fuera de alcance",
       title: "Fuera de alcance",
+      weight: "fine",
       blocks: [
         {
           kind: "list",
@@ -105,7 +127,10 @@ export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
         {
           kind: "links",
           links: [
-            { label: "Referencia de comandos", href: "/docs/referencia/comandos" },
+            {
+              label: "Referencia de comandos",
+              href: "/docs/referencia/comandos",
+            },
             { label: "Preguntas frecuentes", href: "/docs/operacion/faq" },
             { label: "Ver los Work Items", href: "/producto/work-items" },
             { label: "Qué hace el visor", href: "/producto/visor" },

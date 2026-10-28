@@ -5,62 +5,63 @@ type EvidenceTableProps = {
   ids: EvidenceSourceId[];
 };
 
-const COLUMNS = ["Caso", "Qué muestra", "Qué implica"];
-
-/** Tabla de evidencia externa: cada caso enlaza a su fuente en una pestaña nueva. */
+/**
+ * Evidencia externa como dossier: fuente y fecha, lo que muestra el caso y la
+ * implicación para REI. Cada fuente enlaza a su origen; nada se resume sin
+ * enlace.
+ */
 export function EvidenceTable({ ids }: EvidenceTableProps) {
   const sources = ids
     .map((id) => EVIDENCE.find((source) => source.id === id))
     .filter((source): source is EvidenceSource => Boolean(source));
 
   return (
-    <div className="min-w-0 max-w-full overflow-x-auto border border-hairline">
-      <table className="w-full min-w-[44rem] border-collapse text-left">
-        <caption className="border-b border-hairline px-3 py-2 text-left type-meta-sm text-muted-strong">
-          Evidencia externa citada; cada caso enlaza a su fuente.
-        </caption>
-        <thead>
-          <tr>
-            {COLUMNS.map((column) => (
-              <th
-                key={column}
-                scope="col"
-                className="border-b border-hairline-strong px-3 py-2 type-meta text-muted-strong"
+    <div>
+      <p className="type-meta-sm text-muted-strong">
+        Evidencia externa citada · cada caso enlaza a su fuente
+      </p>
+
+      <ol className="mt-3 border-t border-hairline-strong">
+        {sources.map((source, index) => (
+          <li
+            key={source.id}
+            className="grid gap-4 border-b border-hairline py-5 lg:grid-cols-[16rem_1fr] lg:gap-10"
+          >
+            <div className="min-w-0">
+              <p className="type-meta-sm text-muted-strong tabular-nums">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <a
+                className="mt-1.5 inline-flex border-b border-border-strong pb-0.5 type-docs font-medium text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+                href={source.url}
+                target="_blank"
+                rel="noreferrer"
               >
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sources.map((source) => (
-            <tr
-              key={source.id}
-              className="border-b border-hairline last:border-b-0"
-            >
-              <td className="px-3 py-3 align-top">
-                <a
-                  className="type-docs text-foreground underline decoration-border-strong underline-offset-4 transition-colors duration-(--duration-fast) hover:text-accent-text"
-                  href={source.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {source.title}
-                </a>
-                <span className="mt-1 block type-meta-sm text-muted-strong">
-                  {source.date}
+                {source.title}
+                <span aria-hidden="true" className="ml-1.5 text-muted-strong">
+                  ↗
                 </span>
-              </td>
-              <td className="px-3 py-3 align-top type-docs text-secondary">
+              </a>
+              <p className="mt-1.5 type-meta-sm text-muted-strong">
+                {source.date}
+              </p>
+            </div>
+
+            <div className="min-w-0">
+              <p className="max-w-[64ch] type-body text-secondary">
                 {source.finding}
-              </td>
-              <td className="px-3 py-3 align-top type-docs text-secondary">
-                {source.implication}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </p>
+
+              <div className="mt-3 border-l border-border-strong pl-4">
+                <p className="type-meta-sm text-muted-strong">Implicación</p>
+                <p className="mt-1 max-w-[58ch] type-body text-foreground">
+                  {source.implication}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
