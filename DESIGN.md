@@ -10,6 +10,11 @@
 > La Feature `2026-10-27_22-04__home-demostrativa-playwright` añadió los actos,
 > las demos de mecanismo y la evidencia real de producto sobre la misma
 > dirección: no cambia tokens, tipografía ni hero.
+>
+> La ronda de pulido visual de la home no cambia la dirección ni el hero: afina
+> la retícula editorial (cabecera a 7/5), introduce las **ventanas de producto**
+> como único elemento elevado del sistema, agrupa el ciclo alrededor de la puerta
+> y sustituye las capturas sueltas por marcos con barra de título.
 
 ## Principios
 
@@ -45,11 +50,13 @@
 | Foco | `--color-focus` | `#A78BFA` |
 
 Reglas: `--color-muted` no se usa para texto pequeño; aviso y error nunca
-aparecen sin etiqueta o trama textual. La banda de aprobación es la única región
-violeta de la home y no es un relleno sólido: usa borde y fondo en alfa
-(`border-accent/40 bg-accent/10`), etiqueta y estado en `accent-text` y detalle
-en `secondary`; sus líneas decorativas van al 40 % del acento. El verde sigue
-reservado a `done`; el foco y la selección son estados interactivos, no regiones.
+aparecen sin etiqueta o trama textual. El violeta marca la puerta y solo la
+puerta: la fila de aprobación de la matriz, la banda del ciclo y la columna de la
+puerta en el grafo de agentes. Nunca es un relleno sólido ni decoración: usa
+borde y fondo en alfa (`border-accent/40 bg-accent/10`), etiqueta y estado en
+`accent-text` y detalle en `secondary`; sus líneas decorativas van al 40 % del
+acento. El verde sigue reservado a `done`; el foco y la selección son estados
+interactivos, no regiones.
 
 ### Tipografía
 
@@ -63,6 +70,7 @@ reservado a `done`; el foco y la selección son estados interactivos, no regione
 | Lectura de docs | `--text-docs` | 16 px / 1.7 |
 | Metadata | `--text-meta` | 10 px / 1.4 |
 | Metadata pequeña | `--text-meta-sm` | 9.5 px / 1.4 |
+| Pie y nota pequeña | `--text-caption` | 13 px / 1.5 |
 | Código | `--text-code` | 12.5 px / 1.7 |
 | Interfaz | `--text-ui` | 15 px / 1.0 |
 | Navegación | `--text-nav` | 12 px / 1.0 |
@@ -84,12 +92,29 @@ desde 360 px: display `clamp(2.5rem, 7vw, 4.5rem)`, titular
 | `--layout-grid` | 72 px | Retícula de la hoja |
 | `--radius-xs` | 2 px | Controles |
 | `--radius-sm` | 4 px | Bloques de código |
+| `--radius-window` | 10 px | Ventanas de producto (terminal, visor, capturas) |
+| `--shadow-sheet` | luz superior + 12 px de difusión | Hojas elevadas (cierre) |
+| `--shadow-window` | luz superior + 64 px de difusión | Ventanas de producto |
 | `--duration-fast` | 150 ms | Cambios de color y borde |
 | `--duration-slow` | 700 ms | Momento memorable |
 | `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | Movimiento |
 
-Hojas, bandas y hairlines no llevan radio. La retícula base usa múltiplos de
-8 px y la guía de 72 px en la home.
+Hojas, bandas y hairlines no llevan radio. La única superficie redondeada y con
+elevación es la **ventana de producto**: representa algo que no es la hoja —una
+terminal, un visor, una captura— y por eso flota. La retícula base usa múltiplos
+de 8 px y la guía de 72 px en la home.
+
+### Utilidades
+
+| Utilidad | Uso |
+|----------|-----|
+| `type-display` … `type-code` | Roles tipográficos del sistema. |
+| `type-caption` | Prosa pequeña en caja baja: pies de captura y notas dentro de marcos. |
+| `sheet-grid` | Retícula de la hoja; solo en el acto del problema. |
+| `stage-light` | Luz radial tenue sobre una zona con capturas. |
+| `fade-bottom` | Recortes largos: el borde inferior se disuelve. |
+| `fade-right` | Salidas con desplazamiento horizontal en móvil. |
+| `scroll-code` | Barra de desplazamiento fina, dentro de la paleta. |
 
 ## Tipografía y fuentes
 
@@ -124,11 +149,23 @@ escala y API.
 | `Container` | Ancho máximo del sitio y márgenes fluidos. |
 | `ButtonLink` | Enlace con apariencia de botón: primario (fondo texto) y secundario (outline). |
 | `StatusTag` | Etiqueta de estado con tono y texto obligatorio. |
+| `WindowFrame` | Marco de ventana con barra de título, controles decorativos, elevación y pie opcional. |
 | `CodeBlock` | Bloque de código en servidor, legible sin JavaScript. |
 | `CopyButton` | Único cliente del bloque: copia, confirma y restaura a los 2 s. |
 
 `components/ui` no importa features ni datos de REI (solo `lib/cn` y, en
 `ButtonLink`, la comprobación de enlace externo de `content/site`).
+
+#### Ventanas de producto
+
+`WindowFrame` es la forma de incrustar producto real. Barra de 3 controles
+decorativos (`aria-hidden`, en `error`/`warning`/`success` al 75 %), título mono
+en caja baja —comandos, hosts y rutas no se escriben en mayúsculas—, dato
+opcional a la derecha y cuerpo sin relleno. Todo lo que no es la hoja se presenta
+así: la terminal, el árbol de artefactos, el visor, el diff y las capturas de
+GitHub. Los bordes son `ring-hairline-strong` y la elevación `shadow-window`; la
+cara superior recibe una luz de 1 px. Las capturas largas se recortan con
+`fade-bottom` y se anuncian como recorte en el pie, nunca se estiran para caber.
 
 ### Shell (`components/layout`)
 
@@ -145,22 +182,27 @@ funciona sin JavaScript y por teclado. La marca y el CTA permanecen visibles.
 `HeroSheet` se conserva sin cambios: tesis, deck, CTAs, matriz de
 responsabilidades, panel de metadata y línea de cotas. A partir del hero, la
 página se compone en cuatro actos de fondo completo (`ActSection`): problema
-(`bg-canvas` + retícula tenue), proceso (`bg-surface-deep` + `accent/5`),
-evidencia (`bg-surface` + `success/5`) y cierre (`bg-canvas`). Cada acto lleva
-borde superior, etiqueta en `type-meta` y tesis; el contenido sigue en
-`Container`.
+(`bg-canvas` + retícula tenue), proceso (`bg-surface-deep`), evidencia
+(`bg-surface`) y cierre (`bg-canvas`). Cada acto lleva borde superior, número y
+etiqueta en `type-meta` y tesis en la misma línea; el contenido sigue en
+`Container`. No hay veladuras de color sobre el acto: el tono basta y el violeta
+no se diluye como fondo.
 
-Cada demo usa `DemoSection` para la cabecera editorial (etiqueta, titular,
-intro, nota y enlace) y contenido propio:
+`DemoSection` y `HomeSection` comparten cabecera editorial: etiqueta, titular en
+7/12 y deck, nota y enlace en 5/12. El titular deja de ser una columna estrecha
+con un hueco muerto al lado y la sección se lee de un vistazo; el aire entre
+bloques se agrupa (grupos juntos, secciones separadas).
+
+Cada demo usa `DemoSection` para la cabecera y contenido propio:
 
 | Demo | Componente | Qué muestra |
 |------|------------|-------------|
-| Problema | `demos/problem-demo` | «Sin REI / Con REI» sobre el mismo caso, pasos numerados y marcas con etiqueta textual. |
-| Puerta | `demos/gate-demo` | `pending → ready → puerta → in_progress → review → done`, artefactos en `<details>` y banda violeta. |
-| Agentes | `demos/agents-demo` | Grafo de los cinco roles; cada nodo es un `<details>` con responsabilidad y límite; el Initializer es rama lateral. |
-| Visor | `demos/viewer-demo` | Marco de navegador con capturas reales, rail de anotaciones y FICHA/móvil; el diff se muestra solo si existe. |
-| GitHub Issues | `demos/github-issues-demo` | Capturas reales con número, labels y estado, cuerpo de la épica y diagrama `.rei → issue / rama / PR`. |
-| Terminal y árbol | `demos/terminal-demo` | Salida real de `rei items status` y `.rei/specs/<id>/` como texto, sin vídeo ni tecleo simulado. |
+| Problema | `demos/problem-demo` | «Sin REI / Con REI» sobre el mismo caso: dos columnas separadas por hairline, pasos numerados y marcas de punto + etiqueta textual. |
+| Puerta | `demos/gate-demo` | `pending → ready` · banda violeta con los tres artefactos · `in_progress → review → done`, y las ramas al pie. La firma queda en el centro del ciclo. |
+| Agentes | `demos/agents-demo` | Rail con los cuatro roles y la puerta como columna marcada; cada nodo es un `<details>` con responsabilidad y límite; el Initializer cuelga como rama lateral discontinua. |
+| Visor | `demos/viewer-demo` | Ventana de navegador con la captura real y anotaciones al margen; FICHA y móvil como ventanas pequeñas; el diff, si existe, en ventana propia con su lectura al lado. |
+| GitHub Issues | `demos/github-issues-demo` | Captura principal de la épica, dos issues secundarias con labels y enlace, diagrama `.rei → issue / rama / PR` y el cuerpo publicado. |
+| Terminal y árbol | `demos/terminal-demo` | Ventana tipo terminal con la salida real de `rei items status` (estados coloreados, línea activa marcada) y el árbol `.rei/specs/<id>/` como texto, sin vídeo ni tecleo simulado. |
 
 Las demos de mecanismo se etiquetan «Ejemplo de mecanismo»; las de evidencia
 muestran capturas del producto y su fecha. Los datos viven en
@@ -182,8 +224,11 @@ estado. Lo genera `pnpm capture:evidence` (`scripts/capture-evidence.mjs`) con
   390×844; el diff solo si el visor lo muestra.
 
 Las capturas se integran con `next/image` (dimensiones del manifiesto, `sizes` y
-carga diferida), sin `priority` ni calidad distinta de la predeterminada. No hay
-capturas simuladas, métricas ni issues inventadas.
+carga diferida), sin `priority` ni calidad distinta de la predeterminada. Cada
+captura vive en una `WindowFrame` y se lee en tres niveles: la ventana (qué es),
+el pie de la ventana (estado, fecha o etiquetas publicadas) y el pie de la figura
+(qué se está viendo y qué se recorta). Los recortes se declaran; no hay capturas
+simuladas, métricas ni issues inventadas.
 
 ### Documentación
 
@@ -211,12 +256,13 @@ elementos decorativos son `aria-hidden` y el texto existe desde el primer
 render. Con `prefers-reduced-motion: reduce`, las tres animaciones se desactivan
 y se muestra el estado final.
 
-Las listas de pasos de las demos añaden un revelado escalonado ligado al scroll
+Las etapas de la puerta añaden un revelado escalonado ligado al scroll
 (`animation-timeline: view()`) bajo `@supports` y
-`prefers-reduced-motion: no-preference`: solo `opacity` y `transform`, sin
-JavaScript. Si el navegador no soporta la línea de tiempo o la persona reduce el
-movimiento, el contenido queda visible en su estado final; ninguna demo parte de
-`opacity: 0` fuera de esa mejora.
+`prefers-reduced-motion: no-preference`: `opacity`, `transform` y un `blur` de
+3 px que llega a 0, sin JavaScript y una sola vez por elemento. El revelado se
+aplica solo a esa demo, no a toda la página. Si el navegador no soporta la línea
+de tiempo o la persona reduce el movimiento, el contenido queda visible en su
+estado final; nada parte de `opacity: 0` fuera de esa mejora.
 
 ## Accesibilidad
 
@@ -225,8 +271,11 @@ movimiento, el contenido queda visible en su estado final; ninguna demo parte de
 - Foco visible global: anillo de 2 px y separación de 2 px.
 - `aria-current="page"` en cabecera, tabs y sidebar; `aria-label` distinto en
   cabecera, sidebar, TOC y pager.
-- `<details>`/`<summary>` nativos para menú móvil, sidebar móvil, FAQ, artefactos
-  y nodos de agentes; funcionan sin JavaScript y por teclado.
+- `<details>`/`<summary>` nativos para menú móvil, sidebar móvil, FAQ y nodos de
+  agentes; funcionan sin JavaScript y por teclado. El resumen lleva su propio
+  `aria-label` y el marcador nativo se sustituye por un chevron dibujado.
+- La salida del CLI es una región con `aria-label` y `tabIndex="0"` para poder
+  desplazarse con teclado cuando no cabe en el ancho.
 - Copiar: confirmación visible «Copiado» y `aria-live="polite"`; si falla,
   «No se pudo copiar; selecciona el texto». El código está en el HTML servido.
 - Capturas con `alt` del manifiesto; el rail de anotaciones es una `<ol>` con
@@ -271,10 +320,14 @@ movimiento, el contenido queda visible en su estado final; ninguna demo parte de
    `CopyButton`; no introducir un kit de UI.
 7. Respetar `--container-reading` en prosa y `--layout-grid` en la home.
 8. Toda ruta nueva se añade a `ROUTES` y al árbol de docs antes de enlazarla.
-9. Las capturas se leen del manifiesto y se sirven con `next/image`; no se
-   duplican rutas, dimensiones ni `alt`, y no se inventan capturas ni issues.
+9. Las capturas se leen del manifiesto y se sirven con `next/image` dentro de
+   `WindowFrame`; no se duplican rutas, dimensiones ni `alt`, y no se inventan
+   capturas ni issues.
 10. El violeta sigue reservado a la puerta de aprobación; las demos no lo usan
     como decoración ni para marcar controles.
+11. La hoja no se redondea ni se eleva: solo las ventanas de producto usan
+    `rounded-window`, `shadow-window` y barra de título. Una ventana sin
+    contenido real no se dibuja.
 
 ## Assets
 
