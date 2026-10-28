@@ -55,3 +55,10 @@ next-env.d.ts
 /.impeccable/questions/*.state.json
 /.impeccable/questions/*.pid
 /.impeccable/questions/answer*.txt
+
+# Referencias locales de dirección visual: no son evidencia ni se versionan
+/hero.png
+/visorEspecificaciones.png
+
+# Escritura temporal del manifiesto de evidencia
+/public/evidence/.manifest.json.tmp

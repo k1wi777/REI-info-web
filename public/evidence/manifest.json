@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-27T22:51:35.422-05:00",
+  "repository": "https://github.com/k1wi777/REI-Harness",
+  "viewerWorkItem": "2026-10-27_12-08__referencia-operacion-docs",
+  "captures": [
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/2",
+      "capturedAt": "2026-10-27T22:51:22.279-05:00",
+      "issue": 2,
+      "labels": [
+        "rei",
+        "rei:feature"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-2-head.png",
+      "width": 2210,
+      "height": 556,
+      "id": "gh-2-head",
+      "description": "GitHub Issues v2: épicas, backlog y asignación",
+      "alt": "Cabecera de la GitHub Issue #2 «GitHub Issues v2: épicas, backlog y asignación» con estado Closed y etiquetas rei, rei:feature."
+    },
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/2",
+      "capturedAt": "2026-10-27T22:51:22.279-05:00",
+      "issue": 2,
+      "labels": [
+        "rei",
+        "rei:feature"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-2-body.png",
+      "width": 1820,
+      "height": 1800,
+      "id": "gh-2-body",
+      "description": "Cuerpo publicado de la GitHub Issue #2 «GitHub Issues v2: épicas, backlog y asignación».",
+      "alt": "Cuerpo de la GitHub Issue #2 «GitHub Issues v2: épicas, backlog y asignación»."
+    },
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/3",
+      "capturedAt": "2026-10-27T22:51:29.038-05:00",
+      "issue": 3,
+      "labels": [
+        "rei",
+        "rei:epic"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-3-head.png",
+      "width": 2178,
+      "height": 556,
+      "id": "gh-3-head",
+      "description": "[prueba v2] Épica: módulo de prueba",
+      "alt": "Cabecera de la GitHub Issue #3 «[prueba v2] Épica: módulo de prueba» con estado Closed y etiquetas rei, rei:epic."
+    },
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/3",
+      "capturedAt": "2026-10-27T22:51:29.038-05:00",
+      "issue": 3,
+      "labels": [
+        "rei",
+        "rei:epic"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-3-body.png",
+      "width": 1820,
+      "height": 1272,
+      "id": "gh-3-body",
+      "description": "Cuerpo publicado de la GitHub Issue #3 «[prueba v2] Épica: módulo de prueba» con su task list.",
+      "alt": "Cuerpo de la GitHub Issue #3 «[prueba v2] Épica: módulo de prueba» con su task list publicada."
+    },
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/5",
+      "capturedAt": "2026-10-27T22:51:32.290-05:00",
+      "issue": 5,
+      "labels": [
+        "rei",
+        "rei:backlog"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-5-head.png",
+      "width": 2220,
+      "height": 556,
+      "id": "gh-5-head",
+      "description": "[prueba v2] Hija B: asignación y lote",
+      "alt": "Cabecera de la GitHub Issue #5 «[prueba v2] Hija B: asignación y lote» con estado Closed y etiquetas rei, rei:backlog."
+    },
+    {
+      "kind": "issue",
+      "source": "https://github.com/k1wi777/REI-Harness/issues/5",
+      "capturedAt": "2026-10-27T22:51:32.290-05:00",
+      "issue": 5,
+      "labels": [
+        "rei",
+        "rei:backlog"
+      ],
+      "state": "closed",
+      "file": "/evidence/gh-5-body.png",
+      "width": 1820,
+      "height": 1422,
+      "id": "gh-5-body",
+      "description": "Cuerpo publicado de la GitHub Issue #5 «[prueba v2] Hija B: asignación y lote» con su task list.",
+      "alt": "Cuerpo de la GitHub Issue #5 «[prueba v2] Hija B: asignación y lote» con su task list publicada."
+    },
+    {
+      "file": "/evidence/view-2026-10-27_12-08__referencia-operacion-docs-desktop.png",
+      "width": 2880,
+      "height": 1800,
+      "id": "view-2026-10-27_12-08__referencia-operacion-docs-desktop",
+      "kind": "viewer",
+      "view": "desktop",
+      "workItem": "2026-10-27_12-08__referencia-operacion-docs",
+      "source": "rei view 2026-10-27_12-08__referencia-operacion-docs",
+      "capturedAt": "2026-10-27T22:51:33.959-05:00",
+      "description": "Visor rei view del Work Item 2026-10-27_12-08__referencia-operacion-docs: índice, documento activo y FICHA.",
+      "alt": "Visor local rei view con el Work Item «Referencia y operación de documentación» en escritorio: índice de documentos, documento activo y FICHA de validación."
+    },
+    {
+      "file": "/evidence/view-2026-10-27_12-08__referencia-operacion-docs-ficha.png",
+      "width": 672,
+      "height": 842,
+      "id": "view-2026-10-27_12-08__referencia-operacion-docs-ficha",
+      "kind": "viewer",
+      "view": "ficha",
+      "workItem": "2026-10-27_12-08__referencia-operacion-docs",
+      "source": "rei view 2026-10-27_12-08__referencia-operacion-docs",
+      "capturedAt": "2026-10-27T22:51:33.959-05:00",
+      "description": "FICHA del visor para el Work Item 2026-10-27_12-08__referencia-operacion-docs.",
+      "alt": "FICHA del visor para el Work Item «Referencia y operación de documentación» con estado, checkpoints, sesión y validación."
+    },
+    {
+      "file": "/evidence/view-2026-10-27_12-08__referencia-operacion-docs-diff.png",
+      "width": 1456,
+      "height": 1372,
+      "id": "view-2026-10-27_12-08__referencia-operacion-docs-diff",
+      "kind": "viewer",
+      "view": "diff",
+      "workItem": "2026-10-27_12-08__referencia-operacion-docs",
+      "source": "rei view 2026-10-27_12-08__referencia-operacion-docs",
+      "capturedAt": "2026-10-27T22:51:33.959-05:00",
+      "description": "Diff del visor para requirements.md: Cambios +48 / −0.",
+      "alt": "Diff mostrado por el visor para requirements.md del Work Item «Referencia y operación de documentación»: Cambios +48 / −0."
+    },
+    {
+      "file": "/evidence/view-2026-10-27_12-08__referencia-operacion-docs-mobile.png",
+      "width": 780,
+      "height": 1688,
+      "id": "view-2026-10-27_12-08__referencia-operacion-docs-mobile",
+      "kind": "viewer",
+      "view": "mobile",
+      "workItem": "2026-10-27_12-08__referencia-operacion-docs",
+      "source": "rei view 2026-10-27_12-08__referencia-operacion-docs",
+      "capturedAt": "2026-10-27T22:51:33.959-05:00",
+      "description": "Visor rei view en móvil (390×844) para el Work Item 2026-10-27_12-08__referencia-operacion-docs.",
+      "alt": "Visor local rei view con el Work Item «Referencia y operación de documentación» en móvil: índice de documentos y documento en una columna."
+    }
+  ]
+}

@@ -240,6 +240,19 @@ pnpm dev
 | `pnpm test` | Ejecuta la suite de Jest sobre lógica y datos (`content/`, `lib/`, `features/**/data/`). |
 | `pnpm test:watch` | Repite la suite al cambiar archivos. |
 | `pnpm test:coverage` | Ejecuta la suite con informe de cobertura, sin umbrales. |
+| `pnpm capture:evidence` | Regenera las capturas reales de producto en `public/evidence/`. |
+
+### Evidencia del producto
+
+La home muestra capturas reales del visor `rei view` y de las GitHub Issues públicas del repositorio de REI Harness. Se generan con `scripts/capture-evidence.mjs`, que usa `playwright-core` contra el Chrome instalado en el sistema (`channel: "chrome"`), sin descargar navegadores ni añadir dependencias de runtime.
+
+Requisitos para regenerarlas:
+
+- Chrome instalado y accesible por Playwright.
+- `rei` en el `PATH` (el visor se arranca en primer plano y se cierra con `SIGINT`).
+- Red para consultar GitHub Issues; no se usa autenticación.
+
+El comando escribe las capturas y `public/evidence/manifest.json` de forma atómica: si una captura falla, conserva el manifiesto anterior y sale con código distinto de cero indicando la captura y la causa. Las imágenes y el manifiesto se versionan; `pnpm build` y `pnpm test` no ejecutan el pipeline.
 
 ---
 
@@ -252,7 +265,8 @@ pnpm dev
 ├── AGENTS.md                 # Punto de entrada para agentes
 ├── docs/                     # Estrategia de producto y arquitectura de información
 ├── app/                      # App Router
-├── public/                   # Assets estáticos
+├── public/                   # Assets estáticos, incluida public/evidence/
+├── scripts/                  # Pipeline de capturas de evidencia
 ├── .rei/                     # Arnés REI: docs, agentes, plantillas y estado
 ├── .opencode/                # Subagentes nativos de OpenCode
 ├── package.json
