@@ -37,13 +37,13 @@ export function DocsLandingPage() {
         </p>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
           <Link
-            className="border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+            className="-mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
             href="/docs/empezar/instalacion"
           >
             Empezar por la instalación
           </Link>
           <Link
-            className="border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+            className="-mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
             href="/docs/empezar/primer-work-item"
           >
             Ver el primer Work Item

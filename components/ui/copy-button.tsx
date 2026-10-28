@@ -53,7 +53,7 @@ export function CopyButton({ code }: CopyButtonProps) {
         type="button"
         onClick={handleCopy}
         className={cn(
-          "type-meta-sm transition-colors duration-(--duration-fast)",
+          "inline-flex min-h-6 items-center px-1.5 -mr-1.5 type-meta-sm transition-colors duration-(--duration-fast)",
           state === "copied"
             ? "text-success"
             : state === "error"

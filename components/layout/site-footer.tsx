@@ -29,13 +29,13 @@ export function SiteFooter() {
 
         {FOOTER_GROUPS.map((group) => (
           <nav key={group.title} aria-label={group.title}>
-            <h2 className="type-meta text-muted-strong">{group.title}</h2>
-            <ul className="mt-4 flex flex-col gap-2.5">
+            <p className="type-meta text-muted-strong">{group.title}</p>
+            <ul className="mt-4 flex flex-col gap-3">
               {group.items.map((item) => (
                 <li key={item.href}>
                   {isExternal(item.href) ? (
                     <a
-                      className="type-docs text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
+                      className="inline-flex min-h-6 items-center type-docs text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
@@ -44,7 +44,7 @@ export function SiteFooter() {
                     </a>
                   ) : (
                     <Link
-                      className="type-docs text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
+                      className="inline-flex min-h-6 items-center type-docs text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
                       href={item.href}
                     >
                       {item.label}
@@ -63,7 +63,7 @@ export function SiteFooter() {
             Proyecto en fase inicial · Contenido estático y versionado
           </p>
           <a
-            className="type-meta text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
+            className="inline-flex min-h-6 items-center type-meta text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
             href={RELEASES_URL}
             target="_blank"
             rel="noreferrer"

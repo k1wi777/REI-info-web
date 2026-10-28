@@ -20,7 +20,7 @@ export function DocsToc({ items }: DocsTocProps) {
         {items.map((item) => (
           <li key={item.id}>
             <a
-              className="type-meta-sm text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
+              className="inline-flex min-h-6 items-center type-meta-sm text-secondary transition-colors duration-(--duration-fast) hover:text-foreground"
               href={`#${item.id}`}
             >
               {item.title}

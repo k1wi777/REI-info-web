@@ -5,7 +5,7 @@ import { PRODUCT_NAME, PRODUCT_SHORT_NAME } from "@/content/site";
 export function BrandMark() {
   return (
     <Link
-      className="group inline-flex items-baseline gap-2"
+      className="group inline-flex items-baseline gap-2 py-1"
       href="/"
       aria-label={`${PRODUCT_NAME} — Inicio`}
     >

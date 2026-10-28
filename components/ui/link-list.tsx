@@ -16,7 +16,7 @@ export function LinkList({ links }: LinkListProps) {
     <ul className="flex max-w-(--container-reading) flex-col gap-2">
       {links.map((link) => {
         const className =
-          "inline-flex border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground";
+          "inline-flex -mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground";
         const external = link.external ?? /^https?:\/\//.test(link.href);
 
         return (

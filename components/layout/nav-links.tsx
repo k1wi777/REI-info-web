@@ -39,7 +39,7 @@ export function NavLinks({
           !item.external &&
           (exact ? pathname === item.href : isActive(pathname, item.href));
         const classes = cn(
-          "inline-flex items-center text-nav font-mono uppercase tracking-[0.08em] transition-colors duration-(--duration-fast)",
+          "inline-flex min-h-6 items-center py-1.5 text-nav font-mono uppercase tracking-[0.08em] transition-colors duration-(--duration-fast)",
           active
             ? "text-foreground"
             : "text-secondary hover:text-foreground",

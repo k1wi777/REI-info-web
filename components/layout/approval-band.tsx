@@ -12,7 +12,7 @@ export function ApprovalBand() {
       className="mt-12 border border-accent/40 bg-accent/10 px-4 py-5"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="type-meta text-accent-text">{APPROVAL_GATE.label}</h2>
+        <p className="type-meta text-accent-text">{APPROVAL_GATE.label}</p>
         <StatusTag tone="accent">{APPROVAL_GATE.status}</StatusTag>
       </div>
       <p className="mt-3 type-docs text-secondary">{APPROVAL_GATE.detail}</p>
