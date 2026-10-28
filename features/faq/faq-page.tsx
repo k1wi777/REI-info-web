@@ -1,4 +1,5 @@
 import { DocArticle } from "@/components/layout/doc-article";
+import { InlineText } from "@/components/ui/inline-text";
 import {
   FAQ_PATH,
   FAQ_THEMES,
@@ -45,7 +46,7 @@ export function FaqPage() {
                     </span>
                   </summary>
                   <p className="max-w-(--container-reading) pb-4 type-docs text-secondary">
-                    {item.answer}
+                    <InlineText text={item.answer} />
                   </p>
                 </details>
               ))}

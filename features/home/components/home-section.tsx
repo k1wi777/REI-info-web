@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InlineText } from "@/components/ui/inline-text";
 import type { HomeBlock } from "@/features/home/types";
 
 type HomeSectionProps = {
@@ -27,7 +28,7 @@ export function HomeSection({ block }: HomeSectionProps) {
 
           {block.intro ? (
             <p className="type-body mt-5 max-w-(--container-reading) text-secondary">
-              {block.intro}
+              <InlineText text={block.intro} />
             </p>
           ) : null}
 
@@ -45,7 +46,7 @@ export function HomeSection({ block }: HomeSectionProps) {
                     {item.title}
                   </h3>
                   <p className="mt-1 type-docs text-secondary">
-                    {item.description}
+                    <InlineText text={item.description} />
                   </p>
                 </li>
               ))}
@@ -54,7 +55,7 @@ export function HomeSection({ block }: HomeSectionProps) {
 
           {block.note ? (
             <p className="mt-6 max-w-(--container-reading) border-l border-border-strong pl-4 type-meta-sm text-muted-strong">
-              {block.note}
+              <InlineText text={block.note} />
             </p>
           ) : null}
 

@@ -1,5 +1,6 @@
 import type { DocBlock, DocSection } from "@/content/docs";
 import { CodeBlock } from "@/components/ui/code-block";
+import { InlineText } from "@/components/ui/inline-text";
 import { LinkList } from "@/components/ui/link-list";
 import { cn } from "@/lib/cn";
 
@@ -13,7 +14,7 @@ export function DocBlockView({ block }: { block: DocBlock }) {
     case "paragraph":
       return (
         <p className="max-w-(--container-reading) type-docs text-secondary">
-          {block.text}
+          <InlineText text={block.text} />
         </p>
       );
 
@@ -27,7 +28,9 @@ export function DocBlockView({ block }: { block: DocBlock }) {
           )}
         >
           {block.items.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <InlineText text={item} />
+            </li>
           ))}
         </List>
       );
@@ -70,7 +73,7 @@ export function DocBlockView({ block }: { block: DocBlock }) {
                       key={cell}
                       className="px-3 py-2.5 align-top type-docs text-secondary"
                     >
-                      {cell}
+                      <InlineText text={cell} />
                     </td>
                   ))}
                 </tr>
@@ -103,9 +106,11 @@ export function DocBlockView({ block }: { block: DocBlock }) {
                 : "text-muted-strong",
             )}
           >
-            {block.title}
+            <InlineText text={block.title} />
           </p>
-          <p className="mt-1 type-docs text-secondary">{block.text}</p>
+          <p className="mt-1 type-docs text-secondary">
+            <InlineText text={block.text} />
+          </p>
         </aside>
       );
 
