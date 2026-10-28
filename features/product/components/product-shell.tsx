@@ -12,8 +12,8 @@ export function ProductShell({ children }: ProductShellProps) {
     <div className="border-b border-hairline">
       <Container className="py-8 lg:py-10">
         <ProductSubnav />
-        <div className="mt-8 min-w-0">{children}</div>
       </Container>
+      <div className="min-w-0">{children}</div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Container } from "@/components/ui/container";
 import type {
   ProductSection as ProductSectionData,
   ProductSectionWeight,
@@ -15,9 +16,8 @@ const WEIGHTS: Record<
   }
 > = {
   lead: {
-    section:
-      "-mx-5 border-y border-hairline-strong bg-surface-deep sm:-mx-6 lg:-mx-10",
-    body: "px-5 py-10 sm:px-8 lg:px-10 lg:py-14",
+    section: "border-y border-hairline-strong bg-surface-deep",
+    body: "py-10 lg:py-14",
     heading: "type-title",
     blocks: "mt-8 gap-6",
   },
@@ -63,7 +63,7 @@ export function ProductSection({ section, folio, children }: ProductSectionProps
           className="pointer-events-none absolute inset-0 sheet-grid opacity-20"
         />
 
-        <div className={cn("relative", styles.body)}>
+        <Container className={cn("relative", styles.body)}>
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
             <p className="flex items-baseline gap-3 type-meta">
               <span className="text-muted-strong tabular-nums">{folio}</span>
@@ -80,7 +80,7 @@ export function ProductSection({ section, folio, children }: ProductSectionProps
           </h2>
 
           <div className={cn("flex flex-col", styles.blocks)}>{children}</div>
-        </div>
+        </Container>
       </section>
     );
   }
@@ -91,28 +91,30 @@ export function ProductSection({ section, folio, children }: ProductSectionProps
       aria-labelledby={headingId}
       className={styles.section}
     >
-      <div className={cn("grid gap-6 lg:grid-cols-12 lg:gap-12", styles.body)}>
-        <div className="lg:col-span-3">
-          <p className="flex items-baseline gap-3 type-meta">
-            <span className="text-muted-strong tabular-nums">{folio}</span>
-            <span className="text-foreground">{section.label}</span>
-          </p>
-        </div>
+      <Container className={styles.body}>
+        <div className="grid gap-6 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-3">
+            <p className="flex items-baseline gap-3 type-meta">
+              <span className="text-muted-strong tabular-nums">{folio}</span>
+              <span className="text-foreground">{section.label}</span>
+            </p>
+          </div>
 
-        <div className="min-w-0 lg:col-span-9">
-          <h2
-            id={headingId}
-            className={cn(
-              "max-w-[26ch] text-balance text-foreground",
-              styles.heading,
-            )}
-          >
-            {section.title}
-          </h2>
+          <div className="min-w-0 lg:col-span-9">
+            <h2
+              id={headingId}
+              className={cn(
+                "max-w-[26ch] text-balance text-foreground",
+                styles.heading,
+              )}
+            >
+              {section.title}
+            </h2>
 
-          <div className={cn("flex flex-col", styles.blocks)}>{children}</div>
+            <div className={cn("flex flex-col", styles.blocks)}>{children}</div>
+          </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
