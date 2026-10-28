@@ -1,20 +1,23 @@
 import Link from "next/link";
 import { InlineText } from "@/components/ui/inline-text";
 import type { HomeBlock } from "@/features/home/types";
+import { cn } from "@/lib/cn";
 
 type HomeSectionProps = {
   block: HomeBlock;
+  /** Los principios del proceso usan una fila compacta de cuatro. */
+  columns?: 2 | 4;
 };
 
 /** Bloque editorial de la home: etiqueta, tesis y filas sin tarjetas. */
-export function HomeSection({ block }: HomeSectionProps) {
+export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
   const titleId = `${block.id}-title`;
 
   return (
     <section
       id={block.id}
       aria-labelledby={titleId}
-      className="border-t border-hairline py-12 lg:py-16"
+      className="border-t border-hairline py-12 first:border-t-0 first:pt-0 lg:py-16"
     >
       <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
         <p className="type-meta text-muted-strong lg:col-span-3">
@@ -33,7 +36,14 @@ export function HomeSection({ block }: HomeSectionProps) {
           ) : null}
 
           {block.items ? (
-            <ul className="mt-8 grid gap-x-8 sm:grid-cols-2">
+            <ul
+              className={cn(
+                "mt-8 grid gap-x-8",
+                columns === 4
+                  ? "sm:grid-cols-2 lg:grid-cols-4"
+                  : "sm:grid-cols-2",
+              )}
+            >
               {block.items.map((item, index) => (
                 <li
                   key={item.title}

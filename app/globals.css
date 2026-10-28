@@ -229,3 +229,50 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Demos de la home: revelado escalonado ligado al scroll, sin JavaScript.
+ * Solo se animan `opacity` y `transform`; fuera de `@supports` o con
+ * `prefers-reduced-motion: reduce` el contenido queda en su estado final.
+ */
+@keyframes demo-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .demo-reveal > * {
+      animation: demo-reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+
+    .demo-reveal > :nth-child(2) {
+      animation-range: entry 12% entry 72%;
+    }
+
+    .demo-reveal > :nth-child(3) {
+      animation-range: entry 24% entry 84%;
+    }
+
+    .demo-reveal > :nth-child(4) {
+      animation-range: entry 36% entry 96%;
+    }
+
+    .demo-reveal > :nth-child(5) {
+      animation-range: entry 48% entry 100%;
+    }
+
+    .demo-reveal > :nth-child(n + 6) {
+      animation-range: entry 60% entry 100%;
+    }
+  }
+}

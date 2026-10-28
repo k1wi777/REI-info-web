@@ -6,6 +6,10 @@
 > la tipografía **A · Archivo Expandido**. Las decisiones de producto viven en
 > `docs/product-strategy.md` y `PRODUCT.md`; este archivo describe la
 > implementación.
+>
+> La Feature `2026-10-27_22-04__home-demostrativa-playwright` añadió los actos,
+> las demos de mecanismo y la evidencia real de producto sobre la misma
+> dirección: no cambia tokens, tipografía ni hero.
 
 ## Principios
 
@@ -138,10 +142,48 @@ funciona sin JavaScript y por teclado. La marca y el CTA permanecen visibles.
 
 ### Home (`features/home`)
 
-`HeroSheet` compone tesis, deck, CTAs, matriz de responsabilidades, panel de
-metadata y línea de cotas. `HomeSection` renderiza los bloques editoriales y
-`FinalCta` cierra la página. Los datos viven en `features/home/data/` y los roles
-se leen de `content/rei`.
+`HeroSheet` se conserva sin cambios: tesis, deck, CTAs, matriz de
+responsabilidades, panel de metadata y línea de cotas. A partir del hero, la
+página se compone en cuatro actos de fondo completo (`ActSection`): problema
+(`bg-canvas` + retícula tenue), proceso (`bg-surface-deep` + `accent/5`),
+evidencia (`bg-surface` + `success/5`) y cierre (`bg-canvas`). Cada acto lleva
+borde superior, etiqueta en `type-meta` y tesis; el contenido sigue en
+`Container`.
+
+Cada demo usa `DemoSection` para la cabecera editorial (etiqueta, titular,
+intro, nota y enlace) y contenido propio:
+
+| Demo | Componente | Qué muestra |
+|------|------------|-------------|
+| Problema | `demos/problem-demo` | «Sin REI / Con REI» sobre el mismo caso, pasos numerados y marcas con etiqueta textual. |
+| Puerta | `demos/gate-demo` | `pending → ready → puerta → in_progress → review → done`, artefactos en `<details>` y banda violeta. |
+| Agentes | `demos/agents-demo` | Grafo de los cinco roles; cada nodo es un `<details>` con responsabilidad y límite; el Initializer es rama lateral. |
+| Visor | `demos/viewer-demo` | Marco de navegador con capturas reales, rail de anotaciones y FICHA/móvil; el diff se muestra solo si existe. |
+| GitHub Issues | `demos/github-issues-demo` | Capturas reales con número, labels y estado, cuerpo de la épica y diagrama `.rei → issue / rama / PR`. |
+| Terminal y árbol | `demos/terminal-demo` | Salida real de `rei items status` y `.rei/specs/<id>/` como texto, sin vídeo ni tecleo simulado. |
+
+Las demos de mecanismo se etiquetan «Ejemplo de mecanismo»; las de evidencia
+muestran capturas del producto y su fecha. Los datos viven en
+`features/home/data/{acts,demos,evidence}.ts` y los roles, estados y puerta se
+importan de `content/rei`. No hay `"use client"` nuevo: la interacción usa
+`<details>`/`<summary>` y anclas `:target`.
+
+### Evidencia y procedencia
+
+`public/evidence/manifest.json` es la fuente única de las capturas: archivo,
+dimensiones, `source`, fecha, descripción, `alt` y, en issues, número, labels y
+estado. Lo genera `pnpm capture:evidence` (`scripts/capture-evidence.mjs`) con
+`playwright-core` contra el Chrome del sistema, sin descargar navegadores:
+
+- GitHub Issues públicas de `k1wi777/REI-Harness` (#2 feature, #3 épica y #5
+  hija de backlog), con cabecera, labels, estado real (`Closed`) y cuerpo.
+- Visor `rei view` del Work Item
+  `2026-10-27_12-08__referencia-operacion-docs` en 1440×900, FICHA y móvil
+  390×844; el diff solo si el visor lo muestra.
+
+Las capturas se integran con `next/image` (dimensiones del manifiesto, `sizes` y
+carga diferida), sin `priority` ni calidad distinta de la predeterminada. No hay
+capturas simuladas, métricas ni issues inventadas.
 
 ### Documentación
 
@@ -169,6 +211,13 @@ elementos decorativos son `aria-hidden` y el texto existe desde el primer
 render. Con `prefers-reduced-motion: reduce`, las tres animaciones se desactivan
 y se muestra el estado final.
 
+Las listas de pasos de las demos añaden un revelado escalonado ligado al scroll
+(`animation-timeline: view()`) bajo `@supports` y
+`prefers-reduced-motion: no-preference`: solo `opacity` y `transform`, sin
+JavaScript. Si el navegador no soporta la línea de tiempo o la persona reduce el
+movimiento, el contenido queda visible en su estado final; ninguna demo parte de
+`opacity: 0` fuera de esa mejora.
+
 ## Accesibilidad
 
 - `html lang="es"`; un `h1` por página y jerarquía sin saltos.
@@ -176,9 +225,13 @@ y se muestra el estado final.
 - Foco visible global: anillo de 2 px y separación de 2 px.
 - `aria-current="page"` en cabecera, tabs y sidebar; `aria-label` distinto en
   cabecera, sidebar, TOC y pager.
-- `<details>`/`<summary>` nativos para menú móvil, sidebar móvil y FAQ.
+- `<details>`/`<summary>` nativos para menú móvil, sidebar móvil, FAQ, artefactos
+  y nodos de agentes; funcionan sin JavaScript y por teclado.
 - Copiar: confirmación visible «Copiado» y `aria-live="polite"`; si falla,
   «No se pudo copiar; selecciona el texto». El código está en el HTML servido.
+- Capturas con `alt` del manifiesto; el rail de anotaciones es una `<ol>` con
+  texto y los diagramas (agentes, proyección, árbol) tienen equivalente textual.
+- Las marcas de color (`warning`, `error`, `success`) siempre llevan etiqueta.
 - Responsive desde 360 px; las tablas y el código tienen scroll interno, nunca
   la página.
 - Contraste comprobado (WCAG AA): texto 18.15:1, secundario 7.72:1,
@@ -193,6 +246,10 @@ y se muestra el estado final.
 - `content/rei/`: tipos, comandos, estados, roles y descriptor único de la
   aprobación.
 - `features/<slug>/data/`: contenido propio de cada feature.
+- `features/home/data/acts.ts` y `demos.ts`: actos, pasos del problema, etapas de
+  la puerta, posiciones de los agentes, terminal y árbol de artefactos.
+- `features/home/data/evidence.ts`: deriva las capturas del manifiesto generado
+  (`public/evidence/manifest.json`); no duplica rutas ni textos alternativos.
 - Una sola fuente por dato. No se duplican comandos, estados ni roles.
 - Sin cifras, testimonios, clientes ni comparativas inventadas. La home no usa
   cifras externas.
@@ -214,20 +271,36 @@ y se muestra el estado final.
    `CopyButton`; no introducir un kit de UI.
 7. Respetar `--container-reading` en prosa y `--layout-grid` en la home.
 8. Toda ruta nueva se añade a `ROUTES` y al árbol de docs antes de enlazarla.
+9. Las capturas se leen del manifiesto y se sirven con `next/image`; no se
+   duplican rutas, dimensiones ni `alt`, y no se inventan capturas ni issues.
+10. El violeta sigue reservado a la puerta de aprobación; las demos no lo usan
+    como decoración ni para marcar controles.
 
 ## Assets
 
-No se añaden imágenes raster ni ilustraciones. El `favicon.ico` existente
+Los únicos rasters de producto del sitio son las capturas de
+`public/evidence/`, generadas por `pnpm capture:evidence` y versionadas con su
+manifiesto. Su procedencia está declarada en `manifest.json` (archivo, fuente,
+fecha, `alt`, dimensiones y, en issues, número, labels y estado) y se muestran
+con `next/image`, `sizes` y carga diferida. `hero.png` y
+`visorEspecificaciones.png` de la raíz son referencias locales de dirección: no
+se versionan, no se usan en la web y no son evidencia. El `favicon.ico` existente
 proviene del scaffold de `create-next-app` y no se modificó; el resto de la
 identidad es tipográfica, retícula y color.
 
 ## Verificación de cierre
 
 - `V1` `pnpm lint` — pasa.
-- `V2` `pnpm build` — pasa; las rutas `/`, `/docs` y las cuatro páginas de docs
-  se prerenderizan, más `sitemap.xml` y `robots.txt`.
-- `V3` revisión manual/documentada — 360/768/1280 sin scroll horizontal de
-  página, teclado en disclosures, foco visible, copiar verificado, enlaces
-  internos existentes, `prefers-reduced-motion` sin animación y CLS 0.
+- `V4` `pnpm test` — pasa; los datos de demos y el manifiesto de evidencia se
+  cubren sin tests de UI. Las nuevas comprobaciones viven en
+  `features/home/data/{demos,evidence}.test.ts`.
+- `V2` `pnpm build` — pasa; las rutas `/`, `/docs` y las páginas de producto se
+  prerenderizan, más `sitemap.xml` y `robots.txt`.
+- `pnpm capture:evidence` — genera las diez capturas reales y el manifiesto con
+  Chrome del sistema; falla con causa y sin manifiesto parcial.
+- `V3` revisión manual/documentada — 360/768/1024/1440 sin scroll horizontal de
+  página, teclado en disclosures, foco visible, alt y equivalentes textuales,
+  `prefers-reduced-motion` sin animación (estado final), sin JavaScript y CLS 0.
 - `rei validate` — sin `FAIL`.
-- `package.json` y `pnpm-lock.yaml` sin cambios; sin dependencias nuevas.
+- `playwright-core` es la única dependencia nueva y es `devDependency`; no hay
+  dependencias de runtime nuevas.

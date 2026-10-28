@@ -1,8 +1,17 @@
-import { Container } from "@/components/ui/container";
+import { ActSection } from "@/features/home/components/act-section";
+import { AgentsDemo } from "@/features/home/components/demos/agents-demo";
+import { GateDemo } from "@/features/home/components/demos/gate-demo";
+import { GithubIssuesDemo } from "@/features/home/components/demos/github-issues-demo";
+import { ProblemDemo } from "@/features/home/components/demos/problem-demo";
+import { TerminalDemo } from "@/features/home/components/demos/terminal-demo";
+import { ViewerDemo } from "@/features/home/components/demos/viewer-demo";
 import { FinalCta } from "@/features/home/components/final-cta";
 import { HeroSheet } from "@/features/home/components/hero-sheet";
 import { HomeSection } from "@/features/home/components/home-section";
-import { HOME_BLOCKS } from "@/features/home/data/home";
+import { HOME_ACTS } from "@/features/home/data/acts";
+import { LIMITS_BLOCK, PROCESS_INTRO } from "@/features/home/data/home";
+
+const [PROBLEM_ACT, PROCESS_ACT, EVIDENCE_ACT, CLOSE_ACT] = HOME_ACTS;
 
 export function HomePage() {
   return (
@@ -11,15 +20,26 @@ export function HomePage() {
         <HeroSheet />
       </div>
 
-      <Container className="pb-8 sm:pb-10 lg:pb-14">
-        <div className="mt-12 border-b border-hairline sm:mt-16">
-          {HOME_BLOCKS.map((block) => (
-            <HomeSection key={block.id} block={block} />
-          ))}
-        </div>
+      <ActSection act={PROBLEM_ACT}>
+        <ProblemDemo />
+      </ActSection>
 
+      <ActSection act={PROCESS_ACT}>
+        <HomeSection block={PROCESS_INTRO} columns={4} />
+        <GateDemo />
+        <AgentsDemo />
+        <TerminalDemo />
+      </ActSection>
+
+      <ActSection act={EVIDENCE_ACT}>
+        <ViewerDemo />
+        <GithubIssuesDemo />
+        <HomeSection block={LIMITS_BLOCK} />
+      </ActSection>
+
+      <ActSection act={CLOSE_ACT}>
         <FinalCta />
-      </Container>
+      </ActSection>
     </>
   );
 }
