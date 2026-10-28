@@ -15,6 +15,11 @@
 > la retícula editorial (cabecera a 7/5), introduce las **ventanas de producto**
 > como único elemento elevado del sistema, agrupa el ciclo alrededor de la puerta
 > y sustituye las capturas sueltas por marcos con barra de título.
+>
+> El pulido `2026-10-28_01-06__pulido-tipografia-movil-a11y` sube el suelo
+> tipográfico, separa la escala de estados en móvil, ordena la jerarquía de
+> encabezados y añade objetivos táctiles, enlace a la captura completa y nota de
+> deslizamiento en la terminal. No cambia colores, familias, copy ni datos.
 
 ## Principios
 
@@ -68,18 +73,24 @@ interactivos, no regiones.
 | Encabezado de docs | `--text-docs-heading` | 24 px / 1.2, `wdth` 100 |
 | Cuerpo | `--text-body` | 17 px / 1.6 |
 | Lectura de docs | `--text-docs` | 16 px / 1.7 |
-| Metadata | `--text-meta` | 10 px / 1.4 |
-| Metadata pequeña | `--text-meta-sm` | 9.5 px / 1.4 |
-| Pie y nota pequeña | `--text-caption` | 13 px / 1.5 |
-| Código | `--text-code` | 12.5 px / 1.7 |
+| Metadata | `--text-meta` | 11.5 px / 1.5 |
+| Metadata pequeña | `--text-meta-sm` | 11 px / 1.5 |
+| Pie y nota pequeña | `--text-caption` | 14 px / 1.5 |
+| Código | `--text-code` | 13 px / 1.7 |
 | Interfaz | `--text-ui` | 15 px / 1.0 |
-| Navegación | `--text-nav` | 12 px / 1.0 |
-| Micro | `--text-micro` | 10 px / 1.0 |
+| Navegación | `--text-nav` | 13 px / 1.0 |
+| Micro | `--text-micro` | 10 px / 1.0, solo glifos decorativos `aria-hidden` |
 | Marca | `--text-brand` | 22 px / 1.0 |
 
 Display y titulares usan `clamp()` con el token como máximo para no desbordar
 desde 360 px: display `clamp(2.5rem, 7vw, 4.5rem)`, titular
 `clamp(2rem, 4vw, 2.75rem)`, título de docs `clamp(1.75rem, 3vw, 2rem)`.
+
+**Suelo tipográfico.** Ningún texto real baja de 11 px. `--text-micro` queda
+reservado al chevron decorativo del menú móvil (10 px, `aria-hidden`); el cuerpo
+de las demos es siempre 17 px y 16 px solo aparece en lectura de docs y en
+títulos de paso. Los tamaños arbitrarios (`text-[0.5rem]` y similares) no se
+admiten: si algo no cabe, se ajustan anchos, gaps o columnas.
 
 ### Retícula, forma y movimiento
 
@@ -113,7 +124,7 @@ de 8 px y la guía de 72 px en la home.
 | `sheet-grid` | Retícula de la hoja; solo en el acto del problema. |
 | `stage-light` | Luz radial tenue sobre una zona con capturas. |
 | `fade-bottom` | Recortes largos: el borde inferior se disuelve. |
-| `fade-right` | Salidas con desplazamiento horizontal en móvil. |
+| `fade-right` | Salidas con desplazamiento horizontal: matriz por debajo de `sm` y terminal por debajo de `xl`. |
 | `scroll-code` | Barra de desplazamiento fina, dentro de la paleta. |
 
 ## Tipografía y fuentes
@@ -132,8 +143,9 @@ respaldo con métricas ajustadas (`Archivo Fallback`, `Geist Fallback`,
 
 Verificación: el eje de ancho se aplica (`"wdth" 112, "wght" 600` en display y
 `"wdth" 100, "wght" 600` en docs), la tesis mide 72 px/0.92 a 1280 px, los
-titulares 44 px/1.0, el cuerpo 17 px/1.6, docs 16 px/1.7, metadata 9.5–10 px y
-código 12.5 px. Los tres woff2 latinos que carga el sitio suman **139,2 KiB**,
+titulares 44 px/1.0, el cuerpo 17 px/1.6, docs 16 px/1.7, metadata 11–11.5 px,
+código 13 px y pie 14 px. Los tres woff2 latinos que carga el sitio suman
+**139,2 KiB**,
 dentro del objetivo de ≈140 KB. `next/font` emite además rangos unicode no
 latinos que el navegador no descarga para el contenido en español. No fue
 necesario el fallback a `next/font/local`; si el eje dejara de comportarse, el
@@ -152,6 +164,7 @@ escala y API.
 | `WindowFrame` | Marco de ventana con barra de título, controles decorativos, elevación y pie opcional. |
 | `CodeBlock` | Bloque de código en servidor, legible sin JavaScript. |
 | `CopyButton` | Único cliente del bloque: copia, confirma y restaura a los 2 s. |
+| `CaptureLink` | Enlace «Ver captura completa» al archivo de una captura recortada. Sin dominio: solo recibe la ruta. |
 
 `components/ui` no importa features ni datos de REI (solo `lib/cn` y, en
 `ButtonLink`, la comprobación de enlace externo de `content/site`).
@@ -166,6 +179,9 @@ así: la terminal, el árbol de artefactos, el visor, el diff y las capturas de
 GitHub. Los bordes son `ring-hairline-strong` y la elevación `shadow-window`; la
 cara superior recibe una luz de 1 px. Las capturas largas se recortan con
 `fade-bottom` y se anuncian como recorte en el pie, nunca se estiran para caber.
+Toda captura recortada ofrece `CaptureLink` a su archivo completo; la terminal
+lleva `scroll-code`, `tabIndex` y, donde el contenido desborda, `fade-right` más
+la nota «Desliza o usa las flechas para ver la línea completa.» en su pie.
 
 ### Shell (`components/layout`)
 
@@ -179,8 +195,9 @@ funciona sin JavaScript y por teclado. La marca y el CTA permanecen visibles.
 
 ### Home (`features/home`)
 
-`HeroSheet` se conserva sin cambios: tesis, deck, CTAs, matriz de
-responsabilidades, panel de metadata y línea de cotas. A partir del hero, la
+`HeroSheet` mantiene tesis, deck, CTAs, matriz de responsabilidades, panel de
+metadata y línea de cotas; su retícula es 6/6 en `lg` (la matriz dispone de unos
+430 px a 1024) y 7/5 desde `xl`. A partir del hero, la
 página se compone en cuatro actos de fondo completo (`ActSection`): problema
 (`bg-canvas` + retícula tenue), proceso (`bg-surface-deep`), evidencia
 (`bg-surface`) y cierre (`bg-canvas`). Cada acto lleva borde superior, número y
@@ -209,6 +226,40 @@ muestran capturas del producto y su fecha. Los datos viven en
 `features/home/data/{acts,demos,evidence}.ts` y los roles, estados y puerta se
 importan de `content/rei`. No hay `"use client"` nuevo: la interacción usa
 `<details>`/`<summary>` y anclas `:target`.
+
+#### Suelo, matriz y estados
+
+- Ningún texto real baja de 11 px y el cuerpo de las demos es 17 px. Los tamaños
+  arbitrarios de la matriz se sustituyeron por `type-meta-sm`.
+- Matriz del hero: las cuatro columnas de rol nunca bajan de 72 px útiles. Por
+  debajo de `sm` la tabla conserva `min-w-[25rem]` y el wrapper desplaza en
+  horizontal con `scroll-code`, `fade-right`, `tabIndex={0}` y `aria-label`; se
+  ajustan anchos, gaps o columnas antes que reducir la tipografía. La columna de
+  fase mide 6.5 rem desde `sm` para que «Implementación» no se parta.
+- Escala de estados: cinco columnas desde `sm`; por debajo, dos filas (3 + 2) con
+  12 px de separación y sin línea de cotas —con dos filas dejaría de ser una
+  línea de tiempo—. El estado actual sigue anunciándose con texto y `sr-only`.
+- Aire: los bloques de metadata comparten huecos de 6 px (`gap-y-1.5`) y las
+  celdas de matriz usan `py-2.5`; no se añade texto para separar bloques.
+
+#### Jerarquía de encabezados
+
+- `h2` es la tesis de sección (`DemoSection`, `HomeSection`, `FinalCta`); `h3`
+  son los títulos de columna del problema, los ítems de sección y los detalles de
+  comandos.
+- La ficha, la ventana, la anotación, la banda de aprobación y los grupos del pie
+  usan `p` o `figcaption`: describen cromo, no estructuran la página, y conservan
+  su `aria-labelledby`/`aria-label`.
+- Los actos son regiones `aria-labelledby` sobre su etiqueta `p`; no se promueven
+  a `h2` para no demoler la escala. Resultado: un solo `h1` por ruta y sin saltos.
+
+#### Objetivos táctiles
+
+- Mínimo 24 px en nav (`min-h-6 py-1.5`), marca (`py-1`), enlaces del pie, TOC,
+  botón de copiar (`min-h-6 px-1.5 -mr-1.5`) y enlaces subrayados de una línea
+  (`-mt-1.5 pt-1.5`, crecen hacia arriba sin mover el subrayado).
+- El anillo de foco (2 px + 2 de separación) cabe dentro del marco que contiene
+  el control: no se recorta en `CodeBlock` ni en la cabecera.
 
 ### Evidencia y procedencia
 
@@ -266,7 +317,8 @@ estado final; nada parte de `opacity: 0` fuera de esa mejora.
 
 ## Accesibilidad
 
-- `html lang="es"`; un `h1` por página y jerarquía sin saltos.
+- `html lang="es"`; un `h1` por página y jerarquía sin saltos. El cromo (ficha,
+  ventana, anotaciones, banda y pie) no usa encabezados.
 - Skip link como primer tabulable hacia `main#contenido` (con `tabIndex={-1}`).
 - Foco visible global: anillo de 2 px y separación de 2 px.
 - `aria-current="page"` en cabecera, tabs y sidebar; `aria-label` distinto en
@@ -275,14 +327,18 @@ estado final; nada parte de `opacity: 0` fuera de esa mejora.
   agentes; funcionan sin JavaScript y por teclado. El resumen lleva su propio
   `aria-label` y el marcador nativo se sustituye por un chevron dibujado.
 - La salida del CLI es una región con `aria-label` y `tabIndex="0"` para poder
-  desplazarse con teclado cuando no cabe en el ancho.
+  desplazarse con teclado cuando no cabe en el ancho; el degradado derecho y la
+  nota del pie avisan de que hay más línea.
+- Objetivos táctiles ≥ 24 px en nav, marca, pie, TOC, botón de copiar y enlaces
+  subrayados; el foco visible queda dentro de su marco.
 - Copiar: confirmación visible «Copiado» y `aria-live="polite"`; si falla,
   «No se pudo copiar; selecciona el texto». El código está en el HTML servido.
-- Capturas con `alt` del manifiesto; el rail de anotaciones es una `<ol>` con
-  texto y los diagramas (agentes, proyección, árbol) tienen equivalente textual.
+- Capturas con `alt` del manifiesto y enlace «Ver captura completa» al archivo
+  original; el rail de anotaciones es una `<ol>` con texto y los diagramas
+  (agentes, proyección, árbol) tienen equivalente textual.
 - Las marcas de color (`warning`, `error`, `success`) siempre llevan etiqueta.
 - Responsive desde 360 px; las tablas y el código tienen scroll interno, nunca
-  la página.
+  la página. Revisado a 360, 390, 768, 1024 y 1440.
 - Contraste comprobado (WCAG AA): texto 18.15:1, secundario 7.72:1,
   muted-strong 5.79:1, acento-text 7.27:1, éxito 8.68:1, aviso 8.92:1,
   error 6.00:1 y `on-accent` sobre acento 4.67:1. El foco (4.67:1) supera el
@@ -328,6 +384,11 @@ estado final; nada parte de `opacity: 0` fuera de esa mejora.
 11. La hoja no se redondea ni se eleva: solo las ventanas de producto usan
     `rounded-window`, `shadow-window` y barra de título. Una ventana sin
     contenido real no se dibuja.
+12. Ningún texto real baja de 11 px y las demos se leen a 17 px. Si no cabe, se
+    ajustan gaps, anchos o columnas; nunca el tamaño.
+13. Los controles y los enlaces de navegación, pie y cromo alcanzan 24 px de caja
+    y conservan el anillo de foco completo. Las capturas recortadas enlazan a su
+    archivo completo.
 
 ## Assets
 
@@ -351,9 +412,11 @@ identidad es tipográfica, retícula y color.
   prerenderizan, más `sitemap.xml` y `robots.txt`.
 - `pnpm capture:evidence` — genera las diez capturas reales y el manifiesto con
   Chrome del sistema; falla con causa y sin manifiesto parcial.
-- `V3` revisión manual/documentada — 360/768/1024/1440 sin scroll horizontal de
-  página, teclado en disclosures, foco visible, alt y equivalentes textuales,
-  `prefers-reduced-motion` sin animación (estado final), sin JavaScript y CLS 0.
+- `V3` revisión manual/documentada — 360/390/768/1024/1440 sin scroll horizontal
+  de página; matriz, estados y cabecera legibles; capturas con «Ver captura
+  completa»; terminal con degradado y nota; teclado en disclosures, matriz y
+  terminal; foco visible; contraste AA sin cambios; alt y equivalentes textuales;
+  `prefers-reduced-motion` sin animación (estado final) y sin JavaScript.
 - `rei validate` — sin `FAIL`.
 - `playwright-core` es la única dependencia nueva y es `devDependency`; no hay
   dependencias de runtime nuevas.
