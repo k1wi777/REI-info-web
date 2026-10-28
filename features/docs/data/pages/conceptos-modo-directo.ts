@@ -81,7 +81,7 @@ export const CONCEPTOS_MODO_DIRECTO_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "El modo directo no crea Work Item, spec, meta.json, current.md, history.md, direct.md, sesión, issue ni rama. Tampoco modifica el estado ni los documentos de un Work Item existente.",
+          text: "El modo directo no crea Work Item, spec, `meta.json`, `current.md`, `history.md`, `direct.md`, sesión, issue ni rama. Tampoco modifica el estado ni los documentos de un Work Item existente.",
         },
         {
           kind: "paragraph",
@@ -96,7 +96,7 @@ export const CONCEPTOS_MODO_DIRECTO_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "No evita la verificación: siempre se ejecuta rei check y, según el cambio, los checks del proyecto.",
+            "No evita la verificación: siempre se ejecuta `rei check` y, según el cambio, los checks del proyecto.",
             "No pasa por el Reviewer salvo petición explícita, pero tampoco permite saltarse una revisión pedida.",
             "No autoriza commit, push, PR ni merge sin una orden explícita.",
             "No exime del resto de reglas del arnés ni crea estados paralelos.",

@@ -21,7 +21,7 @@ export const PRODUCT_FLOW: FlowStep[] = [
     id: "spec-author",
     actor: "Spec Author",
     description:
-      "Redacta requirements, design y tasks (o plan.md) y deja el Work Item en ready.",
+      "Redacta `requirements`, `design` y `tasks` (o `plan.md`) y deja el Work Item en ready.",
   },
   {
     id: "aprobacion",
@@ -45,6 +45,6 @@ export const PRODUCT_FLOW: FlowStep[] = [
     id: "done",
     actor: "done",
     description:
-      "El Work Item queda cerrado y su resumen se archiva en history.md.",
+      "El Work Item queda cerrado y su resumen se archiva en `history.md`.",
   },
 ];

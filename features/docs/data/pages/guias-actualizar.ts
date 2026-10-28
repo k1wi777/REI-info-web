@@ -25,7 +25,7 @@ export const GUIAS_ACTUALIZAR_DOCUMENT: DocContent = {
           kind: "list",
           items: [
             "Para actualizar el binario, conexión con GitHub Releases y permisos de escritura sobre el ejecutable.",
-            "Para actualizar el arnés, un proyecto ya inicializado con .rei/.",
+            "Para actualizar el arnés, un proyecto ya inicializado con `.rei/`.",
             "Una copia de seguridad o un commit limpio antes de forzar cambios en la documentación.",
             "Conocer la diferencia entre actualizar el binario y actualizar el esqueleto del proyecto.",
           ],
@@ -40,12 +40,12 @@ export const GUIAS_ACTUALIZAR_DOCUMENT: DocContent = {
           kind: "list",
           ordered: true,
           items: [
-            "Comprueba si hay una versión nueva con rei update --check. Solo informa del resultado: no descarga ni escribe nada.",
-            "Actualiza el binario con rei update. Descarga el asset de tu sistema y arquitectura, verifica su SHA-256 contra checksums.txt y reemplaza el ejecutable de forma atómica. Si la integridad falla, aborta sin modificar el binario.",
-            "En Windows no se puede reemplazar un .exe en ejecución: rei update informa y abre la página de releases para que descargues el archive a mano.",
-            "Actualiza el esqueleto del arnés con rei init --update. Exige un proyecto REI; no instala desde cero y nunca toca .rei/specs/** ni .rei/progress/**.",
-            "Revisa los avisos. --update es marker-aware: actualiza los documentos de personalización que aún contienen el marcador pendiente y conserva los ya personalizados. El resto de archivos se actualiza solo si el manifiesto confirma que no se modificaron.",
-            "Usa rei init --update --force solo si aceptas sobrescribir cualquier archivo que difiera, incluidos los personalizados o modificados a mano. El resultado se reporta como [NEW], [UPD], [OK] o [SKIP].",
+            "Comprueba si hay una versión nueva con `rei update --check`. Solo informa del resultado: no descarga ni escribe nada.",
+            "Actualiza el binario con `rei update`. Descarga el asset de tu sistema y arquitectura, verifica su SHA-256 contra checksums.txt y reemplaza el ejecutable de forma atómica. Si la integridad falla, aborta sin modificar el binario.",
+            "En Windows no se puede reemplazar un `.exe` en ejecución: `rei update` informa y abre la página de releases para que descargues el archive a mano.",
+            "Actualiza el esqueleto del arnés con `rei init --update`. Exige un proyecto REI; no instala desde cero y nunca toca `.rei/specs/**` ni `.rei/progress/**`.",
+            "Revisa los avisos. `--update` es marker-aware: actualiza los documentos de personalización que aún contienen el marcador pendiente y conserva los ya personalizados. El resto de archivos se actualiza solo si el manifiesto confirma que no se modificaron.",
+            "Usa `rei init --update --force` solo si aceptas sobrescribir cualquier archivo que difiera, incluidos los personalizados o modificados a mano. El resultado se reporta como [NEW], [UPD], [OK] o [SKIP].",
           ],
         },
         {
@@ -63,8 +63,8 @@ export const GUIAS_ACTUALIZAR_DOCUMENT: DocContent = {
         {
           kind: "note",
           tone: "warning",
-          title: "--force sobrescribe",
-          text: "La actualización normal conserva lo personalizado y avisa. --force no distingue: si un archivo difiere, lo reemplaza. No lo uses para arreglar un check en rojo sin entender qué se pierde.",
+          title: "`--force` sobrescribe",
+          text: "La actualización normal conserva lo personalizado y avisa. `--force` no distingue: si un archivo difiere, lo reemplaza. No lo uses para arreglar un check en rojo sin entender qué se pierde.",
         },
       ],
     },
@@ -79,7 +79,7 @@ export const GUIAS_ACTUALIZAR_DOCUMENT: DocContent = {
         },
         {
           kind: "paragraph",
-          text: "rei version confirma la versión del binario. rei init status indica si queda documentación pendiente de personalizar. rei check comprueba el arnés y los checks del proyecto, y rei validate revisa la coherencia de un Work Item.",
+          text: "`rei version` confirma la versión del binario. `rei init status` indica si queda documentación pendiente de personalizar. `rei check` comprueba el arnés y los checks del proyecto, y `rei validate` revisa la coherencia de un Work Item.",
         },
         {
           kind: "paragraph",
@@ -94,10 +94,10 @@ export const GUIAS_ACTUALIZAR_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "rei init --update no instala el arnés desde cero: para eso se usa rei init.",
-            "--update no modifica .rei/specs/** ni .rei/progress/**: el trabajo en curso no se pierde.",
-            "Los documentos personalizados se conservan con aviso; solo --force los sobrescribe.",
-            "--update regenera los subagentes nativos solo si el proyecto ya tiene .opencode/ o .claude/.",
+            "`rei init --update` no instala el arnés desde cero: para eso se usa `rei init`.",
+            "`--update` no modifica `.rei/specs/**` ni `.rei/progress/**`: el trabajo en curso no se pierde.",
+            "Los documentos personalizados se conservan con aviso; solo `--force` los sobrescribe.",
+            "`--update` regenera los subagentes nativos solo si el proyecto ya tiene `.opencode/` o `.claude/`.",
             "En Windows, la actualización del binario es manual desde la página de releases.",
           ],
         },

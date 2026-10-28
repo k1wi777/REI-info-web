@@ -24,7 +24,7 @@ export const GUIAS_VISOR_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "Un proyecto inicializado con .rei/ y el binario rei disponible.",
+            "Un proyecto inicializado con `.rei/` y el binario rei disponible.",
             "Una sesión activa o el identificador del Work Item que quieres ver.",
             "Un navegador local; el visor sirve un HTTP en tu máquina y no despliega nada.",
             "El puerto libre que el propio visor elige y comunica al arrancar.",
@@ -40,12 +40,12 @@ export const GUIAS_VISOR_DOCUMENT: DocContent = {
           kind: "list",
           ordered: true,
           items: [
-            "Ejecuta rei view sin identificador para abrir el Work Item de la sesión activa. Si no hay sesión, indica uno con rei view <id>.",
-            "Si no quieres bloquear la terminal, usa rei view --open: arranca o reutiliza el servidor en segundo plano y abre el navegador. Los modos --open, --stop, --enable y --disable son mutuamente excluyentes.",
-            "Revisa los documentos de planificación y progreso, el TOC, la validación, la sesión, el diff y la FICHA. La FICHA muestra issue, base y épica cuando links.json existe.",
+            "Ejecuta `rei view` sin identificador para abrir el Work Item de la sesión activa. Si no hay sesión, indica uno con `rei view <id>`.",
+            "Si no quieres bloquear la terminal, usa `rei view --open`: arranca o reutiliza el servidor en segundo plano y abre el navegador. Los modos `--open`, `--stop`, `--enable` y `--disable` son mutuamente excluyentes.",
+            "Revisa los documentos de planificación y progreso, el TOC, la validación, la sesión, el diff y la FICHA. La FICHA muestra issue, base y épica cuando `links.json` existe.",
             "Deja la pestaña abierta si quieres seguir el estado: el badge y la FICHA se refrescan en vivo por SSE cuando cambian en disco.",
-            "Cierra el servidor con rei view --stop, con Ctrl+C o esperando el tiempo de inactividad. En segundo plano también se cierra poco después de mostrar «terminado» cuando el Work Item llega a done.",
-            "Activa o desactiva la apertura automática al llegar a ready con rei view --enable o rei view --disable. Solo cambia viewer.autoOpenOnReady en .rei/config.json.",
+            "Cierra el servidor con `rei view --stop`, con Ctrl+C o esperando el tiempo de inactividad. En segundo plano también se cierra poco después de mostrar «terminado» cuando el Work Item llega a done.",
+            "Activa o desactiva la apertura automática al llegar a ready con `rei view --enable` o `rei view --disable`. Solo cambia `viewer.autoOpenOnReady` en `.rei/config.json`.",
           ],
         },
         {
@@ -58,7 +58,7 @@ export const GUIAS_VISOR_DOCUMENT: DocContent = {
           kind: "note",
           tone: "warning",
           title: "El visor no aprueba",
-          text: "No tiene botón ni ruta de aprobación. Ver el estado en el visor no equivale a aprobar: la aprobación se registra desde el chat o la terminal y el Leader ejecuta rei status set.",
+          text: "No tiene botón ni ruta de aprobación. Ver el estado en el visor no equivale a aprobar: la aprobación se registra desde el chat o la terminal y el Leader ejecuta `rei status set`.",
         },
         {
           kind: "note",
@@ -79,7 +79,7 @@ export const GUIAS_VISOR_DOCUMENT: DocContent = {
         },
         {
           kind: "paragraph",
-          text: "Comprueba que el estado y la FICHA del visor coinciden con la ficha del CLI y con links.json, y que el diff corresponde a los cambios reales del Work Item. Si el visor muestra un estado antiguo, actualiza la página: el refresco depende de la conexión SSE.",
+          text: "Comprueba que el estado y la FICHA del visor coinciden con la ficha del CLI y con `links.json`, y que el diff corresponde a los cambios reales del Work Item. Si el visor muestra un estado antiguo, actualiza la página: el refresco depende de la conexión SSE.",
         },
       ],
     },
@@ -90,7 +90,7 @@ export const GUIAS_VISOR_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "Es de solo lectura: no aprueba, no modifica documentos, meta.json ni el estado del Work Item.",
+            "Es de solo lectura: no aprueba, no modifica documentos, `meta.json` ni el estado del Work Item.",
             "No sustituye la respuesta humana en el chat o la terminal, ni el CLI, ni el historial de git.",
             "No carga JavaScript, CSS ni fuentes de terceros: sus assets van embebidos en el binario.",
             "No expone una ruta de aprobación ni un botón que cambie el estado.",

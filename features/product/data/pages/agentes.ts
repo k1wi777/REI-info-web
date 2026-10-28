@@ -32,7 +32,7 @@ export const AGENTES_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Leader, Spec Author, Implementer y Reviewer recorren el Work Item de principio a fin. El Initializer queda fuera del ciclo: conduce la personalización guiada de la documentación del proyecto después de rei init, cuando quedan marcadores pendientes.",
+          text: "Leader, Spec Author, Implementer y Reviewer recorren el Work Item de principio a fin. El Initializer queda fuera del ciclo: conduce la personalización guiada de la documentación del proyecto después de `rei init`, cuando quedan marcadores pendientes.",
         },
         {
           kind: "note",
@@ -48,11 +48,11 @@ export const AGENTES_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "El contrato canónico vive en .rei/agents/. Si el runtime dispone de adaptador nativo, rei init opencode o rei init claude generan un subagente por rol a partir de la sección ## Contrato. Cursor y Codex funcionan por fallback: el Leader transmite únicamente ese contrato, sin configuración adicional.",
+          text: "El contrato canónico vive en `.rei/agents/`. Si el runtime dispone de adaptador nativo, `rei init opencode` o `rei init claude` generan un subagente por rol a partir de la sección `## Contrato`. Cursor y Codex funcionan por fallback: el Leader transmite únicamente ese contrato, sin configuración adicional.",
         },
         {
           kind: "paragraph",
-          text: "Los archivos generados llevan la marca GENERATED y la instalación es idempotente: si ya están al día, no se modifican, y nunca se sobrescribe un archivo que no hayan generado. rei init opencode --check o rei init claude --check detectan la deriva sin escribir nada.",
+          text: "Los archivos generados llevan la marca GENERATED y la instalación es idempotente: si ya están al día, no se modifican, y nunca se sobrescribe un archivo que no hayan generado. `rei init opencode --check` o `rei init claude --check` detectan la deriva sin escribir nada.",
         },
         {
           kind: "links",

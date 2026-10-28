@@ -15,7 +15,7 @@ export const CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Todo trabajo nace como Work Item con un identificador y un tipo. El tipo no es una etiqueta cosmética: decide la planificación que se genera y si la integración con GitHub abre issue y rama.",
+          text: "Todo trabajo nace como Work Item con un identificador y un tipo. El tipo no es una etiqueta cosmética: decide la planificación que se genera y si la integración con GitHub Issues abre issue y rama.",
         },
         {
           kind: "table",
@@ -23,12 +23,12 @@ export const CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT: DocContent = {
           rows: [
             [
               "Feature",
-              "requirements.md, design.md y tasks.md",
+              "`requirements.md`, `design.md` y `tasks.md`",
               "El trabajo necesita especificarse, hay varias decisiones de diseño o cambia el comportamiento o la arquitectura.",
             ],
             [
               "Task",
-              "plan.md",
+              "`plan.md`",
               "Documentación, contratos o un cambio pequeño y localizado, sin cambio de comportamiento ni de arquitectura.",
             ],
           ],
@@ -82,7 +82,7 @@ export const CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT: DocContent = {
           items: [
             "blocked se alcanza desde cualquier punto del ciclo cuando el trabajo no puede continuar; solo se sale con una causa resuelta.",
             "changes_requested lo produce un rechazo del Reviewer. El Work Item vuelve a in_progress con las correcciones solicitadas.",
-            "done es terminal: no se sale de él por una transición estándar. Una transición no estándar exige --force y una orden explícita.",
+            "done es terminal: no se sale de él por una transición estándar. Una transición no estándar exige `--force` y una orden explícita.",
           ],
         },
       ],
@@ -100,12 +100,12 @@ export const CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT: DocContent = {
           columns: ["Archivo", "Qué registra", "Para qué sirve"],
           rows: [
             [
-              "meta.json",
-              "Tipo, estado, base_commit y last_review_commit de cada Work Item.",
+              "`meta.json`",
+              "Tipo, estado, `base_commit` y `last_review_commit` de cada Work Item.",
               "Registro duradero y diagnóstico del conjunto de Work Items.",
             ],
             [
-              "current.md",
+              "`current.md`",
               "Estado, bitácora y próximo paso de la sesión activa.",
               "Retomar el trabajo exactamente donde quedó si la sesión se interrumpe.",
             ],
@@ -113,7 +113,7 @@ export const CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT: DocContent = {
         },
         {
           kind: "paragraph",
-          text: "El límite de un solo in_progress es duro. Lo aplican rei status set al intentar activar otro Work Item, también con --force, y lo comprueban rei check, rei doctor y rei items status. Antes de iniciar otro, hay que cerrar, bloquear o revisar el activo.",
+          text: "El límite de un solo in_progress es duro. Lo aplican `rei status set` al intentar activar otro Work Item, también con `--force`, y lo comprueban `rei check`, `rei doctor` y `rei items status`. Antes de iniciar otro, hay que cerrar, bloquear o revisar el activo.",
         },
       ],
     },

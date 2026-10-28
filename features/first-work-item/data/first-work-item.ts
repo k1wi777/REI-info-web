@@ -9,7 +9,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "En la raíz de tu proyecto, rei init despliega AGENTS.md y la carpeta .rei/, prepara la estructura de estado e inicializa git si falta. No sobrescribe archivos existentes.",
+        text: "En la raíz de tu proyecto, `rei init` despliega `AGENTS.md` y la carpeta `.rei/`, prepara la estructura de estado e inicializa `git` si falta. No sobrescribe archivos existentes.",
       },
       {
         kind: "code",
@@ -20,7 +20,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
         kind: "note",
         tone: "info",
         title: "Comprueba el estado",
-        text: "rei init status indica qué documentación falta por personalizar; rei doctor hace un diagnóstico de solo lectura.",
+        text: "`rei init status` indica qué documentación falta por personalizar; `rei doctor` hace un diagnóstico de solo lectura.",
       },
     ],
   },
@@ -30,7 +30,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "El arnés necesita conocer tu proyecto. En OpenCode o Claude Code puedes ejecutar /personalize; en cualquier runtime, pide al agente «personaliza mi proyecto» y el rol Initializer conducirá la entrevista.",
+        text: "El arnés necesita conocer tu proyecto. En OpenCode o Claude Code puedes ejecutar `/personalize`; en cualquier runtime, pide al agente «personaliza mi proyecto» y el rol Initializer conducirá la entrevista.",
       },
       {
         kind: "list",
@@ -65,7 +65,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
       },
       {
         kind: "paragraph",
-        text: "Una Feature exige requirements.md, design.md y tasks.md; una Task se planifica con un único plan.md para cambios pequeños y localizados.",
+        text: "Una Feature exige `requirements.md`, `design.md` y `tasks.md`; una Task se planifica con un único `plan.md` para cambios pequeños y localizados.",
       },
     ],
   },
@@ -109,7 +109,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
         kind: "note",
         tone: "warning",
         title: "El silencio no aprueba",
-        text: "Ningún Work Item pasa a implementación sin una aprobación explícita. El visor rei view es de solo lectura y no tiene botón de aprobación.",
+        text: "Ningún Work Item pasa a implementación sin una aprobación explícita. El visor `rei view` es de solo lectura y no tiene botón de aprobación.",
       },
     ],
   },
@@ -119,7 +119,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "El Implementer ejecuta solo la planificación aprobada, marca cada tarea al completarla y deja evidencia de verificación en .rei/progress/work-items/.",
+        text: "El Implementer ejecuta solo la planificación aprobada, marca cada tarea al completarla y deja evidencia de verificación en `.rei/progress/work-items/`.",
       },
       {
         kind: "code",
@@ -128,7 +128,7 @@ export const FIRST_WORK_ITEM_SECTIONS: DocSection[] = [
       },
       {
         kind: "paragraph",
-        text: "rei check verifica el arnés y ejecuta los checks declarados en .rei/config.json. Los checkpoints lentos, como el build de producción, se ejecutan al cerrar el Work Item.",
+        text: "`rei check` verifica el arnés y ejecuta los checks declarados en `.rei/config.json`. Los checkpoints lentos, como el build de producción, se ejecutan al cerrar el Work Item.",
       },
     ],
   },

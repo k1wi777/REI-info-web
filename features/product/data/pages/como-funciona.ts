@@ -17,7 +17,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
         { kind: "flow" },
         {
           kind: "paragraph",
-          text: "El estado del trabajo no vive en la conversación: meta.json registra la etapa de cada Work Item y current.md refleja la sesión activa para poder retomarla.",
+          text: "El estado del trabajo no vive en la conversación: `meta.json` registra la etapa de cada Work Item y `current.md` refleja la sesión activa para poder retomarla.",
         },
       ],
     },
@@ -27,7 +27,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "La puerta es real: el Work Item queda en ready hasta que la persona revisa la planificación y decide. La aprobación se da en el chat o en la terminal, y el Leader registra el paso con rei status set <id> in_progress. El visor no la sustituye.",
+          text: "La puerta es real: el Work Item queda en ready hasta que la persona revisa la planificación y decide. La aprobación se da en el chat o en la terminal, y el Leader registra el paso con `rei status set <id> in_progress`. El visor no la sustituye.",
         },
         {
           kind: "note",
@@ -60,7 +60,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
         {
           kind: "list",
           items: [
-            "Solo puede existir un Work Item in_progress a la vez. El límite lo aplican rei status set, rei check, rei doctor y rei items status.",
+            "Solo puede existir un Work Item in_progress a la vez. El límite lo aplican `rei status set`, `rei check`, `rei doctor` y `rei items status`.",
             "done es terminal: no se sale de él por una transición estándar.",
             "Si el Reviewer rechaza, el Work Item pasa a changes_requested y vuelve a in_progress con las correcciones.",
             "Si el trabajo no puede continuar en cualquier punto, pasa a blocked.",
@@ -82,7 +82,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
             "Elegible: documentación, erratas, formato, comentarios o ajustes triviales sin cambio de comportamiento.",
             "Negativa: si afecta comportamiento, seguridad, datos, dependencias, API pública, arquitectura, más de un archivo o necesita especificación, el Leader se niega y ofrece una Task o una Feature.",
             "Autorización: el Leader pide confirmación explícita e informa de que no habrá planificación, rama ni registro.",
-            "Sin registro: la única traza es el diff o commit y la conversación; no se escribe current.md, meta.json ni history.md.",
+            "Sin registro: la única traza es el diff o commit y la conversación; no se escribe `current.md`, `meta.json` ni `history.md`.",
             "Entrega: sin una orden explícita no hay commit, push, PR ni merge.",
           ],
         },

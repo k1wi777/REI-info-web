@@ -41,7 +41,10 @@ export const OPERACION_CHANGELOG_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: `Esta web documenta ${DOCUMENTED_VERSION}. La versión y su fecha viven en content/site.ts; la versión se muestra también en el pie del sitio y el changelog no la duplica a mano.`,
+          text:
+            "Esta web documenta " +
+            DOCUMENTED_VERSION +
+            ". La versión y su fecha viven en `content/site.ts`; la versión se muestra también en el pie del sitio y el changelog no la duplica a mano.",
         },
         {
           kind: "table",
@@ -70,7 +73,7 @@ export const OPERACION_CHANGELOG_DOCUMENT: DocContent = {
           columns: ["Tema", "Qué cambió"],
           rows: [
             [
-              "GitHub v2",
+              "GitHub Issues v2",
               "Épicas, backlog de hijas y base por Work Item decidida en la puerta de aprobación.",
             ],
             [
@@ -78,12 +81,12 @@ export const OPERACION_CHANGELOG_DOCUMENT: DocContent = {
               "El visor pasa a ser de solo lectura y el arnés exige un único Work Item activo.",
             ],
             [
-              "rei init",
+              "`rei init`",
               "El esqueleto neutro se separa del proyecto vivo y no sobrescribe archivos existentes.",
             ],
             [
               "Validación y enlaces",
-              "Validación offline y links.json visible en rei item show y rei items status.",
+              "Validación offline y `links.json` visible en `rei item show` y `rei items status`.",
             ],
             [
               "Workflow",
@@ -91,7 +94,7 @@ export const OPERACION_CHANGELOG_DOCUMENT: DocContent = {
             ],
             [
               "Archivado de sesión",
-              "rei session archive rechaza Work Items que no están en un estado terminal.",
+              "`rei session archive` rechaza Work Items que no están en un estado terminal.",
             ],
           ],
         },

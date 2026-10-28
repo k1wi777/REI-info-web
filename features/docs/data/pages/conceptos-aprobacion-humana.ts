@@ -53,7 +53,7 @@ export const CONCEPTOS_APROBACION_HUMANA_DOCUMENT: DocContent = {
           kind: "list",
           items: [
             "El silencio no aprueba: una respuesta ambigua tampoco. Sin una confirmación inequívoca, el Work Item se queda en ready.",
-            "Abrir el visor no aprueba: rei view es de solo lectura y no tiene botón ni ruta de aprobación.",
+            "Abrir el visor no aprueba: `rei view` es de solo lectura y no tiene botón ni ruta de aprobación.",
             "Leer la planificación no aprueba: la decisión se comunica y se registra, no se deduce.",
             "Aprobar no bloquea cambios futuros: si la implementación se desvía, el Reviewer puede rechazarla.",
           ],
@@ -81,13 +81,13 @@ export const CONCEPTOS_APROBACION_HUMANA_DOCUMENT: DocContent = {
         },
         {
           kind: "paragraph",
-          text: "Al aprobar, el Leader registra también el commit de inicio de la implementación en base_commit. Si la integración con GitHub está activa y el Work Item es una Feature, la puerta issue + rama se resuelve en este mismo momento, antes de mover el estado.",
+          text: "Al aprobar, el Leader registra también el commit de inicio de la implementación en `base_commit`. Si la integración con GitHub Issues está activa y el Work Item es una Feature, la puerta issue + rama se resuelve en este mismo momento, antes de mover el estado.",
         },
         {
           kind: "note",
           tone: "info",
           title: "Una sola sesión activa",
-          text: "El paso a in_progress puede rechazarse si ya hay otro Work Item activo. El límite es duro y también se aplica con --force.",
+          text: "El paso a in_progress puede rechazarse si ya hay otro Work Item activo. El límite es duro y también se aplica con `--force`.",
         },
       ],
     },
@@ -111,7 +111,7 @@ export const CONCEPTOS_APROBACION_HUMANA_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Si quieres ver la puerta en un ciclo real, empieza por el tutorial. Si ya trabajas con Work Items, la guía de GitHub explica cómo la puerta convive con issue y rama.",
+          text: "Si quieres ver la puerta en un ciclo real, empieza por el tutorial. Si ya trabajas con Work Items, la guía de GitHub Issues explica cómo la puerta convive con issue y rama.",
         },
         {
           kind: "links",
@@ -125,8 +125,8 @@ export const CONCEPTOS_APROBACION_HUMANA_DOCUMENT: DocContent = {
               href: "/docs/conceptos/sdd",
             },
             {
-              label: "Activar la integración con GitHub",
-              href: "/docs/guias/github",
+              label: "Activar la integración con GitHub Issues",
+              href: "/docs/guias/github-issues",
             },
             {
               label: "Resolver dudas frecuentes",

@@ -62,7 +62,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
       {
         title: "Evidencia versionada",
         description:
-          "Planificación, progreso e historial viven en .rei/, no en el chat.",
+          "Planificación, progreso e historial viven en `.rei/`, no en el chat.",
       },
     ],
     link: {
@@ -150,24 +150,24 @@ export const HOME_BLOCKS: HomeBlock[] = [
   {
     id: "github",
     eyebrow: "06 · Integración",
-    title: "GitHub es una proyección, no la fuente de verdad",
+    title: "GitHub Issues es una proyección, no la fuente de verdad",
     intro:
-      "La integración es opcional y no cambia dónde vive el estado del trabajo.",
+      "La integración GitHub Issues es opcional y no cambia dónde vive el estado del trabajo.",
     items: [
       {
         title: "Opcional",
         description:
-          "Se activa con rei github enable; el flujo funciona sin ella.",
+          "Se activa con `rei github enable`; el flujo funciona sin ella.",
       },
       {
         title: "Proyección",
         description:
-          "Issues, ramas y PR reflejan el trabajo; .rei manda sobre la ejecución.",
+          "Issues, ramas y PR reflejan el trabajo; `.rei` manda sobre la ejecución.",
       },
       {
         title: "Quién llama a GitHub",
         description:
-          "Nunca el CLI: lo hacen gh y git bajo orden explícita del Leader.",
+          "Nunca el CLI: lo hacen `gh` y `git` bajo orden explícita del Leader.",
       },
     ],
   },
@@ -189,7 +189,7 @@ export const HOME_BLOCKS: HomeBlock[] = [
           "La aprobación se registra desde el CLI, no desde el navegador.",
       },
       {
-        title: "GitHub es opcional",
+        title: "GitHub Issues es opcional",
         description:
           "No es la fuente de verdad del Work Item ni un requisito para trabajar.",
       },

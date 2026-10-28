@@ -6,7 +6,7 @@ export const REFERENCIA_CONFIGURACION_PATH: DocsContentPath =
 export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
   path: REFERENCIA_CONFIGURACION_PATH,
   eyebrow: "Referencia · Configuración",
-  meta: "checks · GitHub · visor · códigos 0/1/2",
+  meta: "checks · GitHub Issues · visor · códigos 0/1/2",
   sections: [
     {
       id: "archivo",
@@ -14,7 +14,7 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: ".rei/config.json es la configuración del proyecto para el arnés: declara los checks rápidos que ejecuta rei check, la integración opcional con GitHub y el comportamiento del visor. Vive en la raíz de .rei/ y se escribe con rei init; después se edita a mano o con los comandos que lo modifican.",
+          text: "`.rei/config.json` es la configuración del proyecto para el arnés: declara los checks rápidos que ejecuta `rei check`, la integración opcional con GitHub Issues y el comportamiento del visor. Vive en la raíz de `.rei/` y se escribe con `rei init`; después se edita a mano o con los comandos que lo modifican.",
         },
         {
           kind: "code",
@@ -24,7 +24,7 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
         },
         {
           kind: "paragraph",
-          text: "Las tres claves son independientes: puedes declarar checks sin GitHub y configurar el visor sin checks. La ausencia de integrations.github significa que la integración está desactivada.",
+          text: "Las tres claves son independientes: puedes declarar checks sin GitHub Issues y configurar el visor sin checks. La ausencia de `integrations.github` significa que la integración está desactivada.",
         },
       ],
     },
@@ -34,16 +34,16 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "checks es un array de checkpoints rápidos. rei check los ejecuta, además de sus propias comprobaciones del arnés, y refleja el resultado en su código de salida.",
+          text: "`checks` es un array de checkpoints rápidos. `rei check` los ejecuta, además de sus propias comprobaciones del arnés, y refleja el resultado en su código de salida.",
         },
         {
           kind: "table",
           columns: ["Campo", "Contenido"],
           rows: [
-            ["id", "Identificador estable del checkpoint, como V1 o V4."],
-            ["description", "Qué valida el check, en una frase."],
+            ["`id`", "Identificador estable del checkpoint, como V1 o V4."],
+            ["`description`", "Qué valida el check, en una frase."],
             [
-              "command",
+              "`command`",
               "Array de argumentos del comando. Se ejecuta sin shell intermedio.",
             ],
           ],
@@ -51,8 +51,8 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "command no interpreta redirecciones, tuberías ni variables de shell: cada elemento del array es un argumento literal.",
-            "Solo van aquí los checks rápidos. El build completo, e2e o la integración se documentan en .rei/docs/project/verification.md y se ejecutan al cerrar el Work Item.",
+            "`command` no interpreta redirecciones, tuberías ni variables de shell: cada elemento del array es un argumento literal.",
+            "Solo van aquí los checks rápidos. El build completo, e2e o la integración se documentan en `.rei/docs/project/verification.md` y se ejecutan al cerrar el Work Item.",
             "Los ids y los comandos deben coincidir con los checkpoints declarados en la documentación del proyecto.",
           ],
         },
@@ -64,33 +64,33 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "La integración con GitHub es opcional y se configura bajo integrations.github. El CLI nunca llama a GitHub: los comandos solo escriben esta configuración y el agente ejecuta las acciones con gh y git.",
+          text: "La integración con GitHub Issues es opcional y se configura bajo `integrations.github`. El CLI nunca llama a GitHub: los comandos solo escriben esta configuración y el agente ejecuta las acciones con `gh` y `git`.",
         },
         {
           kind: "table",
           columns: ["Campo", "Valor"],
           rows: [
             [
-              "enabled",
+              "`enabled`",
               "true activa la integración; false la desactiva y conserva repo, base, mergeStrategy y los enlaces locales.",
             ],
             [
-              "repo",
+              "`repo`",
               "Repositorio de destino en formato owner/name. No tiene valor por defecto: sin flag ni valor previo se detecta desde el remoto origin.",
             ],
             [
-              "base",
+              "`base`",
               "Rama base de respaldo. Usa main cuando no hay valor previo ni detección desde origin/HEAD.",
             ],
             [
-              "mergeStrategy",
+              "`mergeStrategy`",
               "Estrategia de merge del PR: squash, merge o rebase. Usa squash por defecto.",
             ],
           ],
         },
         {
           kind: "paragraph",
-          text: "base es solo el fallback: la base efectiva se decide por Work Item en la puerta y vive en links.json, no en .rei/config.json. rei github status es offline y no conoce la base efectiva de cada Work Item.",
+          text: "`base` es solo el fallback: la base efectiva se decide por Work Item en la puerta y vive en `links.json`, no en `.rei/config.json`. `rei github status` es offline y no conoce la base efectiva de cada Work Item.",
         },
       ],
     },
@@ -100,15 +100,15 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "viewer.autoOpenOnReady es un booleano. Con true, el Leader abre el visor con rei view <id> --open en la puerta de aprobación, sin bloquear la conversación. Con false o sin la clave, no ejecuta nada y el flujo es idéntico.",
+          text: "`viewer.autoOpenOnReady` es un booleano. Con true, el Leader abre el visor con `rei view <id> --open` en la puerta de aprobación, sin bloquear la conversación. Con false o sin la clave, no ejecuta nada y el flujo es idéntico.",
         },
         {
           kind: "list",
           items: [
-            "rei view --enable activa viewer.autoOpenOnReady en .rei/config.json.",
-            "rei view --disable lo desactiva.",
+            "`rei view --enable` activa `viewer.autoOpenOnReady` en `.rei/config.json`.",
+            "`rei view --disable` lo desactiva.",
             "Ambos flags solo cambian esa clave y conservan el resto del archivo.",
-            "El visor es de solo lectura: no aprueba ni modifica documentos, meta.json ni el estado del Work Item.",
+            "El visor es de solo lectura: no aprueba ni modifica documentos, `meta.json` ni el estado del Work Item.",
           ],
         },
       ],
@@ -119,16 +119,16 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "rei github enable resuelve cada valor con la misma precedencia: flag explícito > valor previo de integrations.github > detección desde git > valor por defecto. Un enable sin flags no sobrescribe valores ya configurados.",
+          text: "`rei github enable` resuelve cada valor con la misma precedencia: flag explícito > valor previo de `integrations.github` > detección desde `git` > valor por defecto. Un enable sin flags no sobrescribe valores ya configurados.",
         },
         {
           kind: "list",
           ordered: true,
           items: [
-            "El flag explícito manda: --repo owner/name, --base <rama> o --strategy squash|merge|rebase.",
-            "Si falta, se conserva el valor previo de integrations.github.",
-            "Si tampoco existe, se detecta desde git: origin para repo y origin/HEAD para base.",
-            "Si la detección falla, base usa main y mergeStrategy usa squash; repo no tiene default y exige un origin resoluble.",
+            "El flag explícito manda: `--repo owner/name`, `--base <rama>` o `--strategy squash|merge|rebase`.",
+            "Si falta, se conserva el valor previo de `integrations.github`.",
+            "Si tampoco existe, se detecta desde `git`: origin para `repo` y origin/HEAD para `base`.",
+            "Si la detección falla, `base` usa main y `mergeStrategy` usa squash; `repo` no tiene default y exige un origin resoluble.",
           ],
         },
         {
@@ -158,7 +158,7 @@ export const REFERENCIA_CONFIGURACION_DOCUMENT: DocContent = {
           kind: "note",
           tone: "info",
           title: "Avisos que no bloquean",
-          text: "Los avisos de gh ausente o sin autenticar no bloquean rei github enable: sale 0. Un links.json inválido se informa como WARN recuperable, nunca como FAIL.",
+          text: "Los avisos de `gh` ausente o sin autenticar no bloquean `rei github enable`: sale 0. Un `links.json` inválido se informa como WARN recuperable, nunca como FAIL.",
         },
         {
           kind: "links",

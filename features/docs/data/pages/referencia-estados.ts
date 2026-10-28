@@ -66,9 +66,9 @@ export const REFERENCIA_ESTADOS_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "rei status set <id> in_progress rechaza activar un segundo Work Item, también con --force.",
-            "rei check, rei doctor y rei items status fallan si detectan más de uno.",
-            "rei items status marca el Work Item activo con << ACTIVO y nombra los implicados cuando hay conflicto.",
+            "`rei status set <id> in_progress` rechaza activar un segundo Work Item, también con `--force`.",
+            "`rei check`, `rei doctor` y `rei items status` fallan si detectan más de uno.",
+            "`rei items status` marca el Work Item activo con << ACTIVO y nombra los implicados cuando hay conflicto.",
             "Antes de iniciar otro, hay que cerrar el activo (review o done), bloquearlo o revisarlo.",
           ],
         },
@@ -90,7 +90,7 @@ export const REFERENCIA_ESTADOS_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "done cierra el Work Item: no se sale de él por una transición estándar. La única salida es done → blocked con --force, reservada a una transición no estándar con una orden explícita del usuario.",
+          text: "done cierra el Work Item: no se sale de él por una transición estándar. La única salida es done → blocked con `--force`, reservada a una transición no estándar con una orden explícita del usuario.",
         },
         {
           kind: "code",
@@ -102,7 +102,7 @@ export const REFERENCIA_ESTADOS_DOCUMENT: DocContent = {
           kind: "note",
           tone: "warning",
           title: "No es un atajo",
-          text: "--force solo autoriza una transición no estándar, como done → blocked, y requiere una orden explícita. No cambia el límite de un solo in_progress: rei status set lo sigue rechazando también con --force.",
+          text: "`--force` solo autoriza una transición no estándar, como done → blocked, y requiere una orden explícita. No cambia el límite de un solo in_progress: `rei status set` lo sigue rechazando también con `--force`.",
         },
       ],
     },
@@ -119,7 +119,7 @@ export const REFERENCIA_ESTADOS_DOCUMENT: DocContent = {
           items: [
             "blocked se alcanza desde cualquier estado no terminal cuando el trabajo no puede continuar; se sale con la causa resuelta.",
             "changes_requested lo produce un rechazo del Reviewer en review. El Work Item vuelve a in_progress con las correcciones solicitadas.",
-            "En changes_requested, el Reviewer registra last_review_commit para que la siguiente revisión vea solo lo cambiado.",
+            "En changes_requested, el Reviewer registra `last_review_commit` para que la siguiente revisión vea solo lo cambiado.",
           ],
         },
         {

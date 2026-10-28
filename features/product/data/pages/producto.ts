@@ -42,7 +42,7 @@ export const PRODUCTO_DOCUMENT: ProductDocument = {
             "Aprobación humana: ningún Work Item pasa a implementación sin una firma explícita; el silencio no aprueba.",
             "Roles separados: Leader, Spec Author, Implementer y Reviewer tienen contrato propio; el Initializer personaliza la documentación del proyecto.",
             "Guardarraíles: alcance definido, verificación obligatoria y reglas duras.",
-            "Trazabilidad: planificación, progreso, decisiones e historial viven en .rei/.",
+            "Trazabilidad: planificación, progreso, decisiones e historial viven en `.rei/`.",
             "Documentación viva: lo que la web afirma se puede rastrear al repositorio o a una fuente citada.",
             "Runtime-agnóstico y local-first: el contrato de rol y el CLI son el valor; el adaptador es opcional.",
           ],
@@ -100,7 +100,7 @@ export const PRODUCTO_DOCUMENT: ProductDocument = {
             "El porqué antes del qué: el proceso y el problema justifican los comandos.",
             "La aprobación humana es el producto: el flujo hace visible la puerta, no la esconde.",
             "La documentación es la fuente de verdad: cada afirmación se puede rastrear.",
-            "Mostrar límites da confianza: el visor es de solo lectura, GitHub es opcional y el modo directo tiene restricciones.",
+            "Mostrar límites da confianza: el visor es de solo lectura, GitHub Issues es opcional y el modo directo tiene restricciones.",
             "Una sola fuente por dato y dependencias mínimas: comandos, estados y roles se definen una vez.",
           ],
         },
@@ -115,7 +115,7 @@ export const PRODUCTO_DOCUMENT: ProductDocument = {
           items: [
             "No es un generador de código ni un agente autónomo que trabaja solo.",
             "No es el repositorio del CLI: el código vive en su propio repositorio y esta web lo documenta.",
-            "No es el visor de specs: rei view es local y de solo lectura.",
+            "No es el visor de specs: `rei view` es local y de solo lectura.",
             "No es un panel de control: la web no ejecuta comandos ni modifica Work Items.",
             "No es un escaparate de métricas: sin clientes, testimonios ni cifras no demostrables.",
           ],
@@ -213,7 +213,7 @@ export const PRODUCTO_DOCUMENT: ProductDocument = {
               "El valor está en el contrato de rol y el CLI; el adaptador es opcional.",
             ],
             [
-              "GitHub opcional",
+              "GitHub Issues opcional",
               "Issues, ramas y PR son una proyección del trabajo, no la fuente de verdad.",
             ],
             [
@@ -236,7 +236,7 @@ export const PRODUCTO_DOCUMENT: ProductDocument = {
             { label: "Ver los cinco roles", href: "/producto/agentes" },
             { label: "Entender los Work Items", href: "/producto/work-items" },
             { label: "Qué hace el visor", href: "/producto/visor" },
-            { label: "Cómo encaja GitHub", href: "/producto/github" },
+            { label: "Cómo encaja GitHub Issues", href: "/producto/github-issues" },
             { label: "Referencia de comandos", href: "/docs/referencia/comandos" },
             {
               label: "Repositorio de REI Harness",

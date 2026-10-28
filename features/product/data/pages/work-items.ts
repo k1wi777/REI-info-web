@@ -12,7 +12,7 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Todo trabajo nace como Work Item con un identificador y un tipo. El tipo decide qué planificación se genera y si la integración con GitHub abre issue y rama.",
+          text: "Todo trabajo nace como Work Item con un identificador y un tipo. El tipo decide qué planificación se genera y si la integración con GitHub Issues abre issue y rama.",
         },
         {
           kind: "table",
@@ -20,12 +20,12 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
           rows: [
             [
               "Feature",
-              "requirements.md, design.md y tasks.md",
+              "`requirements.md`, `design.md` y `tasks.md`",
               "El trabajo necesita especificación, hay varias decisiones de diseño o cambia el comportamiento o la arquitectura.",
             ],
             [
               "Task",
-              "plan.md",
+              "`plan.md`",
               "Documentación, contratos o un cambio pequeño y localizado, sin cambio de comportamiento ni de arquitectura.",
             ],
           ],
@@ -77,28 +77,28 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
           columns: ["Documento", "Qué deja", "Quién lo escribe"],
           rows: [
             [
-              "impl.md",
+              "`impl.md`",
               "Resumen, archivos, cambios y verificación de la implementación.",
               "Implementer",
             ],
             [
-              "review.md",
+              "`review.md`",
               "Veredicto, verificaciones, observaciones y acciones requeridas.",
               "Reviewer",
             ],
             [
-              "current.md",
+              "`current.md`",
               "Sesión viva: estado, bitácora y próximo paso.",
               "Spec Author lo inicia; Implementer lo mantiene",
             ],
             [
-              "history.md",
+              "`history.md`",
               "Archivo append-only con el resumen de cada Work Item cerrado.",
               "Reviewer al archivar la sesión",
             ],
             [
-              "meta.json",
-              "Tipo, estado, base_commit y last_review_commit.",
+              "`meta.json`",
+              "Tipo, estado, `base_commit` y `last_review_commit`.",
               "Leader al crear y aprobar; Reviewer al rechazar",
             ],
           ],
@@ -111,7 +111,7 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Con git, la revisión se acota a los cambios reales del Work Item. base_commit marca el inicio de la implementación y last_review_commit el punto ya revisado; rei review-diff genera el paquete de revisión. Sin git, el flujo sigue funcionando en modo lectura.",
+          text: "Con `git`, la revisión se acota a los cambios reales del Work Item. `base_commit` marca el inicio de la implementación y `last_review_commit` el punto ya revisado; `rei review-diff` genera el paquete de revisión. Sin `git`, el flujo sigue funcionando en modo lectura.",
         },
         {
           kind: "note",

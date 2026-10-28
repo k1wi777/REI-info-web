@@ -33,7 +33,7 @@ export const CONCEPTOS_SDD_DOCUMENT: DocContent = {
       blocks: [
         {
           kind: "paragraph",
-          text: "El tipo de Work Item decide la planificación. Una Feature necesita requisitos, diseño y tareas; una Task se resuelve con un plan breve. En ambos casos la planificación vive en .rei/specs/<work-item-id>/ y se aprueba antes de implementarse.",
+          text: "El tipo de Work Item decide la planificación. Una Feature necesita requisitos, diseño y tareas; una Task se resuelve con un plan breve. En ambos casos la planificación vive en `.rei/specs/<work-item-id>/` y se aprueba antes de implementarse.",
         },
         {
           kind: "table",
@@ -41,12 +41,12 @@ export const CONCEPTOS_SDD_DOCUMENT: DocContent = {
           rows: [
             [
               "Feature",
-              "requirements.md, design.md y tasks.md",
+              "`requirements.md`, `design.md` y `tasks.md`",
               "Trabajo que necesita especificarse, varias decisiones de diseño, cambio de comportamiento o de arquitectura.",
             ],
             [
               "Task",
-              "plan.md",
+              "`plan.md`",
               "Documentación, contratos o un cambio pequeño y localizado, sin cambio de comportamiento ni de arquitectura.",
             ],
           ],
@@ -54,10 +54,10 @@ export const CONCEPTOS_SDD_DOCUMENT: DocContent = {
         {
           kind: "list",
           items: [
-            "meta.json guarda el tipo, el estado y los commits de referencia del Work Item.",
-            "current.md refleja la sesión viva para poder retomarla si se interrumpe.",
-            "impl.md y review.md dejan la evidencia de la implementación y del veredicto.",
-            "history.md archiva el resumen de los Work Items cerrados y nunca se sobrescribe.",
+            "`meta.json` guarda el tipo, el estado y los commits de referencia del Work Item.",
+            "`current.md` refleja la sesión viva para poder retomarla si se interrumpe.",
+            "`impl.md` y `review.md` dejan la evidencia de la implementación y del veredicto.",
+            "`history.md` archiva el resumen de los Work Items cerrados y nunca se sobrescribe.",
           ],
         },
       ],

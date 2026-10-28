@@ -23,7 +23,7 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
         kind: "note",
         tone: "info",
         title: "Compilar desde el código",
-        text: "Si trabajas sobre el repositorio de REI Harness y tienes Go instalado, make build deja el binario en bin/rei.",
+        text: "Si trabajas sobre el repositorio de REI Harness y tienes Go instalado, `make build` deja el binario en `bin/rei`.",
       },
     ],
   },
@@ -42,7 +42,7 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
       },
       {
         kind: "paragraph",
-        text: "Puedes moverlo a cualquier directorio incluido en tu PATH, como ~/.local/bin.",
+        text: "Puedes moverlo a cualquier directorio incluido en tu PATH, como `~/.local/bin`.",
       },
       {
         kind: "note",
@@ -82,7 +82,7 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
       },
       {
         kind: "paragraph",
-        text: "rei update descarga la última release, verifica el checksum SHA-256 y reemplaza el ejecutable de forma atómica. rei update --check solo comprueba si hay una versión nueva, sin descargar ni modificar nada.",
+        text: "`rei update` descarga la última release, verifica el checksum SHA-256 y reemplaza el ejecutable de forma atómica. `rei update --check` solo comprueba si hay una versión nueva, sin descargar ni modificar nada.",
       },
       {
         kind: "note",

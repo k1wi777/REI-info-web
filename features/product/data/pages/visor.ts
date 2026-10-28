@@ -51,7 +51,7 @@ export const VISOR_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "El badge de estado y la FICHA se refrescan en vivo por SSE. Cuando el Work Item llega a done, el visor se cierra poco después de mostrar «terminado»; --stop, el tiempo de inactividad y Ctrl+C también lo detienen.",
+          text: "El badge de estado y la FICHA se refrescan en vivo por SSE. Cuando el Work Item llega a done, el visor se cierra poco después de mostrar «terminado»; `--stop`, el tiempo de inactividad y Ctrl+C también lo detienen.",
         },
       ],
     },
@@ -72,7 +72,7 @@ export const VISOR_DOCUMENT: ProductDocument = {
           kind: "note",
           tone: "info",
           title: "La aprobación se registra desde el CLI",
-          text: "Ver el estado en el visor no equivale a aprobar. El paso a in_progress lo registra el Leader con rei status set.",
+          text: "Ver el estado en el visor no equivale a aprobar. El paso a in_progress lo registra el Leader con `rei status set`.",
         },
       ],
     },
