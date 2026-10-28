@@ -46,7 +46,7 @@ export function ProblemDemo() {
               <h3 className="mt-4 type-docs-heading text-balance text-foreground">
                 {column.title}
               </h3>
-              <p className="mt-2 max-w-[46ch] type-docs text-secondary">
+              <p className="mt-2 max-w-[46ch] type-body text-secondary">
                 {column.intro}
               </p>
             </header>
@@ -61,7 +61,7 @@ export function ProblemDemo() {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
                       <span className="inline-flex items-center gap-1.5 type-meta-sm text-muted-strong">
                         <span
                           aria-hidden="true"
@@ -76,7 +76,7 @@ export function ProblemDemo() {
                         {step.title}
                       </h4>
                     </div>
-                    <p className="mt-1 type-docs text-secondary">
+                    <p className="mt-1 type-body text-secondary">
                       {step.detail}
                     </p>
                   </div>

@@ -34,7 +34,7 @@ function Stage({ stage, index }: StageProps) {
         </p>
       ) : null}
 
-      <p className="mt-3 type-docs text-secondary">{stage.detail}</p>
+      <p className="mt-3 type-body text-secondary">{stage.detail}</p>
     </li>
   );
 }
@@ -67,11 +67,11 @@ export function GateDemo() {
         {gate ? (
           <div className="border-y border-accent/40 bg-accent/10 px-5 py-5 sm:px-6">
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-              <h3 className="type-meta text-accent-text">{gate.label}</h3>
+              <p className="type-meta text-accent-text">{gate.label}</p>
               <StatusTag tone="accent">{APPROVAL_GATE.status}</StatusTag>
             </div>
 
-            <p className="mt-3 max-w-[62ch] type-docs text-secondary">
+            <p className="mt-3 max-w-[62ch] type-body text-secondary">
               {gate.detail}
             </p>
 

@@ -11,16 +11,16 @@ export function StateScale() {
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4">
-        <h2 className="type-meta text-muted-strong">Estados del ciclo</h2>
+        <p className="type-meta text-muted-strong">Estados del ciclo</p>
         <p className="type-meta-sm text-muted-strong">actual: {currentState}</p>
       </div>
 
       <div className="relative mt-5">
         <span
           aria-hidden="true"
-          className="absolute inset-x-0 top-[0.3125rem] h-px bg-hairline-strong"
+          className="absolute inset-x-0 top-[0.3125rem] hidden h-px bg-hairline-strong sm:block"
         />
-        <ol className="relative grid grid-cols-5 gap-1">
+        <ol className="relative grid grid-cols-3 gap-x-3 gap-y-3 sm:grid-cols-5 sm:gap-1">
           {CYCLE_STATES.map((state) => {
             const isCurrent = state.id === currentState;
             const isDone = state.id === "done";

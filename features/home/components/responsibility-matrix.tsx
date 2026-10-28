@@ -13,7 +13,7 @@ export function ResponsibilityMatrix() {
       aria-labelledby="home-matrix-title"
       className="min-w-0 border border-hairline-strong bg-surface"
     >
-      <header className="border-b border-hairline-strong px-4 py-3">
+      <header className="border-b border-hairline-strong px-4 py-3.5">
         <div className="flex items-baseline justify-between gap-4">
           <p className="type-meta text-muted-strong">
             {EXAMPLE_SHEET.code} / {EXAMPLE_SHEET.type}
@@ -22,20 +22,25 @@ export function ResponsibilityMatrix() {
             {EXAMPLE_SHEET.revision}
           </p>
         </div>
-        <h2
+        <p
           id="home-matrix-title"
           className="mt-3 type-docs-heading text-foreground"
         >
           {EXAMPLE_SHEET.title}
-        </h2>
-        <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        </p>
+        <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1.5">
           <p className="type-meta-sm text-muted-strong">4 roles · 1 firma</p>
           <p className="type-meta-sm text-warning">Hoja de ejemplo</p>
         </div>
       </header>
 
-      <div className="min-w-0 overflow-x-auto">
-        <table className="w-full table-fixed border-collapse text-left">
+      <div
+        role="group"
+        aria-label={`${EXAMPLE_SHEET.title}: matriz de roles y fases`}
+        tabIndex={0}
+        className="scroll-code max-sm:fade-right min-w-0 overflow-x-auto"
+      >
+        <table className="w-full table-fixed border-collapse text-left max-sm:min-w-[25rem]">
           <caption className="sr-only">
             Matriz de responsabilidades por rol y fase
           </caption>
@@ -43,7 +48,7 @@ export function ResponsibilityMatrix() {
             <tr className="border-b border-hairline">
               <th
                 scope="col"
-                className="w-[4.5rem] px-1 py-2 sm:w-24 sm:px-2 lg:w-20 lg:px-1 xl:w-24 xl:px-2"
+                className="w-[4.5rem] px-0.5 py-2.5 sm:w-[6.5rem]"
               >
                 <span className="sr-only">Fase</span>
               </th>
@@ -51,7 +56,7 @@ export function ResponsibilityMatrix() {
                 <th
                   key={role.id}
                   scope="col"
-                  className="break-words px-0 py-2 text-center font-mono text-[0.5rem] font-normal uppercase leading-[1.4] tracking-normal text-muted-strong sm:px-2 sm:text-[0.59375rem] lg:px-0 lg:text-[0.5rem] xl:px-2 xl:text-[0.59375rem]"
+                  className="break-words px-0.5 py-2.5 text-center font-normal type-meta-sm tracking-normal text-muted-strong"
                 >
                   {role.name}
                 </th>
@@ -63,12 +68,12 @@ export function ResponsibilityMatrix() {
               <tr key={phase.id} className="border-b border-hairline">
                 <th
                   scope="row"
-                  className="break-words px-1 py-2 text-left align-middle sm:px-2 lg:px-1 xl:px-2"
+                  className="break-words px-0.5 py-2.5 text-left align-middle"
                 >
-                  <span className="block font-mono text-[0.46875rem] uppercase leading-[1.4] tracking-normal text-muted-strong sm:text-[0.59375rem] lg:text-[0.46875rem] xl:text-[0.59375rem]">
+                  <span className="block break-words type-meta-sm tracking-normal text-muted-strong">
                     {phase.id}
                   </span>
-                  <span className="block font-mono text-[0.46875rem] uppercase leading-[1.4] tracking-normal text-secondary sm:text-[0.59375rem] lg:text-[0.46875rem] xl:text-[0.59375rem]">
+                  <span className="block break-words type-meta-sm tracking-normal hyphens-auto text-secondary">
                     {phase.label}
                   </span>
                 </th>
@@ -78,7 +83,7 @@ export function ResponsibilityMatrix() {
                   return (
                     <td
                       key={role.id}
-                      className="px-0 py-2 text-center align-middle sm:px-2 lg:px-0 xl:px-2"
+                      className="px-0 py-2.5 text-center align-middle sm:px-2"
                     >
                       <span
                         aria-hidden="true"
@@ -101,7 +106,7 @@ export function ResponsibilityMatrix() {
                 colSpan={5}
                 className="border border-accent/40 bg-accent/10 px-3 py-3"
               >
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1.5">
                   <p className="type-meta text-accent-text">
                     {APPROVAL_GATE.label}
                   </p>
@@ -109,7 +114,7 @@ export function ResponsibilityMatrix() {
                     {APPROVAL_GATE.status}
                   </p>
                 </div>
-                <p className="mt-2 type-docs text-secondary">
+                <p className="mt-2 type-body text-secondary">
                   {APPROVAL_GATE.detail}
                 </p>
               </td>

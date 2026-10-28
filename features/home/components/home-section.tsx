@@ -39,7 +39,7 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
 
           {block.link ? (
             <Link
-              className="mt-5 inline-flex border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+              className="mt-3.5 inline-flex border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
               href={block.link.href}
             >
               {block.link.label}

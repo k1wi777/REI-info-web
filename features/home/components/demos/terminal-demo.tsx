@@ -82,12 +82,19 @@ export function TerminalDemo() {
           <WindowFrame
             label={TERMINAL_SNAPSHOT.command}
             meta={`instantánea · ${TERMINAL_SNAPSHOT.capturedAt}`}
-            footer={<InlineText text={TERMINAL_SNAPSHOT.caption} />}
+            footer={
+              <>
+                <InlineText text={TERMINAL_SNAPSHOT.caption} />
+                <span className="mt-1 block">
+                  Desliza o usa las flechas para ver la línea completa.
+                </span>
+              </>
+            }
           >
             <ol
               aria-label={`Salida de ${TERMINAL_SNAPSHOT.command}`}
               tabIndex={0}
-              className="scroll-code max-sm:fade-right overflow-x-auto bg-canvas px-4 py-4"
+              className="scroll-code max-xl:fade-right overflow-x-auto bg-canvas px-4 py-4"
             >
               {TERMINAL_SNAPSHOT.lines.map((line, index) => (
                 <TerminalRow key={`${line.kind}-${index}`} line={line} />

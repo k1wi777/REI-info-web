@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CaptureLink } from "@/components/ui/capture-link";
 import { WindowFrame } from "@/components/ui/window-frame";
 import { DemoSection } from "@/features/home/components/demo-section";
 import {
@@ -63,8 +64,9 @@ export function ViewerDemo() {
                   className="h-auto w-full"
                 />
               </WindowFrame>
-              <figcaption className="mt-3 type-caption text-muted-strong">
-                Captura real del visor · {DAY}
+              <figcaption className="mt-3 flex flex-col items-start gap-1 type-caption text-muted-strong">
+                <span>Captura real del visor · {DAY}</span>
+                <CaptureLink href={VIEWER_DESKTOP.file} />
               </figcaption>
             </figure>
 
@@ -79,10 +81,10 @@ export function ViewerDemo() {
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <h3 className="type-meta text-foreground">
+                      <p className="type-meta text-foreground">
                         {annotation.title}
-                      </h3>
-                      <p className="mt-1.5 type-docs text-secondary">
+                      </p>
+                      <p className="mt-1.5 type-body text-secondary">
                         {annotation.text}
                       </p>
                     </div>
@@ -92,31 +94,41 @@ export function ViewerDemo() {
 
               <div className="grid grid-cols-2 gap-3">
                 {VIEWER_FICHA ? (
-                  <WindowFrame label="FICHA" bodyClassName="bg-canvas">
-                    <Image
-                      src={VIEWER_FICHA.file}
-                      alt={VIEWER_FICHA.alt}
-                      width={VIEWER_FICHA.width}
-                      height={VIEWER_FICHA.height}
-                      sizes="(min-width: 1024px) 16vw, 45vw"
-                      className="h-auto w-full"
-                    />
-                  </WindowFrame>
-                ) : null}
-
-                {VIEWER_MOBILE ? (
-                  <WindowFrame label="390 × 844" bodyClassName="bg-canvas">
-                    <div className="fade-bottom h-60 overflow-hidden">
+                  <figure className="flex min-w-0 flex-col">
+                    <WindowFrame label="FICHA" bodyClassName="bg-canvas">
                       <Image
-                        src={VIEWER_MOBILE.file}
-                        alt={VIEWER_MOBILE.alt}
-                        width={VIEWER_MOBILE.width}
-                        height={VIEWER_MOBILE.height}
+                        src={VIEWER_FICHA.file}
+                        alt={VIEWER_FICHA.alt}
+                        width={VIEWER_FICHA.width}
+                        height={VIEWER_FICHA.height}
                         sizes="(min-width: 1024px) 16vw, 45vw"
                         className="h-auto w-full"
                       />
-                    </div>
-                  </WindowFrame>
+                    </WindowFrame>
+                    <figcaption className="mt-auto pt-2">
+                      <CaptureLink href={VIEWER_FICHA.file} />
+                    </figcaption>
+                  </figure>
+                ) : null}
+
+                {VIEWER_MOBILE ? (
+                  <figure className="flex min-w-0 flex-col">
+                    <WindowFrame label="390 × 844" bodyClassName="bg-canvas">
+                      <div className="fade-bottom h-60 overflow-hidden">
+                        <Image
+                          src={VIEWER_MOBILE.file}
+                          alt={VIEWER_MOBILE.alt}
+                          width={VIEWER_MOBILE.width}
+                          height={VIEWER_MOBILE.height}
+                          sizes="(min-width: 1024px) 16vw, 45vw"
+                          className="h-auto w-full"
+                        />
+                      </div>
+                    </WindowFrame>
+                    <figcaption className="mt-auto pt-2">
+                      <CaptureLink href={VIEWER_MOBILE.file} />
+                    </figcaption>
+                  </figure>
                 ) : null}
               </div>
             </div>
@@ -144,9 +156,9 @@ export function ViewerDemo() {
               </figure>
 
               <div className="min-w-0 lg:col-span-4 lg:pt-2">
-                <h3 className="type-meta text-foreground">
+                <p className="type-meta text-foreground">
                   {DIFF_ANNOTATION.title}
-                </h3>
+                </p>
                 <p className="mt-3 type-caption text-secondary">
                   {DIFF_ANNOTATION.text}
                 </p>
@@ -155,14 +167,15 @@ export function ViewerDemo() {
                 </p>
                 <p className="mt-3 type-caption text-muted-strong">
                   El recorte muestra el inicio del diff; la captura completa
-                  queda en la evidencia del Work Item.
+                  queda en la evidencia del Work Item.{" "}
+                  <CaptureLink href={VIEWER_DIFF.file} />
                 </p>
               </div>
             </div>
           ) : null}
         </>
       ) : (
-        <p className="type-docs text-secondary">
+        <p className="type-body text-secondary">
           No hay captura del visor en el manifiesto. Ejecuta{" "}
           <code className="type-code text-foreground">pnpm capture:evidence</code>{" "}
           para generarla.

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CaptureLink } from "@/components/ui/capture-link";
 import { WindowFrame } from "@/components/ui/window-frame";
 import { DemoSection } from "@/features/home/components/demo-section";
 import {
@@ -51,14 +52,17 @@ function IssueFooter({ head, issue }: { head: EvidenceCapture; issue: number }) 
         <span />
       )}
 
-      <a
-        className="inline-flex border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
-        href={head.source}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Abrir la issue #{issue} ↗
-      </a>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+        <CaptureLink href={head.file} />
+        <a
+          className="inline-flex -mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+          href={head.source}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Abrir la issue #{issue} ↗
+        </a>
+      </div>
     </div>
   );
 }
@@ -93,7 +97,7 @@ export function GithubIssuesDemo() {
     >
       {primary ? (
         <figure className="min-w-0">
-          <h3 className="sr-only">{primary.head.description}</h3>
+          <figcaption className="sr-only">{primary.head.description}</figcaption>
 
           <WindowFrame
             label={`github.com · issues/${primary.issue}`}
@@ -119,7 +123,7 @@ export function GithubIssuesDemo() {
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {secondary.map(({ issue, head }) => (
             <figure key={issue} className="min-w-0">
-              <h3 className="sr-only">{head.description}</h3>
+              <figcaption className="sr-only">{head.description}</figcaption>
               <WindowFrame
                 label={`issues/${issue}`}
                 meta={stateLabel(head.state)}
@@ -209,9 +213,12 @@ export function GithubIssuesDemo() {
                 />
               </div>
             </WindowFrame>
-            <figcaption className="mt-3 type-caption text-muted-strong">
-              Cuerpo publicado de la épica: la task list real, con sus hijas
-              cerradas. El recorte muestra el inicio de la captura.
+            <figcaption className="mt-3 flex flex-col items-start gap-1 type-caption text-muted-strong">
+              <span>
+                Cuerpo publicado de la épica: la task list real, con sus hijas
+                cerradas. El recorte muestra el inicio de la captura.
+              </span>
+              <CaptureLink href={epicBody.file} />
             </figcaption>
           </figure>
         ) : null}
