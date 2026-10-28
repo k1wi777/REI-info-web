@@ -43,7 +43,7 @@ const REGISTERED_PAGES = CONTENT_PAGES.filter(
 );
 
 const GUIDE_PATHS: DocsContentPath[] = [
-  "/docs/guias/github",
+  "/docs/guias/github-issues",
   "/docs/guias/visor",
   "/docs/guias/checks",
   "/docs/guias/actualizar",

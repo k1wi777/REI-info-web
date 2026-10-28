@@ -27,7 +27,7 @@ export const COMMAND_CATEGORIES: CommandCategory[] = [
     id: "mantenimiento",
     label: "Mantenimiento e integración",
     description:
-      "Actualizar el binario y activar la integración opcional con GitHub.",
+      "Actualizar el binario y activar la integración opcional con GitHub Issues.",
   },
 ];
 
@@ -384,7 +384,7 @@ export const COMMANDS: Command[] = [
     id: "github",
     name: "rei github <enable|disable|status>",
     summary:
-      "Activa, desactiva o consulta la integración opcional con GitHub. El CLI nunca llama a GitHub.",
+      "Activa, desactiva o consulta la integración opcional GitHub Issues. El CLI nunca llama a GitHub.",
     category: "mantenimiento",
     flags: [
       { flag: "--repo owner/name", description: "Repositorio de destino." },

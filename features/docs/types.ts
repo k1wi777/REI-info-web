@@ -12,7 +12,7 @@ export type DocsContentPath =
   | "/docs/conceptos/aprobacion-humana"
   | "/docs/conceptos/work-items-y-estados"
   | "/docs/conceptos/modo-directo"
-  | "/docs/guias/github"
+  | "/docs/guias/github-issues"
   | "/docs/guias/visor"
   | "/docs/guias/checks"
   | "/docs/guias/actualizar"

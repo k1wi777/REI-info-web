@@ -163,14 +163,14 @@ export const DOCS_SECTIONS: DocsSection[] = [
         path: "/docs/guias",
         title: "Guías",
         description:
-          "Recetas para activar GitHub, abrir el visor, configurar checks y actualizar el arnés.",
+          "Recetas para activar GitHub Issues, abrir el visor, configurar checks y actualizar el arnés.",
       },
       {
-        slug: "github",
-        path: "/docs/guias/github",
-        title: "GitHub",
+        slug: "github-issues",
+        path: "/docs/guias/github-issues",
+        title: "GitHub Issues",
         description:
-          "Activar, consultar y desactivar la integración opcional con GitHub y operar issue, rama, PR y backlog.",
+          "Activar, consultar y desactivar la integración opcional con GitHub Issues y operar issue, rama, PR y backlog.",
       },
       {
         slug: "visor",
@@ -219,7 +219,7 @@ export const DOCS_SECTIONS: DocsSection[] = [
         path: "/docs/referencia/configuracion",
         title: "Configuración",
         description:
-          ".rei/config.json: checks, integración con GitHub, visor y códigos de salida.",
+          ".rei/config.json: checks, integración con GitHub Issues, visor y códigos de salida.",
       },
       {
         slug: "meta",
@@ -298,7 +298,7 @@ export type ProductPageSlug =
   | "agentes"
   | "work-items"
   | "visor"
-  | "github";
+  | "github-issues";
 
 export type ProductPage = {
   slug: ProductPageSlug;
@@ -350,12 +350,12 @@ export const PRODUCT_PAGES: ProductPage[] = [
       "rei view: visor local de solo lectura, recarga en vivo, FICHA y límites.",
   },
   {
-    slug: "github",
-    path: "/producto/github",
-    label: "GitHub",
-    title: "GitHub",
+    slug: "github-issues",
+    path: "/producto/github-issues",
+    label: "GitHub Issues",
+    title: "GitHub Issues",
     description:
-      "Integración opcional con GitHub: issue y rama para Features, PR y merge bajo orden, GitHub como proyección.",
+      "Integración opcional GitHub Issues: issue y rama para Features, PR y merge bajo orden, GitHub como proyección.",
   },
 ];
 

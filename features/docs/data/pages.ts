@@ -5,7 +5,7 @@ import { CONCEPTOS_SDD_DOCUMENT } from "@/features/docs/data/pages/conceptos-sdd
 import { CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT } from "@/features/docs/data/pages/conceptos-work-items-y-estados";
 import { GUIAS_ACTUALIZAR_DOCUMENT } from "@/features/docs/data/pages/guias-actualizar";
 import { GUIAS_CHECKS_DOCUMENT } from "@/features/docs/data/pages/guias-checks";
-import { GUIAS_GITHUB_DOCUMENT } from "@/features/docs/data/pages/guias-github";
+import { GUIAS_GITHUB_ISSUES_DOCUMENT } from "@/features/docs/data/pages/guias-github-issues";
 import { GUIAS_VISOR_DOCUMENT } from "@/features/docs/data/pages/guias-visor";
 import { OPERACION_CHANGELOG_DOCUMENT } from "@/features/docs/data/pages/operacion-changelog";
 import { OPERACION_TROUBLESHOOTING_DOCUMENT } from "@/features/docs/data/pages/operacion-troubleshooting";
@@ -22,7 +22,7 @@ export const DOCS_DOCUMENTS: Record<DocsContentPath, DocContent> = {
   "/docs/conceptos/work-items-y-estados":
     CONCEPTOS_WORK_ITEMS_Y_ESTADOS_DOCUMENT,
   "/docs/conceptos/modo-directo": CONCEPTOS_MODO_DIRECTO_DOCUMENT,
-  "/docs/guias/github": GUIAS_GITHUB_DOCUMENT,
+  "/docs/guias/github-issues": GUIAS_GITHUB_ISSUES_DOCUMENT,
   "/docs/guias/visor": GUIAS_VISOR_DOCUMENT,
   "/docs/guias/checks": GUIAS_CHECKS_DOCUMENT,
   "/docs/guias/actualizar": GUIAS_ACTUALIZAR_DOCUMENT,

@@ -17,7 +17,7 @@ export { CONCEPTOS_SDD_PATH } from "./data/pages/conceptos-sdd";
 export { CONCEPTOS_WORK_ITEMS_Y_ESTADOS_PATH } from "./data/pages/conceptos-work-items-y-estados";
 export { GUIAS_ACTUALIZAR_PATH } from "./data/pages/guias-actualizar";
 export { GUIAS_CHECKS_PATH } from "./data/pages/guias-checks";
-export { GUIAS_GITHUB_PATH } from "./data/pages/guias-github";
+export { GUIAS_GITHUB_ISSUES_PATH } from "./data/pages/guias-github-issues";
 export { GUIAS_VISOR_PATH } from "./data/pages/guias-visor";
 export { OPERACION_CHANGELOG_PATH } from "./data/pages/operacion-changelog";
 export { OPERACION_TROUBLESHOOTING_PATH } from "./data/pages/operacion-troubleshooting";

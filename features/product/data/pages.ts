@@ -1,7 +1,7 @@
 import type { ProductPageSlug } from "@/content/site";
 import { AGENTES_DOCUMENT } from "@/features/product/data/pages/agentes";
 import { COMO_FUNCIONA_DOCUMENT } from "@/features/product/data/pages/como-funciona";
-import { GITHUB_DOCUMENT } from "@/features/product/data/pages/github";
+import { GITHUB_ISSUES_DOCUMENT } from "@/features/product/data/pages/github-issues";
 import { PRODUCTO_DOCUMENT } from "@/features/product/data/pages/producto";
 import { VISOR_DOCUMENT } from "@/features/product/data/pages/visor";
 import { WORK_ITEMS_DOCUMENT } from "@/features/product/data/pages/work-items";
@@ -14,5 +14,5 @@ export const PRODUCT_DOCUMENTS: Record<ProductPageSlug, ProductDocument> = {
   agentes: AGENTES_DOCUMENT,
   "work-items": WORK_ITEMS_DOCUMENT,
   visor: VISOR_DOCUMENT,
-  github: GITHUB_DOCUMENT,
+  "github-issues": GITHUB_ISSUES_DOCUMENT,
 };

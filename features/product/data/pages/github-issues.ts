@@ -1,10 +1,10 @@
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const GITHUB_DOCUMENT: ProductDocument = {
-  id: "github",
-  eyebrow: "Producto · GitHub",
-  meta: "Integración opcional · proyección del trabajo",
+export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
+  id: "github-issues",
+  eyebrow: "Producto · GitHub Issues",
+  meta: "Integración opcional GitHub Issues · proyección del trabajo",
   sections: [
     {
       id: "opcional",
@@ -12,14 +12,14 @@ export const GITHUB_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "GitHub es una proyección del trabajo, no su fuente de verdad. La integración es opcional: si la clave integrations.github no existe o enabled es false, el flujo es idéntico y el Leader no menciona GitHub.",
+          text: "GitHub Issues es una proyección del trabajo, no su fuente de verdad. La integración es opcional: si la clave `integrations.github` no existe o `enabled` es false, el flujo es idéntico y el Leader no menciona GitHub Issues.",
         },
         {
           kind: "list",
           items: [
-            "El CLI nunca llama a GitHub: las acciones reales las ejecutan gh y git bajo orden explícita del Leader.",
-            ".rei manda sobre la ejecución del Work Item; la issue manda sobre el problema, el alcance y la discusión.",
-            "La configuración vive en .rei/config.json, bajo integrations.github.",
+            "El CLI nunca llama a GitHub: las acciones reales las ejecutan `gh` y `git` bajo orden explícita del Leader.",
+            "`.rei` manda sobre la ejecución del Work Item; la issue manda sobre el problema, el alcance y la discusión.",
+            "La configuración vive en `.rei/config.json`, bajo `integrations.github`.",
           ],
         },
       ],
@@ -30,7 +30,7 @@ export const GITHUB_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "rei github resuelve la configuración con la precedencia flag explícito, valor previo, detección desde git y valor por defecto. status es offline y de solo lectura: no llama a gh ni a la API de GitHub.",
+          text: "`rei github` resuelve la configuración con la precedencia flag explícito, valor previo, detección desde `git` y valor por defecto. `status` es offline y de solo lectura: no llama a `gh` ni a la API de GitHub.",
         },
         { kind: "commands", ids: ["github"] },
         {
@@ -41,7 +41,7 @@ export const GITHUB_DOCUMENT: ProductDocument = {
         },
         {
           kind: "paragraph",
-          text: "Un flag desconocido, repetido, sin valor o inválido es uso incorrecto y no escribe la configuración. disable conserva repo, base, mergeStrategy y links.json.",
+          text: "Un flag desconocido, repetido, sin valor o inválido es uso incorrecto y no escribe la configuración. `disable` conserva `repo`, `base`, `mergeStrategy` y `links.json`.",
         },
       ],
     },
@@ -51,13 +51,13 @@ export const GITHUB_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "La puerta issue + rama solo se ejecuta cuando meta.json está en ready, el usuario aprueba, la integración está activa y el Work Item es una Feature. Una Task se trabaja en la rama base, sin issue ni rama, y no existe opt-in para Tasks.",
+          text: "La puerta issue + rama solo se ejecuta cuando `meta.json` está en ready, el usuario aprueba, la integración está activa y el Work Item es una Feature. Una Task se trabaja en la rama base, sin issue ni rama, y no existe opt-in para Tasks.",
         },
         {
           kind: "note",
           tone: "info",
           title: "Sin puerta para Tasks",
-          text: "No se pregunta la puerta a una Task «por si acaso» ni se usa una label rei:task. Si la integración está desactivada, tampoco se menciona GitHub.",
+          text: "No se pregunta la puerta a una Task «por si acaso» ni se usa una label rei:task. Si la integración está desactivada, tampoco se menciona GitHub Issues.",
         },
       ],
     },
@@ -67,7 +67,7 @@ export const GITHUB_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "Nunca hay commit, push, PR ni merge sin una orden explícita del usuario. La estrategia de merge sale de la configuración —squash por defecto— y el merge no es automático: no hay auto-merge ni --admin.",
+          text: "Nunca hay commit, push, PR ni merge sin una orden explícita del usuario. La estrategia de merge sale de la configuración —squash por defecto— y el merge no es automático: no hay auto-merge ni `--admin`.",
         },
       ],
     },
@@ -77,7 +77,7 @@ export const GITHUB_DOCUMENT: ProductDocument = {
       blocks: [
         {
           kind: "paragraph",
-          text: "La integración incluye épicas, backlog de hijas, adopción, publicación de la spec, asignación y cierre de la épica. links.json es un índice local recuperable, no la fuente de verdad.",
+          text: "La integración incluye épicas, backlog de hijas, adopción, publicación de la spec, asignación y cierre de la épica. `links.json` es un índice local recuperable, no la fuente de verdad.",
         },
         {
           kind: "paragraph",
@@ -98,7 +98,7 @@ export const GITHUB_DOCUMENT: ProductDocument = {
             "Work Items pending locales como sustituto del backlog.",
             "Autoasignación por carga y time tracking.",
             "Proveedores distintos de GitHub.",
-            "Commits, push o merge automáticos, --admin y auto-merge.",
+            "Commits, push o merge automáticos, `--admin` y auto-merge.",
             "Flags de acciones GitHub en rei.",
           ],
         },

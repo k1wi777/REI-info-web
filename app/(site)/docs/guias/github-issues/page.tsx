@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { getDocsPageOrThrow } from "@/content/site";
-import { DocsContentPage, GUIAS_GITHUB_PATH } from "@/features/docs";
+import { DocsContentPage, GUIAS_GITHUB_ISSUES_PATH } from "@/features/docs";
 
-const docsPage = getDocsPageOrThrow(GUIAS_GITHUB_PATH);
+const docsPage = getDocsPageOrThrow(GUIAS_GITHUB_ISSUES_PATH);
 
 export const metadata: Metadata = {
   title: docsPage.title,
@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <DocsContentPage path={GUIAS_GITHUB_PATH} />;
+  return <DocsContentPage path={GUIAS_GITHUB_ISSUES_PATH} />;
 }
