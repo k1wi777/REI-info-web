@@ -265,6 +265,7 @@ export const TERMINAL_SNAPSHOT: TerminalSnapshot = {
     {
       kind: "output",
       text: "  - 2026-10-27_22-04__home-demostrativa-playwright     [in_progress] (type: feature)   << ACTIVO",
+      emphasis: true,
     },
     {
       kind: "note",

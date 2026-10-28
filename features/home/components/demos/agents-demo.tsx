@@ -2,11 +2,28 @@ import { Fragment } from "react";
 import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
 import { DemoSection } from "@/features/home/components/demo-section";
 import { AGENT_NODES } from "@/features/home/data/demos";
+import type { AgentRole, AgentRoleId } from "@/content/rei";
 import type { AgentNode } from "@/features/home/types";
-import type { AgentRole } from "@/content/rei";
 import { cn } from "@/lib/cn";
 
 const ROLES = new Map(AGENT_ROLES.map((role) => [role.id, role]));
+
+function Chevron() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 12 12"
+      className="size-3 shrink-0 text-muted-strong transition-transform duration-(--duration-fast) group-open:rotate-90"
+    >
+      <path
+        d="M4.5 2.5 8 6l-3.5 3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+    </svg>
+  );
+}
 
 type RoleNodeProps = {
   role: AgentRole;
@@ -18,41 +35,53 @@ function RoleNode({ role, node, branch = false }: RoleNodeProps) {
   return (
     <li
       className={cn(
-        "min-w-0 border bg-surface-deep",
-        branch ? "border-dashed border-border-strong" : "border-hairline",
+        "relative flex min-w-0 flex-col pt-4",
+        branch
+          ? "border-t border-dashed border-border-strong"
+          : "border-t border-hairline-strong",
       )}
     >
-      <details className="h-full">
+      <span
+        aria-hidden="true"
+        className={cn(
+          "absolute -top-[0.1875rem] left-0 size-1.5 rounded-full",
+          branch ? "bg-border-strong" : "bg-muted",
+        )}
+      />
+
+      <details className="group h-full">
         <summary
           aria-label={`${role.name}. ${node.handoff}. Abrir responsabilidad y límite.`}
-          className="flex h-full cursor-pointer flex-col gap-2 p-4"
+          className="flex h-full cursor-pointer list-none flex-col [&::-webkit-details-marker]:hidden"
         >
-          <span className="type-meta-sm text-muted-strong">
-            {node.handoff}
-          </span>
-          <span className="type-docs-heading text-foreground">
+          <span className="type-meta-sm text-muted-strong">{node.handoff}</span>
+          <span className="mt-2 type-docs-heading text-foreground">
             {role.name}
           </span>
-          <span className="mt-auto type-meta-sm text-muted-strong">
+          <span className="mt-auto flex items-center justify-between gap-2 pt-4 type-meta-sm text-muted-strong">
             Responsabilidad y límite
+            <Chevron />
           </span>
         </summary>
-        <div className="space-y-3 border-t border-hairline p-4">
+
+        <div className="mt-4 space-y-3 border-t border-hairline pt-3">
           <div>
             <p className="type-meta-sm text-muted-strong">Responsabilidad</p>
-            <p className="mt-1 type-docs text-secondary">
+            <p className="mt-1 type-caption text-secondary">
               {role.responsibility}
             </p>
           </div>
           <div>
             <p className="type-meta-sm text-muted-strong">Límite</p>
-            <p className="mt-1 type-docs text-secondary">{role.limit}</p>
+            <p className="mt-1 type-caption text-secondary">{role.limit}</p>
           </div>
         </div>
       </details>
     </li>
   );
 }
+
+const FOLLOWS: AgentRoleId = "implementer";
 
 /** Grafo de roles: cuatro etapas, la puerta en medio y el Initializer aparte. */
 export function AgentsDemo() {
@@ -67,21 +96,26 @@ export function AgentsDemo() {
       intro="Cada rol recibe un contrato propio y no invade el trabajo de otro. Abre cualquier rol —también con teclado— para leer su responsabilidad y su límite."
       note="La puerta ocupa el lugar entre Spec Author e Implementer; el Initializer es una rama lateral que no recorre el ciclo del Work Item. Los adaptadores nativos de OpenCode y Claude Code son opcionales; Cursor y Codex funcionan por fallback."
     >
-      <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
         {flow.map((node) => {
           const role = ROLES.get(node.roleId);
           if (!role) return null;
 
           return (
             <Fragment key={node.roleId}>
-              {node.roleId === "implementer" ? (
-                <li className="min-w-0 border border-accent/40 bg-accent/10 p-4">
+              {node.roleId === FOLLOWS ? (
+                <li className="relative flex min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-[0.1875rem] left-0 size-1.5 rounded-full bg-accent-text"
+                  />
                   <p className="type-meta-sm text-accent-text">La puerta</p>
-                  <p className="mt-2 break-words type-code text-accent-text">
+                  <p className="mt-2 break-words type-docs text-foreground">
                     {APPROVAL_GATE.label}
                   </p>
-                  <p className="mt-2 type-meta-sm text-secondary">
-                    {APPROVAL_GATE.status} · firma humana
+                  <p className="mt-auto flex items-center gap-2 pt-4 type-meta-sm text-accent-text">
+                    {APPROVAL_GATE.status}
+                    <span className="text-secondary">· firma humana</span>
                   </p>
                 </li>
               ) : null}
@@ -91,7 +125,7 @@ export function AgentsDemo() {
         })}
       </ol>
 
-      <div className="mt-2 grid gap-2 lg:grid-cols-5">
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
         {branches.map((node) => {
           const role = ROLES.get(node.roleId);
           if (!role) return null;
@@ -101,12 +135,11 @@ export function AgentsDemo() {
             </ul>
           );
         })}
+        <p className="max-w-[36ch] type-caption text-muted-strong lg:col-span-4 lg:self-start lg:pt-6">
+          El Initializer prepara el repositorio; no aprueba ni implementa Work
+          Items.
+        </p>
       </div>
-
-      <p className="mt-4 type-meta-sm text-muted-strong">
-        El texto de cada nodo está en el HTML servido: la demo no depende de
-        JavaScript para leerse.
-      </p>
     </DemoSection>
   );
 }

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { StatusTag } from "@/components/ui/status-tag";
+import { WindowFrame } from "@/components/ui/window-frame";
 import { DemoSection } from "@/features/home/components/demo-section";
 import {
   EVIDENCE_ISSUES,
@@ -7,6 +7,7 @@ import {
   issueBody,
   issueHead,
 } from "@/features/home/data/evidence";
+import type { EvidenceCapture } from "@/features/home/types";
 
 const DAY = EVIDENCE_MANIFEST.generatedAt.slice(0, 10);
 
@@ -31,12 +32,52 @@ const TARGETS = [
 const stateLabel = (state: string | undefined) =>
   state === "closed" ? "Closed" : "Open";
 
+/** Pie de la ventana: etiquetas publicadas y enlace a la issue real. */
+function IssueFooter({ head, issue }: { head: EvidenceCapture; issue: number }) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+      {head.labels && head.labels.length > 0 ? (
+        <ul className="flex flex-wrap gap-1.5">
+          {head.labels.map((label) => (
+            <li
+              key={label}
+              className="rounded-xs border border-border-strong px-1.5 py-0.5 type-meta-sm text-muted-strong"
+            >
+              {label}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <span />
+      )}
+
+      <a
+        className="inline-flex border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+        href={head.source}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Abrir la issue #{issue} ↗
+      </a>
+    </div>
+  );
+}
+
 /** Capturas reales de GitHub Issues y diagrama de proyección desde `.rei`. */
 export function GithubIssuesDemo() {
-  const epicIssue = EVIDENCE_ISSUES.find((issue) =>
-    issueHead(issue)?.labels?.includes("rei:epic"),
+  const issues = EVIDENCE_ISSUES.flatMap((issue) => {
+    const head = issueHead(issue);
+    return head ? [{ issue, head }] : [];
+  });
+
+  const primary =
+    issues.find(({ head }) => head.labels?.includes("rei:epic")) ?? issues[0];
+  const secondary = issues.filter(
+    ({ issue }) => issue !== primary?.issue,
   );
-  const epicBody = epicIssue ? issueBody(epicIssue) : undefined;
+  const epicBody = primary
+    ? issueBody(primary.issue)
+    : undefined;
 
   return (
     <DemoSection
@@ -50,128 +91,130 @@ export function GithubIssuesDemo() {
         href: "/docs/guias/github-issues",
       }}
     >
-      <ul className="space-y-4">
-        {EVIDENCE_ISSUES.map((issue) => {
-          const head = issueHead(issue);
-          if (!head) return null;
+      {primary ? (
+        <figure className="min-w-0">
+          <h3 className="sr-only">{primary.head.description}</h3>
 
-          return (
-            <li
-              key={issue}
-              className="min-w-0 border border-hairline-strong bg-surface-deep lg:grid lg:grid-cols-[minmax(0,1fr)_20rem]"
-            >
-              <figure className="min-w-0 border-b border-hairline lg:border-b-0 lg:border-r">
+          <WindowFrame
+            label={`github.com · issues/${primary.issue}`}
+            meta={`${stateLabel(primary.head.state)} · ${DAY}`}
+            footer={
+              <IssueFooter head={primary.head} issue={primary.issue} />
+            }
+            bodyClassName="bg-canvas"
+          >
+            <Image
+              src={primary.head.file}
+              alt={primary.head.alt}
+              width={primary.head.width}
+              height={primary.head.height}
+              sizes="(min-width: 1024px) 72vw, 100vw"
+              className="h-auto w-full"
+            />
+          </WindowFrame>
+        </figure>
+      ) : null}
+
+      {secondary.length > 0 ? (
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {secondary.map(({ issue, head }) => (
+            <figure key={issue} className="min-w-0">
+              <h3 className="sr-only">{head.description}</h3>
+              <WindowFrame
+                label={`issues/${issue}`}
+                meta={stateLabel(head.state)}
+                footer={<IssueFooter head={head} issue={issue} />}
+                bodyClassName="bg-canvas"
+              >
                 <Image
                   src={head.file}
                   alt={head.alt}
                   width={head.width}
                   height={head.height}
-                  sizes="(min-width: 1024px) 62vw, 100vw"
+                  sizes="(min-width: 640px) 45vw, 100vw"
                   className="h-auto w-full"
                 />
-              </figure>
-
-              <div className="flex min-w-0 flex-col p-4">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="type-meta text-muted-strong">
-                    GitHub Issues · #{issue}
-                  </p>
-                  <StatusTag>{stateLabel(head.state)}</StatusTag>
-                </div>
-
-                <h3 className="mt-3 type-docs-heading text-foreground">
-                  {head.description}
-                </h3>
-
-                {head.labels && head.labels.length > 0 ? (
-                  <ul className="mt-3 flex flex-wrap gap-1.5">
-                    {head.labels.map((label) => (
-                      <li
-                        key={label}
-                        className="rounded-xs border border-border-strong px-1.5 py-0.5 type-meta-sm text-muted-strong"
-                      >
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                <a
-                  className="mt-4 inline-flex w-fit border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
-                  href={head.source}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Abrir la issue #{issue} ↗
-                </a>
-
-                <p className="mt-auto pt-4 type-meta-sm text-muted-strong">
-                  Captura real · {DAY}
-                </p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-      {epicBody ? (
-        <figure className="mt-4 min-w-0 border border-hairline bg-surface-deep">
-          <figcaption className="border-b border-hairline px-4 py-2 type-meta-sm text-muted-strong">
-            Cuerpo publicado de la épica: la task list real, con sus hijas
-            cerradas
-          </figcaption>
-          <Image
-            src={epicBody.file}
-            alt={epicBody.alt}
-            width={epicBody.width}
-            height={epicBody.height}
-            sizes="(min-width: 1024px) 70vw, 100vw"
-            className="h-auto w-full"
-          />
-        </figure>
+              </WindowFrame>
+            </figure>
+          ))}
+        </div>
       ) : null}
 
-      <div className="mt-6 border border-hairline-strong bg-surface-deep">
-        <p className="border-b border-hairline px-4 py-3 type-meta text-muted-strong">
-          Proyección, no fuente · .rei → issue / rama / PR
-        </p>
+      <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
+        <div className="min-w-0 border border-hairline-strong bg-surface-deep p-5 lg:col-span-7">
+          <p className="type-meta text-muted-strong">Proyección, no fuente</p>
 
-        <div className="grid gap-4 p-4 lg:grid-cols-12 lg:items-center">
-          <div className="border border-hairline p-4 lg:col-span-4">
-            <p className="type-meta-sm text-muted-strong">
-              Fuente de verdad
-            </p>
-            <p className="mt-2 break-words type-code text-foreground">
+          <div className="mt-4 flex items-baseline justify-between gap-4">
+            <p className="break-words type-code text-foreground">
               .rei/specs/&lt;id&gt;/
             </p>
-            <p className="mt-2 type-docs text-secondary">
-              Planificación, progreso e historial viven en el repositorio, no en
-              la issue.
-            </p>
+            <span className="shrink-0 type-meta-sm text-muted-strong">
+              fuente de verdad
+            </span>
           </div>
 
-          <p
-            aria-hidden="true"
-            className="hidden type-meta text-muted-strong lg:col-span-1 lg:block lg:text-center"
-          >
-            →
+          <p className="mt-2 max-w-[52ch] type-caption text-secondary">
+            Planificación, progreso e historial viven en el repositorio, no en la
+            issue.
           </p>
 
-          <ul className="grid gap-2 sm:grid-cols-3 lg:col-span-7">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 100 20"
+            preserveAspectRatio="none"
+            className="mt-4 hidden h-5 w-full text-border-strong sm:block"
+          >
+            <path
+              d="M50 0v8M16 8h68M16 8v12M50 8v12M84 8v12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+
+          <ul className="mt-2 grid border-t border-hairline sm:grid-cols-3 sm:divide-x sm:divide-hairline">
             {TARGETS.map((target) => (
-              <li key={target.id} className="border border-hairline p-3">
-                <h3 className="type-meta text-foreground">{target.title}</h3>
-                <p className="mt-2 type-docs text-secondary">{target.text}</p>
+              <li key={target.id} className="min-w-0 py-3 sm:px-3 sm:first:pl-0">
+                <p className="type-meta text-foreground">{target.title}</p>
+                <p className="mt-1.5 type-caption text-secondary">
+                  {target.text}
+                </p>
               </li>
             ))}
           </ul>
+
+          <p className="mt-4 border-t border-hairline pt-3 type-caption text-muted-strong">
+            Integración opcional: se activa con{" "}
+            <code className="type-code text-foreground">rei github enable</code>{" "}
+            y el flujo funciona sin ella.
+          </p>
         </div>
 
-        <p className="border-t border-hairline px-4 py-3 type-meta-sm text-muted-strong">
-          Integración opcional: se activa con{" "}
-          <code className="type-code text-foreground">rei github enable</code> y
-          el flujo funciona sin ella.
-        </p>
+        {epicBody ? (
+          <figure className="min-w-0 lg:col-span-5">
+            <WindowFrame
+              label="issue · cuerpo"
+              meta={`#${primary?.issue}`}
+              bodyClassName="bg-canvas"
+            >
+              <div className="fade-bottom h-80 overflow-hidden">
+                <Image
+                  src={epicBody.file}
+                  alt={epicBody.alt}
+                  width={epicBody.width}
+                  height={epicBody.height}
+                  sizes="(min-width: 1024px) 38vw, 100vw"
+                  className="h-auto w-full"
+                />
+              </div>
+            </WindowFrame>
+            <figcaption className="mt-3 type-caption text-muted-strong">
+              Cuerpo publicado de la épica: la task list real, con sus hijas
+              cerradas. El recorte muestra el inicio de la captura.
+            </figcaption>
+          </figure>
+        ) : null}
       </div>
     </DemoSection>
   );

@@ -9,21 +9,18 @@ const TONES: Record<HomeAct["tone"], string> = {
   surface: "bg-surface",
 };
 
-/** Veladuras en alfa: el acento y el verde no se usan como bloques. */
-const TINTS: Record<string, string> = {
-  proceso: "bg-accent/5",
-  evidencia: "bg-success/5",
-};
-
 type ActSectionProps = {
   act: HomeAct;
   children: ReactNode;
 };
 
-/** Acto de fondo completo: borde superior, etiqueta de acto y `Container`. */
+/**
+ * Acto de fondo completo: borde superior, cabecera de capítulo y `Container`.
+ * El tono separa un acto del siguiente sin veladuras: el violeta queda
+ * reservado a la puerta de aprobación.
+ */
 export function ActSection({ act, children }: ActSectionProps) {
   const labelId = `${act.id}-act`;
-  const tint = TINTS[act.id];
 
   return (
     <section
@@ -41,24 +38,21 @@ export function ActSection({ act, children }: ActSectionProps) {
         />
       ) : null}
 
-      {tint ? (
-        <div
-          aria-hidden="true"
-          className={cn("pointer-events-none absolute inset-0", tint)}
-        />
-      ) : null}
-
-      <Container className="relative py-10 lg:py-14">
-        <header className="grid gap-2 border-b border-hairline pb-5 lg:grid-cols-12 lg:items-baseline lg:gap-10">
-          <p id={labelId} className="type-meta text-muted-strong lg:col-span-3">
-            {act.number} · {act.label}
+      <Container className="relative pt-14 pb-10 lg:pt-20 lg:pb-14">
+        <header className="grid gap-3 border-b border-hairline pb-6 lg:grid-cols-12 lg:items-baseline lg:gap-10">
+          <p
+            id={labelId}
+            className="flex items-baseline gap-3 type-meta lg:col-span-3"
+          >
+            <span className="text-muted-strong tabular-nums">{act.number}</span>
+            <span className="text-foreground">{act.label}</span>
           </p>
-          <p className="type-meta text-secondary lg:col-span-9">
+          <p className="type-meta text-muted-strong lg:col-span-9">
             {act.thesis}
           </p>
         </header>
 
-        <div className="pt-8 lg:pt-10">{children}</div>
+        <div className="mt-12 lg:mt-16">{children}</div>
       </Container>
     </section>
   );

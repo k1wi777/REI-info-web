@@ -6,18 +6,23 @@ export function FinalCta() {
   return (
     <section
       aria-labelledby="siguiente-paso-title"
-      className="mt-8 border border-hairline-strong bg-surface px-5 py-10 sm:px-8 lg:px-10 lg:py-12"
+      className="relative overflow-hidden border border-hairline-strong bg-surface px-5 py-12 sm:px-8 lg:px-12 lg:py-16"
     >
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 stage-light opacity-70"
+      />
+
+      <div className="relative grid gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-8">
           <p className="type-meta text-muted-strong">{FINAL_CTA.eyebrow}</p>
           <h2
             id="siguiente-paso-title"
-            className="type-title mt-4 max-w-[20ch] text-foreground"
+            className="mt-4 max-w-[20ch] text-balance type-title text-foreground"
           >
             {FINAL_CTA.title}
           </h2>
-          <p className="type-body mt-4 max-w-(--container-reading) text-secondary">
+          <p className="mt-4 max-w-[52ch] type-body text-secondary">
             {FINAL_CTA.intro}
           </p>
         </div>

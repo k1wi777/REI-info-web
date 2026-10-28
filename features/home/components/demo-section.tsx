@@ -21,7 +21,11 @@ type DemoSectionProps = {
   className?: string;
 };
 
-/** Cabecera editorial compartida por las demos de la home. */
+/**
+ * Cabecera editorial compartida por las demos de la home: el titular ocupa la
+ * izquierda y la explicación la derecha, para que la sección no empiece con un
+ * hueco muerto bajo la etiqueta.
+ */
 export function DemoSection({
   id,
   eyebrow,
@@ -40,36 +44,36 @@ export function DemoSection({
       id={id}
       aria-labelledby={titleId}
       className={cn(
-        "border-t border-hairline py-10 first:border-t-0 first:pt-0 lg:py-14",
+        "border-t border-hairline py-12 first:border-t-0 first:pt-0 lg:py-16",
         className,
       )}
     >
-      <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-3">
-          <p className="type-meta text-muted-strong">{eyebrow}</p>
-          {example ? (
-            <p className="mt-3 type-meta-sm text-warning">
-              Ejemplo de mecanismo
-            </p>
-          ) : null}
-        </div>
+      <header className="grid gap-6 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-7">
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="type-meta text-muted-strong">{eyebrow}</p>
+            {example ? (
+              <p className="type-meta-sm text-warning">Ejemplo de mecanismo</p>
+            ) : null}
+          </div>
 
-        <div className="lg:col-span-9">
           <h2
             id={titleId}
-            className="type-title max-w-[26ch] text-balance text-foreground"
+            className="mt-5 max-w-[24ch] text-balance type-title text-foreground"
           >
             {title}
           </h2>
+        </div>
 
+        <div className="lg:col-span-5 lg:pt-1">
           {intro ? (
-            <p className="type-body mt-5 max-w-(--container-reading) text-secondary">
+            <p className="max-w-[48ch] type-body text-secondary">
               <InlineText text={intro} />
             </p>
           ) : null}
 
           {note ? (
-            <p className="mt-4 max-w-(--container-reading) type-meta-sm text-muted-strong">
+            <p className="mt-4 max-w-[52ch] type-caption text-muted-strong">
               <InlineText text={note} />
             </p>
           ) : null}
@@ -83,9 +87,9 @@ export function DemoSection({
             </Link>
           ) : null}
         </div>
-      </div>
+      </header>
 
-      <div className="mt-8 lg:mt-10">{children}</div>
+      <div className="mt-10 lg:mt-14">{children}</div>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WindowFrame } from "@/components/ui/window-frame";
 import { DemoSection } from "@/features/home/components/demo-section";
 import {
   EVIDENCE_MANIFEST,
@@ -26,18 +27,14 @@ const ANNOTATIONS = [
     title: "FICHA",
     text: "Tipo, estado, fecha y enlaces del Work Item. No hay botón ni ruta de aprobación.",
   },
-  ...(VIEWER_DIFF
-    ? [
-        {
-          id: "diff",
-          title: "Diff",
-          text: "Si hay cambios respecto de la base de revisión, el visor los publica; aquí aparecen como líneas añadidas.",
-        },
-      ]
-    : []),
 ];
 
-/** Marco de navegador con la captura real del visor y un rail de anotaciones. */
+const DIFF_ANNOTATION = {
+  title: "Diff",
+  text: "Si hay cambios respecto de la base de revisión, el visor los publica; aquí aparecen como líneas añadidas.",
+};
+
+/** Capturas reales del visor, incrustadas en marcos y anotadas al margen. */
 export function ViewerDemo() {
   return (
     <DemoSection
@@ -50,19 +47,13 @@ export function ViewerDemo() {
     >
       {VIEWER_DESKTOP ? (
         <>
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
             <figure className="min-w-0 lg:col-span-8">
-              <div className="border border-hairline-strong bg-surface-deep">
-                <div className="flex items-center justify-between gap-3 border-b border-hairline px-3 py-2">
-                  <span aria-hidden="true" className="flex gap-1.5">
-                    <span className="size-2 rounded-full border border-border-strong" />
-                    <span className="size-2 rounded-full border border-border-strong" />
-                    <span className="size-2 rounded-full border border-border-strong" />
-                  </span>
-                  <span className="truncate type-meta-sm text-muted-strong">
-                    127.0.0.1 · rei view · solo lectura
-                  </span>
-                </div>
+              <WindowFrame
+                label="127.0.0.1 · rei view"
+                meta="solo lectura"
+                bodyClassName="bg-canvas"
+              >
                 <Image
                   src={VIEWER_DESKTOP.file}
                   alt={VIEWER_DESKTOP.alt}
@@ -71,27 +62,27 @@ export function ViewerDemo() {
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   className="h-auto w-full"
                 />
-              </div>
-              <figcaption className="mt-3 type-meta-sm text-muted-strong">
+              </WindowFrame>
+              <figcaption className="mt-3 type-caption text-muted-strong">
                 Captura real del visor · {DAY}
               </figcaption>
             </figure>
 
-            <div className="min-w-0 lg:col-span-4">
-              <ol className="space-y-4">
+            <div className="flex min-w-0 flex-col gap-8 lg:col-span-4">
+              <ol className="grid gap-4">
                 {ANNOTATIONS.map((annotation, index) => (
                   <li
                     key={annotation.id}
-                    className="grid grid-cols-[auto_1fr] gap-3 border-t border-hairline pt-3"
+                    className="grid grid-cols-[1.5rem_1fr] gap-3 border-t border-hairline pt-3"
                   >
-                    <span className="type-meta-sm text-muted-strong">
+                    <span className="type-meta-sm text-muted-strong tabular-nums">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
                       <h3 className="type-meta text-foreground">
                         {annotation.title}
                       </h3>
-                      <p className="mt-1 type-docs text-secondary">
+                      <p className="mt-1.5 type-docs text-secondary">
                         {annotation.text}
                       </p>
                     </div>
@@ -99,63 +90,75 @@ export function ViewerDemo() {
                 ))}
               </ol>
 
-              <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {VIEWER_FICHA ? (
-                  <figure className="min-w-0 border border-hairline bg-surface-deep">
-                    <figcaption className="border-b border-hairline px-2 py-1.5 type-meta-sm text-muted-strong">
-                      FICHA
-                    </figcaption>
+                  <WindowFrame label="FICHA" bodyClassName="bg-canvas">
                     <Image
                       src={VIEWER_FICHA.file}
                       alt={VIEWER_FICHA.alt}
                       width={VIEWER_FICHA.width}
                       height={VIEWER_FICHA.height}
-                      sizes="(min-width: 1024px) 18vw, 45vw"
+                      sizes="(min-width: 1024px) 16vw, 45vw"
                       className="h-auto w-full"
                     />
-                  </figure>
+                  </WindowFrame>
                 ) : null}
 
                 {VIEWER_MOBILE ? (
-                  <figure className="min-w-0 border border-hairline bg-surface-deep">
-                    <figcaption className="border-b border-hairline px-2 py-1.5 type-meta-sm text-muted-strong">
-                      390 × 844
-                    </figcaption>
-                    <Image
-                      src={VIEWER_MOBILE.file}
-                      alt={VIEWER_MOBILE.alt}
-                      width={VIEWER_MOBILE.width}
-                      height={VIEWER_MOBILE.height}
-                      sizes="(min-width: 1024px) 18vw, 45vw"
-                      className="h-auto w-full"
-                    />
-                  </figure>
+                  <WindowFrame label="390 × 844" bodyClassName="bg-canvas">
+                    <div className="fade-bottom h-60 overflow-hidden">
+                      <Image
+                        src={VIEWER_MOBILE.file}
+                        alt={VIEWER_MOBILE.alt}
+                        width={VIEWER_MOBILE.width}
+                        height={VIEWER_MOBILE.height}
+                        sizes="(min-width: 1024px) 16vw, 45vw"
+                        className="h-auto w-full"
+                      />
+                    </div>
+                  </WindowFrame>
                 ) : null}
               </div>
             </div>
           </div>
 
           {VIEWER_DIFF ? (
-            <figure className="mt-6 min-w-0 border border-hairline bg-surface-deep">
-              <figcaption className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline px-3 py-2">
-                <span className="type-meta-sm text-foreground">
-                  Diff que muestra el visor
-                </span>
-                <span className="type-meta-sm text-muted-strong">
+            <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-10">
+              <figure className="min-w-0 lg:col-span-8">
+                <WindowFrame
+                  label="diff"
+                  meta="requirements.md"
+                  bodyClassName="bg-canvas"
+                >
+                  <div className="fade-bottom h-80 overflow-hidden">
+                    <Image
+                      src={VIEWER_DIFF.file}
+                      alt={VIEWER_DIFF.alt}
+                      width={VIEWER_DIFF.width}
+                      height={VIEWER_DIFF.height}
+                      sizes="(min-width: 1024px) 58vw, 100vw"
+                      className="h-auto w-full"
+                    />
+                  </div>
+                </WindowFrame>
+              </figure>
+
+              <div className="min-w-0 lg:col-span-4 lg:pt-2">
+                <h3 className="type-meta text-foreground">
+                  {DIFF_ANNOTATION.title}
+                </h3>
+                <p className="mt-3 type-caption text-secondary">
+                  {DIFF_ANNOTATION.text}
+                </p>
+                <p className="mt-4 border-t border-hairline pt-3 type-caption text-muted-strong">
                   {VIEWER_DIFF.description}
-                </span>
-              </figcaption>
-              <div className="overflow-x-auto">
-                <Image
-                  src={VIEWER_DIFF.file}
-                  alt={VIEWER_DIFF.alt}
-                  width={VIEWER_DIFF.width}
-                  height={VIEWER_DIFF.height}
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="h-auto w-full"
-                />
+                </p>
+                <p className="mt-3 type-caption text-muted-strong">
+                  El recorte muestra el inicio del diff; la captura completa
+                  queda en la evidencia del Work Item.
+                </p>
               </div>
-            </figure>
+            </div>
           ) : null}
         </>
       ) : (

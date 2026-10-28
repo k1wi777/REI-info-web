@@ -1,36 +1,36 @@
+import { WindowFrame } from "@/components/ui/window-frame";
 import { ARTIFACT_TREE } from "@/features/home/data/demos";
-import { cn } from "@/lib/cn";
 
-/** Árbol de `.rei/specs/<id>/` como componente: rutas y notas reales. */
+/** Árbol de `.rei/specs/<id>/` con conectores dibujados y notas del arnés. */
 export function ArtifactsTree() {
-  return (
-    <figure className="min-w-0 border border-hairline-strong bg-surface-deep">
-      <figcaption className="border-b border-hairline px-4 py-2 type-meta text-muted-strong">
-        Árbol de planificación
-      </figcaption>
+  const [root, ...files] = ARTIFACT_TREE;
 
-      <ul className="px-4 py-3">
-        {ARTIFACT_TREE.map((entry) => (
-          <li
-            key={entry.id}
-            className={cn("py-1.5", entry.depth > 0 && "pl-4")}
-          >
-            <p className="break-words type-code text-foreground">
-              {entry.depth > 0 ? (
-                <span aria-hidden="true" className="text-muted-strong">
-                  └─{" "}
-                </span>
-              ) : null}
-              {entry.depth === 0
-                ? entry.path
-                : entry.path.split("/").filter(Boolean).at(-1)}
-            </p>
-            <p className="mt-0.5 type-meta-sm text-muted-strong">
-              {entry.note}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </figure>
+  return (
+    <WindowFrame
+      label={`árbol · ${root.path}`}
+      meta={`${files.length} archivos`}
+      footer={root.note}
+    >
+      <div className="scroll-code overflow-x-auto px-4 py-4">
+        <p className="whitespace-pre type-code text-foreground">{root.path}</p>
+
+        <ul className="mt-2 border-l border-border-strong">
+          {files.map((entry) => (
+            <li key={entry.id} className="relative pb-3 pl-4 last:pb-0">
+              <span
+                aria-hidden="true"
+                className="absolute top-[0.7em] left-0 h-px w-3 bg-border-strong"
+              />
+              <p className="whitespace-pre type-code text-foreground">
+                {entry.path.split("/").filter(Boolean).at(-1)}
+              </p>
+              <p className="mt-0.5 type-caption text-muted-strong">
+                {entry.note}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </WindowFrame>
   );
 }

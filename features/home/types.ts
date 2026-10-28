@@ -105,6 +105,8 @@ export type AgentNode = {
 export type TerminalLine = {
   kind: "prompt" | "output" | "note";
   text: string;
+  /** Línea que la instantánea del CLI marca como activa. */
+  emphasis?: boolean;
 };
 
 export type TerminalSnapshot = {
