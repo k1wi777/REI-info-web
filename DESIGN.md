@@ -20,6 +20,10 @@
 > tipográfico, separa la escala de estados en móvil, ordena la jerarquía de
 > encabezados y añade objetivos táctiles, enlace a la captura completa y nota de
 > deslizamiento en la terminal. No cambia colores, familias, copy ni datos.
+>
+> El dossier de producto sustituye el artículo genérico de `/producto` por una
+> portada con ficha técnica y secciones con peso (`lead`, `body`, `fine`) y
+> bloques propios por página. No cambia tokens, tipografía, home ni docs.
 
 ## Principios
 
@@ -288,6 +292,80 @@ simuladas, métricas ni issues inventadas.
 con `DocBlock` (`paragraph`, `list`, `code`, `table`, `note`) en
 `content/docs.ts`; Comandos y FAQ declaran su TOC desde sus propios datos.
 
+### Producto (`features/product`)
+
+Las seis rutas de `/producto` forman un **dossier**: cada página es una hoja
+encuadernada del mismo sistema, no un artículo de docs con otro asunto.
+
+#### Portada y ficha
+
+`ProductHero` abre cada hoja con la barra técnica de la home (`REI HARNESS /
+DOSSIER DE PRODUCTO`, `HOJA nn / 06`, versión e idioma), el `h1` en
+`type-display` y, a la derecha, una **ficha** de cinco datos verificables del
+arnés (modelo, instalación, puerta, registro, alcance, etc.). Los datos se
+declaran en `ProductDocument.facts`; los recuentos se derivan de
+`content/rei` (`CYCLE_STATES`, `BRANCH_STATES`, `AGENT_ROLES`,
+`WORK_ITEM_ROLES`), no se escriben a mano. Solo el hub declara acciones en la
+portada (`Instalar REI`, `Ver cómo funciona`); el resto no compite con el CTA
+global. La retícula de plano aparece en la portada y en las hojas `lead` al
+20–30 % de opacidad; el resto del artículo queda en canvas.
+
+#### Peso de las secciones
+
+`ProductSection` admite un peso editorial explícito:
+
+| Peso | Titular | Fondo | Uso |
+|------|---------|-------|-----|
+| `lead` | `type-title` (44 px) | `bg-surface-deep` a sangre, retícula | La hoja que explica el mecanismo o la prueba de la página. |
+| `body` | `type-docs-title` (32 px) | canvas, rail de folio 3/9 | El estándar del dossier. |
+| `fine` | `type-docs-heading` (24 px) | canvas, rail de folio 3/9 | Audiencias, límites y cierre. |
+
+Cada página declara **como máximo un `lead`**; el test lo comprueba. El rail
+muestra `P.nn` y una etiqueta corta (`Problema`, `Mecanismo`, `Evidencia`), no
+un adorno: es el índice interno de la hoja.
+
+#### Bloques propios
+
+| Bloque | Forma | Páginas |
+|--------|-------|---------|
+| `points` | Ledger de 3 columnas (número, título, detalle); variantes `manifesto` (2 columnas, 24 px), `columns` (registro denso) y `limits` (marca textual `×`). | Hub, modo directo, visor. |
+| `choices` | Dos opciones reales separadas por hairline, con sus artefactos de planificación y su criterio. | Work Items. |
+| `roles` | Los cuatro roles del ciclo en orden, con la **banda violeta de la puerta** entre Spec Author e Implementer; el Initializer cuelga de una rama discontinua «Fuera del ciclo». | Agentes. |
+| `states` | Ciclo como registro numerado y ramas aparte con línea discontinua; `done` en verde y la palabra «terminal». | Cómo funciona, Work Items. |
+| `flow` | Siete pasos con el número de la puerta incluido (`04`); la banda violeta conserva el ancho completo y el `StatusTag` canónico. | Cómo funciona. |
+| `evidence` | Dossier de fuentes: enlace y fecha a la izquierda, hallazgo y «Implicación» en el cuerpo. | Hub. |
+| `artifacts` | Registro de documentos con cabecera `Documento / Qué deja / Responsable`. | Work Items. |
+| `audiences` | Cinco lectores con su necesidad y **rutas reales** (sustituyen la columna de texto «Dónde seguir»). | Hub. |
+| `viewer` | Captura real del visor y su FICHA en ventanas; pie con fecha y enlace a la captura completa. | Visor. |
+| `issue` | Cabecera de una issue pública con estado, labels, fecha y enlace de origen. | GitHub Issues. |
+| `projection` | Diagrama `.rei → issue / rama / PR`; no es una ventana ni se eleva. | GitHub Issues. |
+| `links` | Cierre de sección como índice de lectura: fila, etiqueta y flecha textual. | Todas. |
+
+`ProductProse` sustituye a `DocBlockView` en producto: prosa a 17 px, medida de
+62 ch, listas con marca textual y notas en banda (`border-y`) sin filete
+lateral de color. `ProductPager` cierra la hoja con la anterior y la siguiente
+del registro `PRODUCT_PAGES`; el hub no repite el menú, lo encuaderna.
+
+La subnavegación muestra la etiqueta `Dossier` en escritorio y desplaza en
+horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
+
+#### Reglas del dossier
+
+1. Como máximo un `lead` por página; si dos secciones pesan igual, una deja de
+   ser el ancla.
+2. El violeta solo aparece en la puerta (`points.gate`, `flow`, `roles`); nunca
+   marca un paso, un título o una tarjeta.
+3. `done` sigue siendo el único verde, siempre con «terminal» o el nombre del
+   estado.
+4. Las capturas salen de `public/evidence/manifest.json`; no se dibuja una
+   ventana sin contenido real ni se inventan issues.
+5. Los números de la ficha se derivan de `content/rei`; no se duplican en texto.
+6. El cuerpo del dossier es 17 px y ningún texto real baja de 11 px; los
+   objetivos táctiles conservan 24 px.
+7. Las rutas de «Para quién» son enlaces reales del registro; si una ruta no
+   existe, el test falla antes del build.
+
+
 ## Estados y significado
 
 - Ciclo: `pending → ready → in_progress → review → done`.
@@ -355,6 +433,9 @@ estado final; nada parte de `opacity: 0` fuera de esa mejora.
   la puerta, posiciones de los agentes, terminal y árbol de artefactos.
 - `features/home/data/evidence.ts`: deriva las capturas del manifiesto generado
   (`public/evidence/manifest.json`); no duplica rutas ni textos alternativos.
+- `features/product/data/pages/*.ts`: una hoja por ruta con `label`, `weight`,
+  `facts` y bloques; `features/product/data/captures.ts` resuelve las capturas
+  del visor y de las issues desde el mismo manifiesto.
 - Una sola fuente por dato. No se duplican comandos, estados ni roles.
 - Sin cifras, testimonios, clientes ni comparativas inventadas. La home no usa
   cifras externas.
@@ -417,6 +498,9 @@ identidad es tipográfica, retícula y color.
   completa»; terminal con degradado y nota; teclado en disclosures, matriz y
   terminal; foco visible; contraste AA sin cambios; alt y equivalentes textuales;
   `prefers-reduced-motion` sin animación (estado final) y sin JavaScript.
+- El dossier de producto se revisa a 360/390/768/1024/1440 con una sola hoja
+  `lead` por página, ficha derivada de `content/rei` y capturas resueltas del
+  manifiesto; las rutas de «Para quién» y del pager existen en `ROUTES`.
 - `rei validate` — sin `FAIL`.
 - `playwright-core` es la única dependencia nueva y es `devDependency`; no hay
   dependencias de runtime nuevas.
