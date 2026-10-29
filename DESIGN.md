@@ -350,6 +350,7 @@ un adorno: es el índice interno de la hoja.
 | `audiences` | Cinco lectores con su necesidad y **rutas reales** (sustituyen la columna de texto «Dónde seguir»). | Hub. |
 | `viewer` | Captura real del visor y su FICHA en ventanas; pie con fecha y enlace a la captura completa. | Visor. |
 | `issue` | Cabecera de una issue pública con estado, labels, fecha y enlace de origen. | GitHub Issues. |
+| `initializer` | Captura real de Claude Code con `/personalize` —los adaptadores nativos exponen el mismo comando—, en ventana, con pie de nota y enlace a la captura completa. | Agentes. |
 | `projection` | Diagrama `.rei → issue / rama / PR`; no es una ventana ni se eleva. | GitHub Issues. |
 | `links` | Cierre de sección como índice de lectura: fila, etiqueta y flecha textual. | Todas. |
 
@@ -541,7 +542,10 @@ Los únicos rasters de producto del sitio son las capturas de
 `public/evidence/`, generadas por `pnpm capture:evidence` y versionadas con su
 manifiesto. Su procedencia está declarada en `manifest.json` (archivo, fuente,
 fecha, `alt`, dimensiones y, en issues, número, labels y estado) y se muestran
-con `next/image`, `sizes` y carga diferida. `hero.png` y
+con `next/image`, `sizes` y carga diferida. La captura
+`claude-code-personalize.png` es la excepción: manual, recortada para quitar la
+barra de ventana del sistema, fuera del manifiesto y de `pnpm capture:evidence`,
+que no cambian. `hero.png` y
 `visorEspecificaciones.png` de la raíz son referencias locales de dirección: no
 se versionan, no se usan en la web y no son evidencia. El `favicon.ico` existente
 proviene del scaffold de `create-next-app` y no se modificó; el resto de la
