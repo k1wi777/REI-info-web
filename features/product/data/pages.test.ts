@@ -192,6 +192,10 @@ describe("bloques de producto", () => {
               ).toBeDefined();
               break;
 
+            case "initializer":
+              expect(block.caption.trim()).not.toBe("");
+              break;
+
             default:
               break;
           }
@@ -246,6 +250,25 @@ describe("bloques de producto", () => {
     expect(text).toContain("firma");
     expect(text).toContain("cli");
     expect(text).toContain("no ejecuta comandos ni aprueba work items");
+  });
+
+  it("publica la captura de /personalize una sola vez y solo en la página de roles", () => {
+    const documentsWithBlock = DOCUMENTS.filter((document) =>
+      document.sections.some((section) =>
+        section.blocks.some((block) => block.kind === "initializer"),
+      ),
+    );
+
+    expect(documentsWithBlock.map((document) => document.id)).toEqual([
+      "agentes",
+    ]);
+
+    const blocks = DOCUMENTS.flatMap((document) =>
+      document.sections.flatMap((section) =>
+        section.blocks.filter((block) => block.kind === "initializer"),
+      ),
+    );
+    expect(blocks).toHaveLength(1);
   });
 
   it("encuentra las capturas que dibujan el visor y la issue de ejemplo", () => {
