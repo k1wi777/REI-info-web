@@ -229,6 +229,25 @@ describe("bloques de producto", () => {
     expect(blocksOf("terminal")).toHaveLength(1);
   });
 
+  it("presenta el ciclo como simulación y remite la aprobación real al CLI", () => {
+    const blocks = PRODUCT_DOCUMENTS["como-funciona"].sections.flatMap(
+      (section) => section.blocks,
+    );
+    const cycleIndex = blocks.findIndex((block) => block.kind === "cycle");
+    expect(cycleIndex).toBeGreaterThanOrEqual(0);
+
+    const following = blocks[cycleIndex + 1];
+    if (!following || following.kind !== "paragraph") {
+      throw new Error("El ciclo debe ir seguido de un párrafo explicativo.");
+    }
+
+    const text = following.text.toLowerCase();
+    expect(text).toContain("simulación");
+    expect(text).toContain("firma");
+    expect(text).toContain("cli");
+    expect(text).toContain("no ejecuta comandos ni aprueba work items");
+  });
+
   it("encuentra las capturas que dibujan el visor y la issue de ejemplo", () => {
     expect(productViewerCapture("desktop")).toBeDefined();
     expect(productViewerCapture("ficha")).toBeDefined();
