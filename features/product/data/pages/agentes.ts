@@ -37,6 +37,15 @@ export const AGENTES_DOCUMENT: ProductDocument = {
             "initializer",
           ],
         },
+        {
+          kind: "paragraph",
+          text: "Los distintos CLI con adaptador nativo —OpenCode y Claude Code— reconocen `/personalize` como comando de proyecto: lanza la entrevista del Initializer, que conduce la personalización de la documentación. El Initializer no implementa código ni aprueba Work Items. La captura muestra Claude Code como ejemplo y el comando se ejecuta en el runtime del agente, no en esta web.",
+        },
+        {
+          kind: "initializer",
+          caption:
+            "La captura muestra Claude Code; los adaptadores nativos exponen el mismo comando. La web solo muestra la evidencia.",
+        },
       ],
     },
     {
@@ -68,15 +77,6 @@ export const AGENTES_DOCUMENT: ProductDocument = {
         {
           kind: "paragraph",
           text: "Los archivos generados llevan la marca GENERATED y la instalación es idempotente: si ya están al día, no se modifican, y nunca se sobrescribe un archivo que no hayan generado. `rei init opencode --check` o `rei init claude --check` detectan la deriva sin escribir nada.",
-        },
-        {
-          kind: "paragraph",
-          text: "Los distintos CLI con adaptador nativo —OpenCode y Claude Code— reconocen `/personalize` como comando de proyecto: lanza la entrevista del Initializer, que conduce la personalización de la documentación. El Initializer no implementa código ni aprueba Work Items. La captura muestra Claude Code como ejemplo y el comando se ejecuta en el runtime del agente, no en esta web.",
-        },
-        {
-          kind: "initializer",
-          caption:
-            "La captura muestra Claude Code; los adaptadores nativos exponen el mismo comando. La web solo muestra la evidencia.",
         },
         {
           kind: "links",
