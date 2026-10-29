@@ -413,15 +413,16 @@ se concretan en la sección 12; aquí solo lo propio de la indexación:
 
 | Fase | Alcance | Estado |
 |------|---------|--------|
-| **0. Base** | Scaffold, arnés inicializado, README, estrategia de producto. | En curso |
-| **1. Fundaciones** | Tokens, layout raíz, cabecera, pie, navegación, shell de docs y rutas base. | Siguiente |
-| **2. Onboarding** | Home, qué es REI, cómo funciona, instalación y primer Work Item. | Pendiente |
-| **3. Producto** | Agentes, Work Items y estados, visor, GitHub. | Pendiente |
-| **4. Referencia** | Comandos, guías, FAQ, changelog y tests de lógica. | Pendiente |
-| **5. Pulido y publicación** | SEO, Open Graph, accesibilidad, rendimiento, despliegue. | Pendiente |
+| **0. Base** | Scaffold, arnés inicializado, README, estrategia de producto. | Completada |
+| **1. Fundaciones** | Tokens, layout raíz, cabecera, pie, navegación, shell de docs y rutas base. | Completada |
+| **2. Onboarding** | Home, qué es REI, cómo funciona, instalación y primer Work Item. | Completada |
+| **3. Producto** | Agentes, Work Items y estados, visor, GitHub Issues, ciclo interactivo y simulación. | Completada |
+| **4. Referencia** | Comandos, guías, FAQ, changelog y tests de lógica. | Completada |
+| **5. Pulido y publicación** | Responsive, accesibilidad, tipografía y evidencia real hechas; pendientes SEO, Open Graph, rendimiento, `llms.txt`, CI, despliegue y dominio. | En curso |
 
 **Decisión.** El orden es coherente con el roadmap de `README.md`: cada fase
-produce páginas completas y verificables, no esqueletos vacíos acumulados.
+produce páginas completas y verificables, no esqueletos vacíos acumulados. La
+fase 5 no se cierra hasta publicar y verificar el dominio real.
 
 ## 18. Riesgos y decisiones abiertas
 

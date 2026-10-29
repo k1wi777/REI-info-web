@@ -8,10 +8,12 @@
 
 ## Estado del proyecto
 
-> **Fase inicial.** El repositorio contiene el scaffold de Next.js y el arnés REI inicializado, pero la web todavía no tiene contenido propio: la única página existente es la plantilla de `create-next-app`.
+> **Web implementada, pendiente de publicación.** La home, el dossier de producto, la documentación, el visor y GitHub Issues ya tienen contenido propio y evidencia real. Queda cerrar SEO/Open Graph, `llms.txt`, CI y despliegue.
 
-- La dirección visual, la navegación y las páginas de contenido están pendientes.
-- No hay backend, base de datos, autenticación ni CMS.
+- La dirección visual, la navegación, la home, el producto y la documentación están implementados.
+- El contenido es estático y versionado; no hay backend, base de datos, autenticación ni CMS.
+- La evidencia del visor y de GitHub Issues es real y se regenera con `pnpm capture:evidence`.
+- `pnpm test` cubre lógica y datos; `pnpm build` genera 36 rutas.
 - No hay despliegue configurado ni dominio público.
 - La versión de REI que documenta esta web es **v0.3.0** (26 de octubre de 2026). La fuente de verdad de versiones es [GitHub Releases](https://github.com/k1wi777/REI-Harness/releases).
 
@@ -507,14 +509,14 @@ Todavía no hay proveedor ni dominio decidido. La web es estática por naturalez
 
 ## Roadmap
 
-| Fase | Alcance |
-|------|---------|
-| **0. Base** | Scaffold de Next.js, arnés REI inicializado, README y `.gitignore`. |
-| **1. Fundamentos** | Tokens visuales, layout, navegación, footer, página de inicio. |
-| **2. Producto** | Qué es REI, cómo funciona, agentes y flujo de aprobación. |
-| **3. Referencia** | Instalación, comandos, Work Items, visor, GitHub y FAQ. |
-| **4. Pulido** | Responsive, accesibilidad, SEO, Open Graph, rendimiento. |
-| **5. Publicación** | Despliegue, dominio y revisión final de contenido. |
+| Fase | Alcance | Estado |
+|------|---------|--------|
+| **0. Base** | Scaffold de Next.js, arnés REI inicializado, README y `.gitignore`. | Completada |
+| **1. Fundamentos** | Tokens visuales, layout, navegación, footer y página de inicio. | Completada |
+| **2. Producto** | Qué es REI, cómo funciona, agentes, ciclo y flujo de aprobación. | Completada |
+| **3. Referencia** | Instalación, comandos, Work Items, visor, GitHub Issues y FAQ. | Completada |
+| **4. Pulido** | Responsive, accesibilidad, tipografía, evidencia interactiva y revisión visual. | Completada |
+| **5. Publicación** | SEO, Open Graph, rendimiento, `llms.txt`, CI, despliegue, dominio y revisión final. | Pendiente |
 
 Las fases son orientativas. Cada cambio relevante se planifica como Feature o Task mediante REI; no se implementa directamente sobre la rama principal sin aprobación.
 
