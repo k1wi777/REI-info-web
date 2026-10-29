@@ -128,7 +128,7 @@ de 8 px y la guía de 72 px en la home.
 | `sheet-grid` | Retícula de la hoja; solo en el acto del problema. |
 | `stage-light` | Luz radial tenue sobre una zona con capturas. |
 | `fade-bottom` | Recortes largos: el borde inferior se disuelve. |
-| `fade-right` | Salidas con desplazamiento horizontal: matriz por debajo de `sm` y terminal por debajo de `xl`. |
+| `fade-right` | Salidas largas con desplazamiento horizontal: matriz por debajo de `sm` y terminal cuando la salida es larga. |
 | `scroll-code` | Barra de desplazamiento fina, dentro de la paleta. |
 
 ## Tipografía y fuentes
@@ -332,9 +332,9 @@ un adorno: es el índice interno de la hoja.
 | `choices` | Dos opciones reales separadas por hairline, con sus artefactos de planificación y su criterio. | Work Items. |
 | `roles` | Los cuatro roles del ciclo en orden, con la **banda violeta de la puerta** entre Spec Author e Implementer; el Initializer cuelga de una rama discontinua «Fuera del ciclo». | Agentes. |
 | `states` | Ciclo como registro numerado y ramas aparte con línea discontinua; `done` en verde y la palabra «terminal». | Cómo funciona, Work Items. |
-| `flow` | Siete pasos con el número de la puerta incluido (`04`); la banda violeta conserva el ancho completo y el `StatusTag` canónico. | Cómo funciona. |
+| `cycle` | Recorrido manual de seis paradas —`pending`, `ready`, aprobación, `in_progress`, `review`, `done`— con rail, panel de transiciones, ramas y puerta violeta; sin autoplay y con un único componente cliente. | Cómo funciona. |
 | `evidence` | Dossier de fuentes: enlace y fecha a la izquierda, hallazgo y «Implicación» en el cuerpo. | Hub. |
-| `artifacts` | Registro de documentos con cabecera `Documento / Qué deja / Responsable`. | Work Items. |
+| `terminal` | Terminal con salidas reales fechadas en `<details>` nativos (la primera abierta) y árbol real de `.rei/` con ruta, qué deja y responsable; rejilla 7/5 en `lg` y 8/4 desde `xl`. | Work Items. |
 | `audiences` | Cinco lectores con su necesidad y **rutas reales** (sustituyen la columna de texto «Dónde seguir»). | Hub. |
 | `viewer` | Captura real del visor y su FICHA en ventanas; pie con fecha y enlace a la captura completa. | Visor. |
 | `issue` | Cabecera de una issue pública con estado, labels, fecha y enlace de origen. | GitHub Issues. |
@@ -346,6 +346,14 @@ un adorno: es el índice interno de la hoja.
 lateral de color. `ProductPager` cierra la hoja con la anterior y la siguiente
 del registro `PRODUCT_PAGES`; el hub no repite el menú, lo encuaderna.
 
+El bloque `cycle` es la lectura secuencial del mismo registro de estados, una
+parada a la vez: la puerta ocupa una parada propia entre `ready` e
+`in_progress`, detiene el recorrido y declara que la firma es humana y que el
+silencio no aprueba. El bloque `terminal` aporta la evidencia fechada: cada
+salida lleva su comando y su fecha de captura, y el árbol muestra la ruta real
+de cada documento con su responsable. La interfaz no ejecuta comandos ni
+aprueba Work Items.
+
 La subnavegación muestra la etiqueta `Dossier` en escritorio y desplaza en
 horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
 
@@ -353,7 +361,7 @@ horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
 
 1. Como máximo un `lead` por página; si dos secciones pesan igual, una deja de
    ser el ancla.
-2. El violeta solo aparece en la puerta (`points.gate`, `flow`, `roles`); nunca
+2. El violeta solo aparece en la puerta (`points.gate`, `cycle`, `roles`); nunca
    marca un paso, un título o una tarjeta.
 3. `done` sigue siendo el único verde, siempre con «terminal» o el nombre del
    estado.
