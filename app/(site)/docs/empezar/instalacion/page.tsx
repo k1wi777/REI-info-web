@@ -1,16 +1,23 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { getDocsPageOrThrow } from "@/content/site";
 import {
   InstallationPage,
   INSTALLATION_PATH,
 } from "@/features/installation";
+import { pageMetadata } from "@/lib/seo";
 
 const docsPage = getDocsPageOrThrow(INSTALLATION_PATH);
 
-export const metadata: Metadata = {
-  title: docsPage.title,
-  description: docsPage.description,
-};
+export async function generateMetadata(
+  _props: PageProps<"/docs/empezar/instalacion">,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  return pageMetadata(parent, {
+    path: "/docs/empezar/instalacion",
+    title: docsPage.title,
+    description: docsPage.description,
+  });
+}
 
 export default function Page() {
   return <InstallationPage />;

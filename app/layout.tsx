@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Geist, Geist_Mono } from "next/font/google";
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/content/site";
+import {
+  PRODUCT_NAME,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  getSiteUrl,
+} from "@/content/site";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -23,12 +28,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: SITE_TITLE,
     template: "%s — REI Harness",
   },
   description: SITE_DESCRIPTION,
   applicationName: "REI Web",
+  openGraph: {
+    type: "website",
+    siteName: PRODUCT_NAME,
+    locale: "es_ES",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
