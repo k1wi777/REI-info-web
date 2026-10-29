@@ -17,6 +17,46 @@ import type {
   ProductBlock,
   ProductSection as ProductSectionData,
 } from "@/features/product/types";
+import { cn } from "@/lib/cn";
+
+/**
+ * Las listas-registro del dossier comparten el mismo marco: borde superior en
+ * la lista, laterales y cierre inferior en el contenedor, y padding interno
+ * para que el contenido y las flechas no toquen los bordes.
+ */
+const PRODUCT_FRAME = cn(
+  "[&>ol]:border-x [&>ol]:border-b [&>ol]:border-hairline-strong",
+  "[&>ul]:border-x [&>ul]:border-b [&>ul]:border-hairline-strong",
+  "[&>div>ol]:border-x [&>div>ol]:border-b [&>div>ol]:border-hairline-strong",
+  "[&>div>ul]:border-x [&>div>ul]:border-b [&>div>ul]:border-hairline-strong",
+  "[&>ol>li]:px-4 [&>ul>li]:px-4 [&>div>ol>li]:px-4 [&>div>ul>li]:px-4",
+  "[&>ol>li:last-child]:border-b-0 [&>ul>li:last-child]:border-b-0",
+  "[&>div>ol>li:last-child]:border-b-0 [&>div>ul>li:last-child]:border-b-0",
+  "[&>ul>li:last-child>a]:border-b-0 [&>div>ul>li:last-child>a]:border-b-0",
+);
+
+const PRODUCT_ARTIFACTS_HEADER = cn(
+  "[&>div>div]:border-x [&>div>div]:border-t [&>div>div]:border-hairline-strong",
+  "[&>div>div]:px-4",
+);
+
+function isFramedBlock(block: ProductBlock): boolean {
+  switch (block.kind) {
+    case "links":
+    case "audiences":
+    case "artifacts":
+    case "roles":
+    case "states":
+    case "evidence":
+    case "flow":
+    case "commands":
+      return true;
+    case "points":
+      return block.variant !== "manifesto" && block.variant !== "columns";
+    default:
+      return false;
+  }
+}
 
 function ProductBlockView({ block }: { block: ProductBlock }) {
   switch (block.kind) {
@@ -83,10 +123,16 @@ export function ProductBlocks({ sections }: ProductBlocksProps) {
           folio={`P.${String(index + 1).padStart(2, "0")}`}
         >
           {section.blocks.map((block, blockIndex) => (
-            <ProductBlockView
+            <div
               key={`${section.id}-${blockIndex}`}
-              block={block}
-            />
+              className={cn(
+                "min-w-0",
+                isFramedBlock(block) && PRODUCT_FRAME,
+                block.kind === "artifacts" && PRODUCT_ARTIFACTS_HEADER,
+              )}
+            >
+              <ProductBlockView block={block} />
+            </div>
           ))}
         </ProductSection>
       ))}
