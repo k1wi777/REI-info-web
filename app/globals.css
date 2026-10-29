@@ -317,6 +317,48 @@
   }
 }
 
+/* Firma simulada de la puerta: cursor, onda y check dentro de los 3000 ms. */
+@keyframes cycle-cursor-in {
+  from {
+    opacity: 0;
+    transform: translate(10px, 10px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cycle-click-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  35% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes cycle-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @utility cycle-ping {
   animation: cycle-ping 2.6s var(--ease-out) infinite;
 }
@@ -329,9 +371,24 @@
   animation: cycle-panel-in 340ms var(--ease-out) both;
 }
 
-/* Fuera de pantalla, los latidos no consumen nada. */
+@utility cycle-cursor {
+  animation: cycle-cursor-in 420ms var(--ease-out) 160ms both;
+}
+
+@utility cycle-click-ring {
+  animation: cycle-click-ring 900ms var(--ease-out) 900ms both;
+}
+
+@utility cycle-check {
+  animation: cycle-check-in 360ms var(--ease-out) 1500ms both;
+}
+
+/* Fuera de pantalla, la simulación no consume nada. */
 [data-cycle-motion="off"] .cycle-ping,
-[data-cycle-motion="off"] .cycle-gate-breathe {
+[data-cycle-motion="off"] .cycle-gate-breathe,
+[data-cycle-motion="off"] .cycle-cursor,
+[data-cycle-motion="off"] .cycle-click-ring,
+[data-cycle-motion="off"] .cycle-check {
   animation-play-state: paused;
 }
 

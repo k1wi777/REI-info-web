@@ -27,7 +27,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
         { kind: "cycle" },
         {
           kind: "paragraph",
-          text: "El ciclo se recorre parada a parada. «Recorrer» avanza hasta la puerta y se detiene; el cruce de la aprobación es manual y el Work Item real no se mueve desde aquí. La tabla de estados de más abajo conserva el registro completo.",
+          text: "La ventana es una simulación automática: al entrar en pantalla recorre las seis paradas y se detiene en la puerta para escenificar la firma. El cursor, el botón «Aprobar» y el check son fingidos; la aprobación real es humana y se registra desde el CLI. Puedes pausarla o recorrer las paradas a mano: la simulación no ejecuta comandos ni aprueba Work Items. La tabla de estados de más abajo conserva el registro completo.",
         },
         {
           kind: "paragraph",

@@ -30,6 +30,12 @@
 > tabla de estados gana el mapa del recorrido y la banda de la puerta. La
 > comparación Feature/Task pasa a filas alineadas tipo · planificación ·
 > criterio. No cambia tokens, tipografía ni el resto del dossier.
+>
+> La simulación del ciclo convierte esa ventana en una reproducción automática
+> en loop: arranca al entrar en viewport, se pausa al salir, se detiene en la
+> puerta para escenificar una firma y se reinicia. La escena es decorativa y la
+> ventana se rotula como `SIMULACIÓN`; no cambia tokens, tipografía ni el resto
+> del dossier.
 
 ## Principios
 
@@ -338,7 +344,7 @@ un adorno: es el índice interno de la hoja.
 | `choices` | Dos filas de registro —tipo, planificación en árbol y criterio— con columnas alineadas y el recuento de documentos derivado de la lista. | Work Items. |
 | `roles` | Los cuatro roles del ciclo en orden, con la **banda violeta de la puerta** entre Spec Author e Implementer; el Initializer cuelga de una rama discontinua «Fuera del ciclo». | Agentes. |
 | `states` | Mapa compacto del recorrido (cinco estados y la puerta en su sitio), registro numerado con la **banda violeta de la puerta** entre `ready` e `in_progress`, y ramas aparte con línea discontinua; `done` en verde y la palabra «terminal». | Cómo funciona, Work Items. |
-| `cycle` | Ventana de producto con barra de progreso, rail vertical de seis paradas —`pending`, `ready`, aprobación, `in_progress`, `review`, `done`—, panel de una parada, salidas reales y controles manuales más «Recorrer» explícito, pausable y detenido en la puerta; un único componente cliente. | Cómo funciona. |
+| `cycle` | Ventana de producto en **simulación automática**: barra de progreso con sello `SIMULACIÓN`, rail vertical de seis paradas —`pending`, `ready`, aprobación, `in_progress`, `review`, `done`—, panel de una parada con salidas reales, loop al entrar en viewport, pausa al salir, `Pausar`/`Reanudar` y `Anterior`/`Siguiente`/`Reiniciar` que ceden al modo manual; en la puerta, escena fingida de cursor, botón «Aprobar», onda y check con la etiqueta «Firma humana simulada». Un único componente cliente; no ejecuta comandos. | Cómo funciona. |
 | `evidence` | Dossier de fuentes: enlace y fecha a la izquierda, hallazgo y «Implicación» en el cuerpo. | Hub. |
 | `terminal` | Terminal con salidas reales fechadas en `<details>` nativos (la primera abierta) y árbol real de `.rei/` con ruta, qué deja y responsable; rejilla 7/5 en `lg` y 8/4 desde `xl`. | Work Items. |
 | `audiences` | Cinco lectores con su necesidad y **rutas reales** (sustituyen la columna de texto «Dónde seguir»). | Hub. |
@@ -354,12 +360,17 @@ del registro `PRODUCT_PAGES`; el hub no repite el menú, lo encuaderna.
 
 El bloque `cycle` es la lectura secuencial del mismo registro de estados, una
 parada a la vez: se presenta como una ventana de producto con barra de progreso,
-rail de seis paradas y panel. La puerta ocupa una parada propia entre `ready` e
-`in_progress`, detiene el recorrido y declara que la firma es humana y que el
-silencio no aprueba. El rail se rellena hasta la parada activa y el panel se
-releva con un fundido corto; «Recorrer» solo empieza con una acción humana, se
-pausa al elegir una parada y se detiene siempre en la puerta. El cruce de la
-aprobación es manual; después puede continuar hasta `done`. La tabla de estados repite el recorrido como registro y añade la banda
+rail de seis paradas y panel. La simulación arranca sola al entrar en el
+viewport, recorre las seis paradas y se reinicia tras `done`; al salir se pausa
+y solo reanuda si la persona no la había pausado. En la puerta se detiene tres
+segundos y escenifica una firma: cursor, botón visual «Aprobar», onda y check,
+con la etiqueta «Firma humana simulada» y la nota de que la firma real se
+registra en el CLI. Ese «Aprobar» es un `span` decorativo, `aria-hidden`, no
+focusable y sin efecto; la web no escribe en `.rei/`. El rail se rellena hasta
+la parada activa y el panel se releva con un fundido corto;
+`Anterior`/`Siguiente`/`Reiniciar` detienen el modo automático y dejan el
+recorrido manual. La simulación se rotula en la franja de progreso y en el pie.
+La tabla de estados repite el recorrido como registro y añade la banda
 de la puerta, de modo que la aprobación también se ve en Work Items. El bloque
 `terminal` aporta la evidencia fechada: cada salida lleva su comando y su fecha
 de captura, y el árbol muestra la ruta real de cada documento con su
@@ -406,10 +417,14 @@ y se muestra el estado final.
 
 En el ciclo de producto, el punto de la parada activa late (`cycle-ping`), la
 barra de la puerta respira (`cycle-gate-breathe`) y el panel se revela al
-cambiar de parada (`cycle-panel-in`). Son tres animaciones acotadas y continuas
-que no cambian el estado por sí solas: el recorrido solo avanza con un botón.
-Con `prefers-reduced-motion: reduce` las duraciones se reducen y el contenido
-queda en su estado final.
+cambiar de parada (`cycle-panel-in`). La firma simulada añade tres animaciones
+escalonadas dentro de los 3000 ms de la puerta: entrada del cursor
+(`cycle-cursor-in`, 160 ms), onda de clic (`cycle-click-ring`, 900 ms) y check
+(`cycle-check-in`, 1500 ms). Todas animan solo `opacity` y `transform`, se
+pausan con `[data-cycle-motion="off"]` fuera del viewport y no cambian el estado
+por sí solas: el avance lo marca un único `setTimeout` y las acciones manuales
+lo detienen. Con `prefers-reduced-motion: reduce` no hay loop, cursor, clic ni
+latidos; el recorrido es manual y el contenido queda completo.
 
 Las etapas de la puerta añaden un revelado escalonado ligado al scroll
 (`animation-timeline: view()`) bajo `@supports` y
@@ -443,6 +458,14 @@ estado final; nada parte de `opacity: 0` fuera de esa mejora.
 - Las marcas de color (`warning`, `error`, `success`) siempre llevan etiqueta.
 - Responsive desde 360 px; las tablas y el código tienen scroll interno, nunca
   la página. Revisado a 360, 390, 768, 1024 y 1440.
+- La simulación del ciclo se anuncia como `role="group"` con `aria-label`
+  «Simulación del ciclo de un Work Item»; `aria-live="polite"` solo narra
+  acciones manuales —cambio de parada, pausa, reanudación y fin del recorrido—,
+  nunca los pasos automáticos. El botón «Aprobar» de la escena es decorativo,
+  `aria-hidden`, no focusable y sin efecto. Con movimiento reducido el botón
+  principal queda deshabilitado y descrito por «Movimiento reducido: recorrido
+  manual»; sin JavaScript quedan la primera parada, el aviso en `<noscript>` y
+  la tabla de estados.
 - Contraste comprobado (WCAG AA): texto 18.15:1, secundario 7.72:1,
   muted-strong 5.79:1, acento-text 7.27:1, éxito 8.68:1, aviso 8.92:1,
   error 6.00:1 y `on-accent` sobre acento 4.67:1. El foco (4.67:1) supera el
@@ -527,11 +550,14 @@ identidad es tipográfica, retícula y color.
 - El dossier de producto se revisa a 360/390/768/1024/1440 con una sola hoja
   `lead` por página, ficha derivada de `content/rei` y capturas resueltas del
   manifiesto; las rutas de «Para quién» y del pager existen en `ROUTES`.
-- El ciclo de producto se recorre con teclado y puntero; «Recorrer» avanza,
-  se pausa y se detiene en la puerta, cuyo cruce es manual; el rail se apila
-  por debajo de `lg` sin scroll horizontal; con `prefers-reduced-motion` las animaciones se reducen y el
-  contenido queda en su estado final. La banda de la puerta aparece también en
-  la tabla de estados de Work Items.
+- El ciclo de producto se revisa con la simulación en loop: arranca al entrar
+  en viewport, se pausa al salir y reanuda solo si no se ha pausado a mano;
+  `Pausar`/`Reanudar` responden y `Anterior`/`Siguiente`/`Reiniciar` pasan a
+  manual; la puerta detiene 3 s con la escena fingida y «Aprobar» no recibe foco
+  ni ejecuta nada; sin scroll horizontal a 360/390/768/1024/1440; con
+  `prefers-reduced-motion` no hay loop ni cursor y el recorrido es manual; sin
+  JavaScript quedan la primera parada y la tabla. La banda de la puerta aparece
+  también en la tabla de estados de Work Items.
 - `rei validate` — sin `FAIL`.
 - `playwright-core` es la única dependencia nueva y es `devDependency`; no hay
   dependencias de runtime nuevas.
