@@ -33,27 +33,25 @@ type RoleNodeProps = {
 
 function RoleNode({ role, node, branch = false }: RoleNodeProps) {
   return (
-    <li
-      className={cn(
-        "relative flex min-w-0 flex-col pt-4",
-        branch
-          ? "border-t border-dashed border-border-strong"
-          : "border-t border-hairline-strong",
-      )}
-    >
-      <span
-        aria-hidden="true"
-        className={cn(
-          "absolute -top-[0.1875rem] left-0 size-1.5 rounded-full",
-          branch ? "bg-border-strong" : "bg-muted",
-        )}
-      />
-
-      <details className="group h-full">
+    <li className="min-w-0">
+      <details className="group" name="agent-roles">
         <summary
-          aria-label={`${role.name}. ${node.handoff}. Abrir responsabilidad y límite.`}
-          className="flex h-full cursor-pointer list-none flex-col [&::-webkit-details-marker]:hidden pl-2"
+          aria-label={`${role.name}. ${node.handoff}. Ver responsabilidad y límite.`}
+          className={cn(
+            "relative flex min-h-28 cursor-pointer list-none flex-col border-t pt-4 pl-2 transition-colors group-open:bg-surface-deep/50 [&::-webkit-details-marker]:hidden",
+            branch
+              ? "border-dashed border-border-strong"
+              : "border-hairline-strong",
+          )}
         >
+          <span
+            aria-hidden="true"
+            className={cn(
+              "absolute left-0 top-0 size-1.5 -translate-y-1/2 rounded-full",
+              branch ? "bg-border-strong" : "bg-muted",
+            )}
+          />
+
           <span className="type-meta-sm text-muted-strong">{node.handoff}</span>
           <span className="mt-2 type-docs-heading text-foreground">
             {role.name}
@@ -63,19 +61,31 @@ function RoleNode({ role, node, branch = false }: RoleNodeProps) {
             <Chevron />
           </span>
         </summary>
-        <div className="mt-4 space-y-3 border-t border-hairline pt-3">
-          <div>
-            <p className="type-meta-sm text-muted-strong">Responsabilidad</p>
-            <p className="mt-1 type-caption text-secondary">
-              {role.responsibility}
-            </p>
-          </div>
-          <div>
-            <p className="type-meta-sm text-muted-strong">Límite</p>
-            <p className="mt-1 type-caption text-secondary">{role.limit}</p>
+
+        <div
+          className={cn(
+            "mt-3 border-t border-hairline-strong bg-surface-deep/60 px-4 py-4",
+            !branch &&
+              "sm:absolute sm:inset-x-0 sm:top-[calc(100%-8rem)] sm:z-10 sm:mt-0 sm:h-32 sm:overflow-y-auto lg:top-[calc(100%-7rem)] lg:h-28",
+          )}
+        >
+          <p className="type-meta-sm text-muted-strong">
+            {role.name} · Responsabilidad y límite
+          </p>
+
+          <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="type-meta-sm text-muted-strong">Responsabilidad</p>
+              <p className="mt-1 type-caption text-secondary">
+                {role.responsibility}
+              </p>
+            </div>
+            <div>
+              <p className="type-meta-sm text-muted-strong">Límite</p>
+              <p className="mt-1 type-caption text-secondary">{role.limit}</p>
+            </div>
           </div>
         </div>
-
       </details>
     </li>
   );
@@ -96,7 +106,7 @@ export function AgentsDemo() {
       intro="Cada rol recibe un contrato propio y no invade el trabajo de otro. Abre cualquier rol —también con teclado— para leer su responsabilidad y su límite."
       note="La puerta ocupa el lugar entre Spec Author e Implementer; el Initializer es una rama lateral que no recorre el ciclo del Work Item. Los adaptadores nativos de OpenCode y Claude Code son opcionales; Cursor y Codex funcionan por fallback."
     >
-      <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
+      <ol className="relative grid items-start gap-6 sm:grid-cols-2 sm:has-[details[open]]:pb-32 lg:grid-cols-5 lg:gap-5 lg:has-[details[open]]:pb-28">
         {flow.map((node) => {
           const role = ROLES.get(node.roleId);
           if (!role) return null;
@@ -104,7 +114,7 @@ export function AgentsDemo() {
           return (
             <Fragment key={node.roleId}>
               {node.roleId === FOLLOWS ? (
-                <li className="relative flex min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4 pl-2">
+                <li className="relative flex min-h-28 min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4 pl-2">
                   <span
                     aria-hidden="true"
                     className="absolute -top-[0.1875rem] left-0 size-1.5 rounded-full bg-accent-text"
@@ -125,7 +135,7 @@ export function AgentsDemo() {
         })}
       </ol>
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
+      <div className="mt-6 grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5">
         {branches.map((node) => {
           const role = ROLES.get(node.roleId);
           if (!role) return null;
