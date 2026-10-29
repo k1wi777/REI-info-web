@@ -407,13 +407,30 @@ horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
 
 ## Momento memorable
 
-En la home, solo la matriz: las bandas entran desde el borde de la hoja
-(`matrix-band-in`), la banda de aprobación se cierra sobre el eje horizontal
-(`gate-close`) y la firma se dibuja al final (`signature-draw`). Solo se animan
-`transform` y `opacity`, una vez por carga, sin JavaScript ni librerías. Los
-elementos decorativos son `aria-hidden` y el texto existe desde el primer
-render. Con `prefers-reduced-motion: reduce`, las tres animaciones se desactivan
-y se muestra el estado final.
+La home tiene una única entrada: un controlador cliente (`RevealController`)
+observa los elementos `[data-reveal]` de `main#contenido`, añade `data-revealed`
+una sola vez y deja de observarlos. El movimiento vive en CSS y solo anima
+`opacity` y `transform`: 560 ms con `--ease-out`, cuatro variantes (`up` 12 px,
+`left` y `right` 14 px, `fade` sin desplazamiento) y un escalonado de 70 ms por
+paso, hasta cinco pasos (`data-reveal-delay="1"`–`"5"`). Las cabeceras escalonan
+etiqueta, titular, entrada y enlace; las listas, tarjetas, ventanas y capturas
+entran con un desplazamiento corto; los textos internos usan `fade` para no
+retrasar la lectura. No se anima cada párrafo ni la salida de la terminal línea
+a línea.
+
+El estado inicial oculto solo existe con `html[data-reveal-motion="on"]`, que
+escribe un script estático antes de la hidratación cuando hay
+`IntersectionObserver` y no se prefiere movimiento reducido. Si el controlador no
+confirma la hidratación (`data-reveal-ready`), un watchdog retira el atributo a
+los 4 s y el contenido vuelve a su estado final. En la navegación cliente el
+script inline no se ejecuta: el controlador enciende `data-reveal-motion` en un
+layout effect, antes del paint, y lo respeta si ya estaba activo; sin observer o
+con movimiento reducido marca los objetivos como revelados. Sin JavaScript no hay estado
+oculto ni espacios reservados; con `prefers-reduced-motion: reduce` no hay
+fundidos ni desplazamientos, incluso si la preferencia cambia durante la visita.
+El hero —tesis, `HeroSheet`, la matriz de roles, la escala de estados y la
+metadata— queda fuera del sistema para no retrasar el LCP; la matriz ya no tiene
+animación de bandas ni de firma.
 
 En el ciclo de producto, el punto de la parada activa late (`cycle-ping`), la
 barra de la puerta respira (`cycle-gate-breathe`) y el panel se revela al
@@ -426,13 +443,11 @@ por sí solas: el avance lo marca un único `setTimeout` y las acciones manuales
 lo detienen. Con `prefers-reduced-motion: reduce` no hay loop, cursor, clic ni
 latidos; el recorrido es manual y el contenido queda completo.
 
-Las etapas de la puerta añaden un revelado escalonado ligado al scroll
-(`animation-timeline: view()`) bajo `@supports` y
-`prefers-reduced-motion: no-preference`: `opacity`, `transform` y un `blur` de
-3 px que llega a 0, sin JavaScript y una sola vez por elemento. El revelado se
-aplica solo a esa demo, no a toda la página. Si el navegador no soporta la línea
-de tiempo o la persona reduce el movimiento, el contenido queda visible en su
-estado final; nada parte de `opacity: 0` fuera de esa mejora.
+Límites del sistema: sin librerías de animación, vídeo, bucles, parallax ni
+scroll-jacking; solo se animan `opacity` y `transform`, y el contenido no cambia
+de flujo, de orden de tabulación ni de semántica. El sistema no cubre contenido
+añadido dinámicamente —hoy no existe— y un elemento revelado no vuelve a
+animarse.
 
 ## Accesibilidad
 
