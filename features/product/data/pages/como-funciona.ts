@@ -24,7 +24,11 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
           kind: "paragraph",
           text: "Un Work Item recorre el mismo flujo tanto si es una Feature como si es una Task. Lo que cambia es la planificación que genera el Spec Author: requisitos, diseño y tareas para una Feature; un plan breve para una Task.",
         },
-        { kind: "flow" },
+        { kind: "cycle" },
+        {
+          kind: "paragraph",
+          text: "El ciclo se recorre parada a parada: los controles manuales avanzan y se detienen en la aprobación; nada avanza solo. La tabla de estados de más abajo conserva el registro completo.",
+        },
         {
           kind: "paragraph",
           text: "El estado del trabajo no vive en la conversación: `meta.json` registra la etapa de cada Work Item y `current.md` refleja la sesión activa para poder retomarla.",

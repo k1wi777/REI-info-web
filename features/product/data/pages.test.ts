@@ -113,7 +113,7 @@ describe("bloques de producto", () => {
     }
   });
 
-  it("rellena los ledgers, las opciones y los artefactos", () => {
+  it("rellena los ledgers y las opciones", () => {
     for (const document of DOCUMENTS) {
       for (const section of document.sections) {
         for (const block of section.blocks) {
@@ -132,15 +132,6 @@ describe("bloques de producto", () => {
                 expect(choice.name.trim()).not.toBe("");
                 expect(choice.planning.length).toBeGreaterThan(0);
                 expect(choice.when.trim()).not.toBe("");
-              }
-              break;
-
-            case "artifacts":
-              expect(block.items.length).toBeGreaterThan(0);
-              for (const item of block.items) {
-                expect(item.name.trim()).not.toBe("");
-                expect(item.detail.trim()).not.toBe("");
-                expect(item.owner.trim()).not.toBe("");
               }
               break;
 
@@ -209,16 +200,33 @@ describe("bloques de producto", () => {
     }
   });
 
-  it("usa un solo bloque de flujo en la página que lo explica", () => {
-    const flowDocuments = DOCUMENTS.filter((document) =>
+  it("usa un solo ciclo y una sola terminal en las páginas que los explican", () => {
+    const blocksOf = (kind: "cycle" | "terminal") =>
+      DOCUMENTS.flatMap((document) =>
+        document.sections.flatMap((section) =>
+          section.blocks.filter((block) => block.kind === kind),
+        ),
+      );
+
+    const cycleDocuments = DOCUMENTS.filter((document) =>
       document.sections.some((section) =>
-        section.blocks.some((block) => block.kind === "flow"),
+        section.blocks.some((block) => block.kind === "cycle"),
+      ),
+    );
+    const terminalDocuments = DOCUMENTS.filter((document) =>
+      document.sections.some((section) =>
+        section.blocks.some((block) => block.kind === "terminal"),
       ),
     );
 
-    expect(flowDocuments.map((document) => document.id)).toEqual([
+    expect(cycleDocuments.map((document) => document.id)).toEqual([
       "como-funciona",
     ]);
+    expect(terminalDocuments.map((document) => document.id)).toEqual([
+      "work-items",
+    ]);
+    expect(blocksOf("cycle")).toHaveLength(1);
+    expect(blocksOf("terminal")).toHaveLength(1);
   });
 
   it("encuentra las capturas que dibujan el visor y la issue de ejemplo", () => {

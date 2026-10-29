@@ -95,43 +95,12 @@ export const WORK_ITEMS_DOCUMENT: ProductDocument = {
           kind: "paragraph",
           text: "El repositorio guarda la evidencia del trabajo; el chat no es el registro. Cada documento tiene un responsable y un momento.",
         },
+        { kind: "terminal" },
         {
-          kind: "artifacts",
-          items: [
-            {
-              id: "impl",
-              name: "impl.md",
-              detail:
-                "Resumen, archivos, cambios y verificación de la implementación.",
-              owner: "Implementer",
-            },
-            {
-              id: "review",
-              name: "review.md",
-              detail:
-                "Veredicto, verificaciones, observaciones y acciones requeridas.",
-              owner: "Reviewer",
-            },
-            {
-              id: "current",
-              name: "current.md",
-              detail: "Sesión viva: estado, bitácora y próximo paso.",
-              owner: "Spec Author lo inicia; Implementer lo mantiene",
-            },
-            {
-              id: "history",
-              name: "history.md",
-              detail:
-                "Archivo append-only con el resumen de cada Work Item cerrado.",
-              owner: "Reviewer al archivar la sesión",
-            },
-            {
-              id: "meta",
-              name: "meta.json",
-              detail: "Tipo, estado, `base_commit` y `last_review_commit`.",
-              owner: "Leader al crear y aprobar; Reviewer al rechazar",
-            },
-          ],
+          kind: "note",
+          tone: "info",
+          title: "Instantánea fechada",
+          text: "Las salidas de la terminal se capturaron el 2026-10-28; el estado puede cambiar. El árbol muestra la ruta real de cada documento y quién lo escribe.",
         },
       ],
     },

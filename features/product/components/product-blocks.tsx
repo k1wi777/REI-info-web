@@ -1,9 +1,10 @@
 import { ProductProse } from "@/features/product/components/product-prose";
 import { ProductSection } from "@/features/product/components/product-section";
+import { ArtifactTree } from "@/features/product/components/artifact-tree";
+import { CliEvidence } from "@/features/product/components/cli-evidence";
+import { CycleSteps } from "@/features/product/components/cycle-steps";
 import { CommandList } from "@/features/product/components/command-list";
 import { EvidenceTable } from "@/features/product/components/evidence-table";
-import { FlowSteps } from "@/features/product/components/flow-steps";
-import { ProductArtifacts } from "@/features/product/components/product-artifacts";
 import { ProductAudiences } from "@/features/product/components/product-audiences";
 import { ProductChoices } from "@/features/product/components/product-choices";
 import { ProductIssue } from "@/features/product/components/product-issue";
@@ -35,20 +36,13 @@ const PRODUCT_FRAME = cn(
   "[&>ul>li:last-child>a]:border-b-0 [&>div>ul>li:last-child>a]:border-b-0",
 );
 
-const PRODUCT_ARTIFACTS_HEADER = cn(
-  "[&>div>div]:border-x [&>div>div]:border-t [&>div>div]:border-hairline-strong",
-  "[&>div>div]:px-4",
-);
-
 function isFramedBlock(block: ProductBlock): boolean {
   switch (block.kind) {
     case "links":
     case "audiences":
-    case "artifacts":
     case "roles":
     case "states":
     case "evidence":
-    case "flow":
     case "commands":
       return true;
     case "points":
@@ -79,8 +73,20 @@ function ProductBlockView({ block }: { block: ProductBlock }) {
     case "audiences":
       return <ProductAudiences items={block.items} />;
 
-    case "artifacts":
-      return <ProductArtifacts items={block.items} />;
+    case "cycle":
+      return <CycleSteps />;
+
+    case "terminal":
+      return (
+        <div className="grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-6">
+          <div className="min-w-0 lg:col-span-7 xl:col-span-8">
+            <CliEvidence />
+          </div>
+          <div className="min-w-0 lg:col-span-5 xl:col-span-4">
+            <ArtifactTree />
+          </div>
+        </div>
+      );
 
     case "roles":
       return <RoleList roleIds={block.roles} />;
@@ -90,9 +96,6 @@ function ProductBlockView({ block }: { block: ProductBlock }) {
 
     case "evidence":
       return <EvidenceTable ids={block.ids} />;
-
-    case "flow":
-      return <FlowSteps />;
 
     case "commands":
       return <CommandList ids={block.ids} />;
@@ -128,7 +131,6 @@ export function ProductBlocks({ sections }: ProductBlocksProps) {
               className={cn(
                 "min-w-0",
                 isFramedBlock(block) && PRODUCT_FRAME,
-                block.kind === "artifacts" && PRODUCT_ARTIFACTS_HEADER,
               )}
             >
               <ProductBlockView block={block} />

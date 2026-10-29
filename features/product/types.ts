@@ -29,11 +29,23 @@ export type EvidenceSource = {
   url: string;
 };
 
-export type FlowStep = {
+/** Línea de una salida real del CLI; `prompt` abre cada muestra. */
+export type CliLine = {
+  kind: "prompt" | "output" | "note";
+  text: string;
+};
+
+/** Instantánea fechada de un comando; las líneas se transcriben sin editar. */
+export type CliSample = {
   id: string;
-  actor: string;
-  description: string;
-  gate?: boolean;
+  /** Id real de `COMMANDS` en `content/rei`. */
+  commandId: string;
+  command: string;
+  /** Fecha ISO corta de la captura. */
+  capturedAt: string;
+  /** Una frase: qué demuestra la salida. */
+  note: string;
+  lines: CliLine[];
 };
 
 /** Dato de la ficha técnica del hero; siempre verificable en el repositorio. */
@@ -69,11 +81,33 @@ export type ProductAudience = {
   next: ProductLink[];
 };
 
-export type ProductArtifact = {
+/** A qué tipo de documento corresponde una entrada del árbol de evidencia. */
+export type ArtifactAppliesTo =
+  | "feature"
+  | "task"
+  | "ambos"
+  | "sesion"
+  | "opcional"
+  | "bloqueo"
+  | "estado";
+
+export type ArtifactEntry = {
   id: string;
-  name: string;
-  detail: string;
+  /** Ruta real dentro de `.rei/`. */
+  path: string;
+  /** Qué deja el documento. */
+  note: string;
+  /** Quién lo escribe. */
   owner: string;
+  appliesTo: ArtifactAppliesTo;
+};
+
+/** Grupo del árbol: una raíz real de `.rei/` con sus documentos. */
+export type ArtifactGroup = {
+  id: "specs" | "progress" | "work-items";
+  root: string;
+  label: string;
+  entries: ArtifactEntry[];
 };
 
 export type ProductDomainBlock =
@@ -81,7 +115,7 @@ export type ProductDomainBlock =
   | { kind: "roles"; roles: AgentRoleId[] }
   | { kind: "states"; states: WorkItemStateId[] }
   | { kind: "evidence"; ids: EvidenceSourceId[] }
-  | { kind: "flow" }
+  | { kind: "cycle" }
   | { kind: "commands"; ids: string[] }
   | {
       kind: "points";
@@ -90,7 +124,7 @@ export type ProductDomainBlock =
     }
   | { kind: "choices"; choices: ProductChoice[] }
   | { kind: "audiences"; items: ProductAudience[] }
-  | { kind: "artifacts"; items: ProductArtifact[] }
+  | { kind: "terminal" }
   | { kind: "viewer"; caption: string }
   | { kind: "issue"; number: number; caption: string }
   | { kind: "projection" };
