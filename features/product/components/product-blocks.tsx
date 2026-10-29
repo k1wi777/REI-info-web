@@ -7,6 +7,7 @@ import { CommandList } from "@/features/product/components/command-list";
 import { EvidenceTable } from "@/features/product/components/evidence-table";
 import { ProductAudiences } from "@/features/product/components/product-audiences";
 import { ProductChoices } from "@/features/product/components/product-choices";
+import { ProductInitializer } from "@/features/product/components/product-initializer";
 import { ProductIssue } from "@/features/product/components/product-issue";
 import { ProductLinks } from "@/features/product/components/product-links";
 import { ProductPoints } from "@/features/product/components/product-points";
@@ -105,6 +106,9 @@ function ProductBlockView({ block }: { block: ProductBlock }) {
 
     case "issue":
       return <ProductIssue number={block.number} caption={block.caption} />;
+
+    case "initializer":
+      return <ProductInitializer caption={block.caption} />;
 
     case "projection":
       return <ProductProjection />;

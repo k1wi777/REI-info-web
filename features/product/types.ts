@@ -48,6 +48,21 @@ export type CliSample = {
   lines: CliLine[];
 };
 
+/**
+ * Captura manual de `/personalize`: una ventana del runtime del agente con la
+ * lista de comandos de proyecto abierta. No sale del manifiesto de evidencia.
+ */
+export type InitializerCapture = {
+  file: string;
+  width: number;
+  height: number;
+  /** Fecha ISO corta de la captura. */
+  capturedAt: string;
+  label: string;
+  meta: string;
+  alt: string;
+};
+
 /** Dato de la ficha técnica del hero; siempre verificable en el repositorio. */
 export type ProductFact = {
   label: string;
@@ -127,6 +142,7 @@ export type ProductDomainBlock =
   | { kind: "terminal" }
   | { kind: "viewer"; caption: string }
   | { kind: "issue"; number: number; caption: string }
+  | { kind: "initializer"; caption: string }
   | { kind: "projection" };
 
 /** Prosa compartida con docs más los bloques propios del dominio producto. */
