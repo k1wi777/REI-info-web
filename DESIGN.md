@@ -36,6 +36,11 @@
 > puerta para escenificar una firma y se reinicia. La escena es decorativa y la
 > ventana se rotula como `SIMULACIÓN`; no cambia tokens, tipografía ni el resto
 > del dossier.
+>
+> La tarea `2026-10-29_11-25__seo-open-graph-assets` añade la tarjeta social
+> generada en build (`app/opengraph-image.tsx`): misma dirección Plano en
+> grafito y el violeta reservado a la puerta. No cambia tokens, tipografía,
+> componentes ni contenido editorial.
 
 ## Principios
 
@@ -550,6 +555,23 @@ que no cambian. `hero.png` y
 se versionan, no se usan en la web y no son evidencia. El `favicon.ico` existente
 proviene del scaffold de `create-next-app` y no se modificó; el resto de la
 identidad es tipográfica, retícula y color.
+
+## Imagen Open Graph
+
+La tarjeta social se genera en build con `ImageResponse` de `next/og` desde
+`app/opengraph-image.tsx`; `app/twitter-image.tsx` reexporta la misma imagen.
+Mide 1200×630 px y su texto alternativo es «REI Harness — Tu agente escribe. Tú
+decides.».
+
+Composición sobre Plano en grafito: lienzo `#0A0A0B`, filete `#1E1E22`, rótulo
+`REI HARNESS` en `#8A8A94`, titular en dos líneas («Tu agente escribe.» / «Tú
+decides.») en `#F5F5F5`, etiqueta «Aprobación humana» en `#A78BFA` con borde
+`rgba(139, 92, 246, 0.4)` y pie «Spec Driven Development · Arnés de agentes de
+IA» en `#A1A1AA`. El violeta vuelve a funcionar solo como puerta.
+
+Los hexadecimales son literales del archivo porque Satori no resuelve las
+variables CSS de `@theme`; equivalen a los tokens de la tabla de color. No hay
+métricas, testimonios, URLs ni datos inventados.
 
 ## Verificación de cierre
 

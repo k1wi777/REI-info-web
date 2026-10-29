@@ -8,7 +8,7 @@
 
 ## Estado del proyecto
 
-> **Web implementada, pendiente de publicación.** La home, el dossier de producto, la documentación, el visor y GitHub Issues ya tienen contenido propio y evidencia real. Queda cerrar SEO/Open Graph, `llms.txt`, CI y despliegue.
+> **Web implementada, pendiente de publicación.** La home, el dossier de producto, la documentación, el visor y GitHub Issues ya tienen contenido propio y evidencia real. Queda cerrar `llms.txt`, CI y despliegue.
 
 - La dirección visual, la navegación, la home, el producto y la documentación están implementados.
 - El contenido es estático y versionado; no hay backend, base de datos, autenticación ni CMS.
@@ -497,10 +497,10 @@ Es una copia local del repositorio de REI Harness para consultar su implementaci
 
 ## Despliegue
 
-Todavía no hay proveedor ni dominio decidido. La web es estática por naturaleza y no requiere backend para v1. Cuando se elija el destino, se documentarán aquí:
+Todavía no hay proveedor ni dominio decidido. La web es estática por naturaleza y no requiere backend para v1. La URL pública se configura con `NEXT_PUBLIC_SITE_URL`, sin barra final; la plantilla versionada es [`.env.example`](.env.example) y, si la variable falta, el sitio resuelve contra `http://localhost:3000`. Cuando se elija el destino, se documentarán aquí:
 
 - proveedor y configuración;
-- variables de entorno (si existen);
+- variables de entorno;
 - comando de build;
 - dominio y canonical;
 - proceso de publicación.
@@ -516,7 +516,7 @@ Todavía no hay proveedor ni dominio decidido. La web es estática por naturalez
 | **2. Producto** | Qué es REI, cómo funciona, agentes, ciclo y flujo de aprobación. | Completada |
 | **3. Referencia** | Instalación, comandos, Work Items, visor, GitHub Issues y FAQ. | Completada |
 | **4. Pulido** | Responsive, accesibilidad, tipografía, evidencia interactiva y revisión visual. | Completada |
-| **5. Publicación** | SEO, Open Graph, rendimiento, `llms.txt`, CI, despliegue, dominio y revisión final. | Pendiente |
+| **5. Publicación** | Rendimiento, `llms.txt`, CI, despliegue, dominio y revisión final. | Pendiente |
 
 Las fases son orientativas. Cada cambio relevante se planifica como Feature o Task mediante REI; no se implementa directamente sobre la rama principal sin aprobación.
 
