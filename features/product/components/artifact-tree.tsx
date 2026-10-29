@@ -47,7 +47,11 @@ export function ArtifactTree() {
       meta={`${ARTIFACT_ENTRIES.length}`}
       footer={`${ARTIFACT_ENTRIES.length} documentos. Cada documento aparece una vez y conserva su ruta real. La derecha dice quién lo escribe.`}
     >
-      <div className="scroll-code overflow-x-auto px-4 py-4">
+      <div
+        aria-label="Árbol de artefactos de .rei"
+        tabIndex={0}
+        className="scroll-code overflow-x-auto px-4 py-4 lg:max-h-[32.5rem] lg:overflow-y-auto lg:overscroll-contain xl:max-h-[30rem]"
+      >
         {ARTIFACT_GROUPS.map((group) => (
           <div key={group.id} className="mb-6 last:mb-0">
             <p className="break-words type-code text-foreground">
