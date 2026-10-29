@@ -8,12 +8,12 @@
 
 ## Estado del proyecto
 
-> **Web implementada, pendiente de publicación.** La home, el dossier de producto, la documentación, el visor y GitHub Issues ya tienen contenido propio y evidencia real. Queda cerrar `llms.txt`, CI y despliegue.
+> **Web implementada, pendiente de publicación.** La home, el dossier de producto, la documentación, el visor, GitHub Issues y `llms.txt` ya tienen contenido propio y evidencia real. Queda cerrar CI y despliegue.
 
 - La dirección visual, la navegación, la home, el producto y la documentación están implementados.
 - El contenido es estático y versionado; no hay backend, base de datos, autenticación ni CMS.
 - La evidencia del visor y de GitHub Issues es real y se regenera con `pnpm capture:evidence`.
-- `pnpm test` cubre lógica y datos; `pnpm build` genera 36 rutas.
+- `pnpm test` cubre lógica y datos; `pnpm build` genera 37 rutas.
 - No hay despliegue configurado ni dominio público.
 - La versión de REI que documenta esta web es **v0.3.0** (26 de octubre de 2026). La fuente de verdad de versiones es [GitHub Releases](https://github.com/k1wi777/REI-Harness/releases).
 
@@ -236,7 +236,8 @@ pnpm dev
 | Comando | Qué hace |
 |---------|----------|
 | `pnpm dev` | Servidor de desarrollo en `http://localhost:3000`. |
-| `pnpm build` | Build de producción; también valida TypeScript. |
+| `pnpm typecheck` | Comprobación de tipos con `tsc --noEmit`. |
+| `pnpm build` | Build de producción; valida TypeScript y las rutas. |
 | `pnpm start` | Sirve el build de producción. |
 | `pnpm lint` | Ejecuta ESLint. |
 | `pnpm test` | Ejecuta la suite de Jest sobre lógica y datos (`content/`, `lib/`, `features/**/data/`). |
@@ -516,7 +517,7 @@ Todavía no hay proveedor ni dominio decidido. La web es estática por naturalez
 | **2. Producto** | Qué es REI, cómo funciona, agentes, ciclo y flujo de aprobación. | Completada |
 | **3. Referencia** | Instalación, comandos, Work Items, visor, GitHub Issues y FAQ. | Completada |
 | **4. Pulido** | Responsive, accesibilidad, tipografía, evidencia interactiva y revisión visual. | Completada |
-| **5. Publicación** | Rendimiento, `llms.txt`, CI, despliegue, dominio y revisión final. | Pendiente |
+| **5. Publicación** | Rendimiento, CI, despliegue, dominio y revisión final. | Pendiente |
 
 Las fases son orientativas. Cada cambio relevante se planifica como Feature o Task mediante REI; no se implementa directamente sobre la rama principal sin aprobación.
 

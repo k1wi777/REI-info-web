@@ -88,10 +88,11 @@ No continúes hasta completar estos pasos.
 - `pnpm test` — Jest sobre lógica y datos; no cubre UI, DOM ni navegador.
 - `pnpm test:watch` — Repite la suite al cambiar archivos.
 - `pnpm test:coverage` — Suite con informe de cobertura; sin umbrales.
-- `pnpm build` — Build de producción; también valida TypeScript.
+- `pnpm typecheck` — Comprobación de tipos con `tsc --noEmit`.
+- `pnpm build` — Build de producción; valida TypeScript y las rutas.
 - `pnpm start` — Servir el build de producción.
 
-> No hay un script de typecheck separado: `pnpm build` es la comprobación de tipos. `pnpm test` solo ejecuta la suite de lógica.
+> `pnpm build` sigue siendo la verificación completa: tipos, rutas y build. `pnpm test` solo ejecuta la suite de lógica.
 
 ---
 
