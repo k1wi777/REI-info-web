@@ -27,7 +27,7 @@ export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
         { kind: "cycle" },
         {
           kind: "paragraph",
-          text: "El ciclo se recorre parada a parada: los controles manuales avanzan y se detienen en la aprobación; nada avanza solo. La tabla de estados de más abajo conserva el registro completo.",
+          text: "El ciclo se recorre parada a parada. «Recorrer» avanza hasta la puerta y se detiene; el cruce de la aprobación es manual y el Work Item real no se mueve desde aquí. La tabla de estados de más abajo conserva el registro completo.",
         },
         {
           kind: "paragraph",

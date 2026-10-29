@@ -109,7 +109,7 @@ export function ProductProse({ block }: { block: DocBlock }) {
       return (
         <aside
           className={cn(
-            "max-w-[62ch] border-y bg-surface px-5 py-4",
+            "max-w-[62ch] border bg-surface px-5 py-4",
             block.tone === "warning"
               ? "border-warning/40"
               : "border-hairline-strong",

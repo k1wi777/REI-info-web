@@ -274,6 +274,67 @@
   scrollbar-color: var(--color-border-strong) transparent;
 }
 
+/*
+ * Ciclo de producto: la puerta es el único punto vivo del recorrido. El latido
+ * marca la parada actual y la respiración de la puerta recuerda que la firma es
+ * humana. Solo se animan `opacity` y `transform`.
+ */
+@keyframes cycle-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes cycle-gate-breathe {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+
+  50% {
+    opacity: 0.68;
+  }
+}
+
+@keyframes cycle-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(2px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@utility cycle-ping {
+  animation: cycle-ping 2.6s var(--ease-out) infinite;
+}
+
+@utility cycle-gate-breathe {
+  animation: cycle-gate-breathe 3.6s ease-in-out infinite;
+}
+
+@utility cycle-panel-in {
+  animation: cycle-panel-in 340ms var(--ease-out) both;
+}
+
+/* Fuera de pantalla, los latidos no consumen nada. */
+[data-cycle-motion="off"] .cycle-ping,
+[data-cycle-motion="off"] .cycle-gate-breathe {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

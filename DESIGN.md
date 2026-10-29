@@ -24,6 +24,12 @@
 > El dossier de producto sustituye el artículo genérico de `/producto` por una
 > portada con ficha técnica y secciones con peso (`lead`, `body`, `fine`) y
 > bloques propios por página. No cambia tokens, tipografía, home ni docs.
+>
+> El pulido del ciclo de producto compacta la demo en un rail de seis paradas
+> con la puerta violeta, un panel de una parada y reproducción explícita; la
+> tabla de estados gana el mapa del recorrido y la banda de la puerta. La
+> comparación Feature/Task pasa a filas alineadas tipo · planificación ·
+> criterio. No cambia tokens, tipografía ni el resto del dossier.
 
 ## Principios
 
@@ -329,10 +335,10 @@ un adorno: es el índice interno de la hoja.
 | Bloque | Forma | Páginas |
 |--------|-------|---------|
 | `points` | Ledger de 3 columnas (número, título, detalle); variantes `manifesto` (2 columnas, 24 px), `columns` (registro denso) y `limits` (marca textual `×`). | Hub, modo directo, visor. |
-| `choices` | Dos opciones reales separadas por hairline, con sus artefactos de planificación y su criterio. | Work Items. |
+| `choices` | Dos filas de registro —tipo, planificación en árbol y criterio— con columnas alineadas y el recuento de documentos derivado de la lista. | Work Items. |
 | `roles` | Los cuatro roles del ciclo en orden, con la **banda violeta de la puerta** entre Spec Author e Implementer; el Initializer cuelga de una rama discontinua «Fuera del ciclo». | Agentes. |
-| `states` | Ciclo como registro numerado y ramas aparte con línea discontinua; `done` en verde y la palabra «terminal». | Cómo funciona, Work Items. |
-| `cycle` | Recorrido manual de seis paradas —`pending`, `ready`, aprobación, `in_progress`, `review`, `done`— con rail, panel de transiciones, ramas y puerta violeta; sin autoplay y con un único componente cliente. | Cómo funciona. |
+| `states` | Mapa compacto del recorrido (cinco estados y la puerta en su sitio), registro numerado con la **banda violeta de la puerta** entre `ready` e `in_progress`, y ramas aparte con línea discontinua; `done` en verde y la palabra «terminal». | Cómo funciona, Work Items. |
+| `cycle` | Ventana de producto con barra de progreso, rail vertical de seis paradas —`pending`, `ready`, aprobación, `in_progress`, `review`, `done`—, panel de una parada, salidas reales y controles manuales más «Recorrer» explícito, pausable y detenido en la puerta; un único componente cliente. | Cómo funciona. |
 | `evidence` | Dossier de fuentes: enlace y fecha a la izquierda, hallazgo y «Implicación» en el cuerpo. | Hub. |
 | `terminal` | Terminal con salidas reales fechadas en `<details>` nativos (la primera abierta) y árbol real de `.rei/` con ruta, qué deja y responsable; rejilla 7/5 en `lg` y 8/4 desde `xl`. | Work Items. |
 | `audiences` | Cinco lectores con su necesidad y **rutas reales** (sustituyen la columna de texto «Dónde seguir»). | Hub. |
@@ -342,17 +348,22 @@ un adorno: es el índice interno de la hoja.
 | `links` | Cierre de sección como índice de lectura: fila, etiqueta y flecha textual. | Todas. |
 
 `ProductProse` sustituye a `DocBlockView` en producto: prosa a 17 px, medida de
-62 ch, listas con marca textual y notas en banda (`border-y`) sin filete
-lateral de color. `ProductPager` cierra la hoja con la anterior y la siguiente
+62 ch, listas con marca textual y notas en caja (`border`) con padding y sin
+filete lateral de color. `ProductPager` cierra la hoja con la anterior y la siguiente
 del registro `PRODUCT_PAGES`; el hub no repite el menú, lo encuaderna.
 
 El bloque `cycle` es la lectura secuencial del mismo registro de estados, una
-parada a la vez: la puerta ocupa una parada propia entre `ready` e
+parada a la vez: se presenta como una ventana de producto con barra de progreso,
+rail de seis paradas y panel. La puerta ocupa una parada propia entre `ready` e
 `in_progress`, detiene el recorrido y declara que la firma es humana y que el
-silencio no aprueba. El bloque `terminal` aporta la evidencia fechada: cada
-salida lleva su comando y su fecha de captura, y el árbol muestra la ruta real
-de cada documento con su responsable. La interfaz no ejecuta comandos ni
-aprueba Work Items.
+silencio no aprueba. El rail se rellena hasta la parada activa y el panel se
+releva con un fundido corto; «Recorrer» solo empieza con una acción humana, se
+pausa al elegir una parada y se detiene siempre en la puerta. El cruce de la
+aprobación es manual; después puede continuar hasta `done`. La tabla de estados repite el recorrido como registro y añade la banda
+de la puerta, de modo que la aprobación también se ve en Work Items. El bloque
+`terminal` aporta la evidencia fechada: cada salida lleva su comando y su fecha
+de captura, y el árbol muestra la ruta real de cada documento con su
+responsable. La interfaz no ejecuta comandos ni aprueba Work Items.
 
 La subnavegación muestra la etiqueta `Dossier` en escritorio y desplaza en
 horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
@@ -385,13 +396,20 @@ horizontal con `scroll-code` y `fade-right` por debajo de `sm`.
 
 ## Momento memorable
 
-Solo en la matriz de la home: las bandas entran desde el borde de la hoja
+En la home, solo la matriz: las bandas entran desde el borde de la hoja
 (`matrix-band-in`), la banda de aprobación se cierra sobre el eje horizontal
 (`gate-close`) y la firma se dibuja al final (`signature-draw`). Solo se animan
 `transform` y `opacity`, una vez por carga, sin JavaScript ni librerías. Los
 elementos decorativos son `aria-hidden` y el texto existe desde el primer
 render. Con `prefers-reduced-motion: reduce`, las tres animaciones se desactivan
 y se muestra el estado final.
+
+En el ciclo de producto, el punto de la parada activa late (`cycle-ping`), la
+barra de la puerta respira (`cycle-gate-breathe`) y el panel se revela al
+cambiar de parada (`cycle-panel-in`). Son tres animaciones acotadas y continuas
+que no cambian el estado por sí solas: el recorrido solo avanza con un botón.
+Con `prefers-reduced-motion: reduce` las duraciones se reducen y el contenido
+queda en su estado final.
 
 Las etapas de la puerta añaden un revelado escalonado ligado al scroll
 (`animation-timeline: view()`) bajo `@supports` y
@@ -509,6 +527,11 @@ identidad es tipográfica, retícula y color.
 - El dossier de producto se revisa a 360/390/768/1024/1440 con una sola hoja
   `lead` por página, ficha derivada de `content/rei` y capturas resueltas del
   manifiesto; las rutas de «Para quién» y del pager existen en `ROUTES`.
+- El ciclo de producto se recorre con teclado y puntero; «Recorrer» avanza,
+  se pausa y se detiene en la puerta, cuyo cruce es manual; el rail se apila
+  por debajo de `lg` sin scroll horizontal; con `prefers-reduced-motion` las animaciones se reducen y el
+  contenido queda en su estado final. La banda de la puerta aparece también en
+  la tabla de estados de Work Items.
 - `rei validate` — sin `FAIL`.
 - `playwright-core` es la única dependencia nueva y es `devDependency`; no hay
   dependencias de runtime nuevas.
