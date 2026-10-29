@@ -11,7 +11,7 @@ export function ResponsibilityMatrix() {
   return (
     <section
       aria-labelledby="home-matrix-title"
-      className="min-w-0 border border-hairline-strong bg-surface"
+      className="min-w-0  border-hairline-strong bg-surface"
     >
       <header className="border-b border-hairline-strong px-4 py-3.5">
         <div className="flex items-baseline justify-between gap-4">
@@ -68,7 +68,7 @@ export function ResponsibilityMatrix() {
               <tr key={phase.id} className="border-b border-hairline">
                 <th
                   scope="row"
-                  className="break-words px-0.5 py-2.5 text-left align-middle"
+                  className="break-words px-1 py-2.5 text-left align-middle"
                 >
                   <span className="block break-words type-meta-sm tracking-normal text-muted-strong">
                     {phase.id}

@@ -242,6 +242,10 @@
   background-position: -1px -1px;
 }
 
+@utility sheet-grid-compact {
+  background-size: 4.5rem 5.5rem;
+}
+
 /*
  * Luz de escenario: ilumina muy tenuemente el borde superior de una zona con
  * capturas para que el producto se lea como un objeto apoyado en la hoja.

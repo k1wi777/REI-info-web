@@ -52,7 +52,7 @@ function RoleNode({ role, node, branch = false }: RoleNodeProps) {
       <details className="group h-full">
         <summary
           aria-label={`${role.name}. ${node.handoff}. Abrir responsabilidad y límite.`}
-          className="flex h-full cursor-pointer list-none flex-col [&::-webkit-details-marker]:hidden"
+          className="flex h-full cursor-pointer list-none flex-col [&::-webkit-details-marker]:hidden pl-2"
         >
           <span className="type-meta-sm text-muted-strong">{node.handoff}</span>
           <span className="mt-2 type-docs-heading text-foreground">
@@ -63,7 +63,6 @@ function RoleNode({ role, node, branch = false }: RoleNodeProps) {
             <Chevron />
           </span>
         </summary>
-
         <div className="mt-4 space-y-3 border-t border-hairline pt-3">
           <div>
             <p className="type-meta-sm text-muted-strong">Responsabilidad</p>
@@ -76,6 +75,7 @@ function RoleNode({ role, node, branch = false }: RoleNodeProps) {
             <p className="mt-1 type-caption text-secondary">{role.limit}</p>
           </div>
         </div>
+
       </details>
     </li>
   );
@@ -104,7 +104,7 @@ export function AgentsDemo() {
           return (
             <Fragment key={node.roleId}>
               {node.roleId === FOLLOWS ? (
-                <li className="relative flex min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4">
+                <li className="relative flex min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4 pl-2">
                   <span
                     aria-hidden="true"
                     className="absolute -top-[0.1875rem] left-0 size-1.5 rounded-full bg-accent-text"

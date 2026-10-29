@@ -11,23 +11,23 @@ export function HeroSheet() {
   return (
     <section
       aria-labelledby="home-tesis"
-      className="relative overflow-hidden border border-hairline-strong bg-surface-deep"
+      className="relative overflow-hidden border border-hairline-strong "
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 sheet-grid opacity-40"
+        className="pointer-events-none absolute inset-0 sheet-grid sheet-grid-compact opacity-75"
       />
 
       <div className="relative grid grid-cols-1 items-baseline gap-x-4 gap-y-1 border-b border-hairline px-4 py-3 type-meta text-muted-strong sm:grid-cols-[1fr_auto_1fr]">
         <p>REI HARNESS / ARNÉS SDD</p>
-        <p className="hidden sm:block">PLANO EN GRAFITO · HOJA 00</p>
+        
         <p className="justify-self-end text-right">
           REV. 03 · {DOCUMENTED_VERSION} · ES
         </p>
       </div>
 
       <div className="relative grid lg:grid-cols-6 xl:grid-cols-12">
-        <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-3 lg:border-b-0 lg:border-r lg:px-10 lg:py-14 xl:col-span-7">
+        <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-3 lg:border-b-0  lg:px-10 lg:py-14 xl:col-span-7">
           <p className="type-meta text-muted-strong">
             Spec Driven Development · Arnés de agentes de IA
           </p>

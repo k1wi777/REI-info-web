@@ -21,15 +21,15 @@ export function ProblemDemo() {
       intro="Los agentes de IA y los LLM escriben código a partir de una conversación. Cuando decidir, planificar y ejecutar viven en la misma conversación, nada queda registrado y nadie puede revisar la decisión. El arnés separa esas tres cosas y deja la decisión por escrito."
       example
     >
-      <div className="grid gap-10 lg:grid-cols-2 lg:gap-0">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-5">
         {PROBLEM_DEMO.map((column, columnIndex) => (
           <div
             key={column.id}
             className={cn(
-              "flex min-w-0 flex-col",
+              "flex min-w-0 flex-col px-2 pb-4",
               columnIndex === 0
-                ? "border-t border-hairline-strong pt-6"
-                : "border-t border-hairline-strong pt-6 lg:border-l lg:border-t-0 lg:pl-12",
+                ? "border-t border-hairline-strong pt-6 lg:border"
+                : "border-t border-accent/10 pt-6  lg:border lg:pl-12 bg-surface-deep",
             )}
           >
             <header>
@@ -37,7 +37,7 @@ export function ProblemDemo() {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "size-1.5 rounded-full",
+                    "size-2.5 rounded-full",
                     column.id === "con-rei" ? "bg-accent-text" : "bg-error",
                   )}
                 />
