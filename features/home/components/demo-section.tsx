@@ -51,14 +51,24 @@ export function DemoSection({
       <header className="grid gap-6 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1.5">
-            <p className="type-meta text-muted-strong">{eyebrow}</p>
+            <p data-reveal="up" className="type-meta text-muted-strong">
+              {eyebrow}
+            </p>
             {example ? (
-              <p className="type-meta-sm text-warning">Ejemplo de mecanismo</p>
+              <p
+                data-reveal="fade"
+                data-reveal-delay="1"
+                className="type-meta-sm text-warning"
+              >
+                Ejemplo de mecanismo
+              </p>
             ) : null}
           </div>
 
           <h2
             id={titleId}
+            data-reveal="up"
+            data-reveal-delay="1"
             className="mt-5 max-w-[24ch] text-balance type-title text-foreground"
           >
             {title}
@@ -67,19 +77,29 @@ export function DemoSection({
 
         <div className="lg:col-span-5 lg:pt-1">
           {intro ? (
-            <p className="max-w-[48ch] type-body text-secondary">
+            <p
+              data-reveal="fade"
+              data-reveal-delay="2"
+              className="max-w-[48ch] type-body text-secondary"
+            >
               <InlineText text={intro} />
             </p>
           ) : null}
 
           {note ? (
-            <p className="mt-4 max-w-[52ch] type-caption text-muted-strong">
+            <p
+              data-reveal="fade"
+              data-reveal-delay="3"
+              className="mt-4 max-w-[52ch] type-caption text-muted-strong"
+            >
               <InlineText text={note} />
             </p>
           ) : null}
 
           {link ? (
             <Link
+              data-reveal="fade"
+              data-reveal-delay="3"
               className="mt-3.5 inline-flex border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
               href={link.href}
             >

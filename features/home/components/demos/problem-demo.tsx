@@ -25,6 +25,7 @@ export function ProblemDemo() {
         {PROBLEM_DEMO.map((column, columnIndex) => (
           <div
             key={column.id}
+            data-reveal={columnIndex === 0 ? "left" : "right"}
             className={cn(
               "flex min-w-0 flex-col px-2 pb-4",
               columnIndex === 0

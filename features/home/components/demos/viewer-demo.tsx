@@ -49,7 +49,7 @@ export function ViewerDemo() {
       {VIEWER_DESKTOP ? (
         <>
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
-            <figure className="min-w-0 lg:col-span-8">
+            <figure data-reveal="left" className="min-w-0 lg:col-span-8">
               <WindowFrame
                 label="127.0.0.1 · rei view"
                 meta="solo lectura"
@@ -70,7 +70,10 @@ export function ViewerDemo() {
               </figcaption>
             </figure>
 
-            <div className="flex min-w-0 flex-col gap-8 lg:col-span-4">
+            <div
+              data-reveal="right"
+              className="flex min-w-0 flex-col gap-8 lg:col-span-4"
+            >
               <ol className="grid gap-4">
                 {ANNOTATIONS.map((annotation, index) => (
                   <li
@@ -136,7 +139,7 @@ export function ViewerDemo() {
 
           {VIEWER_DIFF ? (
             <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-10">
-              <figure className="min-w-0 lg:col-span-8">
+              <figure data-reveal="up" className="min-w-0 lg:col-span-8">
                 <WindowFrame
                   label="diff"
                   meta="requirements.md"
@@ -155,7 +158,11 @@ export function ViewerDemo() {
                 </WindowFrame>
               </figure>
 
-              <div className="min-w-0 lg:col-span-4 lg:pt-2">
+              <div
+                data-reveal="right"
+                data-reveal-delay="1"
+                className="min-w-0 lg:col-span-4 lg:pt-2"
+              >
                 <p className="type-meta text-foreground">
                   {DIFF_ANNOTATION.title}
                 </p>

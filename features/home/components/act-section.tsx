@@ -42,12 +42,17 @@ export function ActSection({ act, children }: ActSectionProps) {
         <header className="grid gap-3 border-b border-hairline pb-6 lg:grid-cols-12 lg:items-baseline lg:gap-10">
           <p
             id={labelId}
+            data-reveal="up"
             className="flex items-baseline gap-3 type-meta lg:col-span-3"
           >
             <span className="text-muted-strong tabular-nums">{act.number}</span>
             <span className="text-foreground">{act.label}</span>
           </p>
-          <p className="type-meta text-muted-strong lg:col-span-9">
+          <p
+            data-reveal="fade"
+            data-reveal-delay="1"
+            className="type-meta text-muted-strong lg:col-span-9"
+          >
             {act.thesis}
           </p>
         </header>

@@ -29,11 +29,21 @@ type RoleNodeProps = {
   role: AgentRole;
   node: AgentNode;
   branch?: boolean;
+  revealDelay?: number;
 };
 
-function RoleNode({ role, node, branch = false }: RoleNodeProps) {
+function RoleNode({
+  role,
+  node,
+  branch = false,
+  revealDelay = 0,
+}: RoleNodeProps) {
   return (
-    <li className="min-w-0">
+    <li
+      data-reveal="up"
+      data-reveal-delay={String(revealDelay)}
+      className="min-w-0"
+    >
       <details className="group" name="agent-roles">
         <summary
           aria-label={`${role.name}. ${node.handoff}. Ver responsabilidad y límite.`}
@@ -107,14 +117,18 @@ export function AgentsDemo() {
       note="La puerta ocupa el lugar entre Spec Author e Implementer; el Initializer es una rama lateral que no recorre el ciclo del Work Item. Los adaptadores nativos de OpenCode y Claude Code son opcionales; Cursor y Codex funcionan por fallback."
     >
       <ol className="relative grid items-start gap-6 sm:grid-cols-2 sm:has-[details[open]]:pb-32 lg:grid-cols-5 lg:gap-5 lg:has-[details[open]]:pb-28">
-        {flow.map((node) => {
+        {flow.map((node, index) => {
           const role = ROLES.get(node.roleId);
           if (!role) return null;
 
           return (
             <Fragment key={node.roleId}>
               {node.roleId === FOLLOWS ? (
-                <li className="relative flex min-h-28 min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4 pl-2">
+                <li
+                  data-reveal="fade"
+                  data-reveal-delay={String(Math.min(index + 1, 5))}
+                  className="relative flex min-h-28 min-w-0 flex-col border-t border-accent/60 bg-accent/5 pt-4 pb-4 pl-2"
+                >
                   <span
                     aria-hidden="true"
                     className="absolute -top-[0.1875rem] left-0 size-1.5 rounded-full bg-accent-text"
@@ -129,7 +143,11 @@ export function AgentsDemo() {
                   </p>
                 </li>
               ) : null}
-              <RoleNode role={role} node={node} />
+              <RoleNode
+                role={role}
+                node={node}
+                revealDelay={Math.min(index + 1, 5)}
+              />
             </Fragment>
           );
         })}
@@ -141,7 +159,7 @@ export function AgentsDemo() {
           if (!role) return null;
           return (
             <ul key={node.roleId} className="lg:col-start-1">
-              <RoleNode role={role} node={node} branch />
+              <RoleNode role={role} node={node} branch revealDelay={1} />
             </ul>
           );
         })}

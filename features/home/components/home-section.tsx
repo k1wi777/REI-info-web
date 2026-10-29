@@ -21,9 +21,13 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
     >
       <header className="grid gap-6 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <p className="type-meta text-muted-strong">{block.eyebrow}</p>
+          <p data-reveal="up" className="type-meta text-muted-strong">
+            {block.eyebrow}
+          </p>
           <h2
             id={titleId}
+            data-reveal="up"
+            data-reveal-delay="1"
             className="mt-5 max-w-[22ch] text-balance type-title text-foreground"
           >
             {block.title}
@@ -32,13 +36,19 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
 
         <div className="lg:col-span-5 lg:pt-1">
           {block.intro ? (
-            <p className="max-w-[48ch] type-body text-secondary">
+            <p
+              data-reveal="fade"
+              data-reveal-delay="2"
+              className="max-w-[48ch] type-body text-secondary"
+            >
               <InlineText text={block.intro} />
             </p>
           ) : null}
 
           {block.link ? (
             <Link
+              data-reveal="fade"
+              data-reveal-delay="2"
               className="mt-3.5 inline-flex border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
               href={block.link.href}
             >
@@ -58,6 +68,8 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
           {block.items.map((item, index) => (
             <li
               key={item.title}
+              data-reveal="up"
+              data-reveal-delay={String(Math.min(index + 1, 5))}
               className="border-t border-hairline-strong pt-4"
             >
               <p className="type-meta-sm text-muted-strong tabular-nums">
@@ -75,7 +87,11 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
       ) : null}
 
       {block.note ? (
-        <p className="mt-8 max-w-(--container-reading) border-l border-border-strong pl-4 type-caption text-muted-strong">
+        <p
+          data-reveal="fade"
+          data-reveal-delay="1"
+          className="mt-8 max-w-(--container-reading) border-l border-border-strong pl-4 type-caption text-muted-strong"
+        >
           <InlineText text={block.note} />
         </p>
       ) : null}

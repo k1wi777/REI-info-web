@@ -96,7 +96,7 @@ export function GithubIssuesDemo() {
       }}
     >
       {primary ? (
-        <figure className="min-w-0">
+        <figure data-reveal="up" className="min-w-0">
           <figcaption className="sr-only">{primary.head.description}</figcaption>
 
           <WindowFrame
@@ -121,8 +121,13 @@ export function GithubIssuesDemo() {
 
       {secondary.length > 0 ? (
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {secondary.map(({ issue, head }) => (
-            <figure key={issue} className="min-w-0">
+          {secondary.map(({ issue, head }, index) => (
+            <figure
+              key={issue}
+              data-reveal="up"
+              data-reveal-delay={String(Math.min(index + 1, 5))}
+              className="min-w-0"
+            >
               <figcaption className="sr-only">{head.description}</figcaption>
               <WindowFrame
                 label={`issues/${issue}`}
@@ -145,7 +150,10 @@ export function GithubIssuesDemo() {
       ) : null}
 
       <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
-        <div className="min-w-0 border border-hairline-strong bg-surface-deep p-5 lg:col-span-7">
+        <div
+          data-reveal="up"
+          className="min-w-0 border border-hairline-strong bg-surface-deep p-5 lg:col-span-7"
+        >
           <p className="type-meta text-muted-strong">Proyección, no fuente</p>
 
           <div className="mt-4 flex items-baseline justify-between gap-4">
@@ -178,8 +186,13 @@ export function GithubIssuesDemo() {
           </svg>
 
           <ul className="mt-2 grid border-t border-hairline sm:grid-cols-3 sm:divide-x sm:divide-hairline">
-            {TARGETS.map((target) => (
-              <li key={target.id} className="min-w-0 py-3 sm:px-3 sm:first:pl-0">
+            {TARGETS.map((target, index) => (
+              <li
+                key={target.id}
+                data-reveal="fade"
+                data-reveal-delay={String(index + 1)}
+                className="min-w-0 py-3 sm:px-3 sm:first:pl-0"
+              >
                 <p className="type-meta text-foreground">{target.title}</p>
                 <p className="mt-1.5 type-caption text-secondary">
                   {target.text}
@@ -196,7 +209,7 @@ export function GithubIssuesDemo() {
         </div>
 
         {epicBody ? (
-          <figure className="min-w-0 lg:col-span-5">
+          <figure data-reveal="up" className="min-w-0 lg:col-span-5">
             <WindowFrame
               label="issue · cuerpo"
               meta={`#${primary?.issue}`}

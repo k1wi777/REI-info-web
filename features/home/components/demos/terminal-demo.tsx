@@ -78,7 +78,10 @@ export function TerminalDemo() {
       note={`La captura está fechada (${TERMINAL_SNAPSHOT.capturedAt}); los estados cambian con el tiempo.`}
     >
       <div className="grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-6">
-        <div className="min-w-0 lg:col-span-7 xl:col-span-8">
+        <div
+          data-reveal="up"
+          className="min-w-0 lg:col-span-7 xl:col-span-8"
+        >
           <WindowFrame
             label={TERMINAL_SNAPSHOT.command}
             meta={`instantánea · ${TERMINAL_SNAPSHOT.capturedAt}`}
@@ -103,7 +106,11 @@ export function TerminalDemo() {
           </WindowFrame>
         </div>
 
-        <div className="min-w-0 lg:col-span-5 xl:col-span-4">
+        <div
+          data-reveal="up"
+          data-reveal-delay="1"
+          className="min-w-0 lg:col-span-5 xl:col-span-4"
+        >
           <ArtifactsTree />
         </div>
       </div>

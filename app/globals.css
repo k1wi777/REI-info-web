@@ -403,50 +403,88 @@
 }
 
 /*
- * Demos de la home: revelado escalonado ligado al scroll, sin JavaScript.
- * Solo se animan `opacity` y `transform`; fuera de `@supports` o con
- * `prefers-reduced-motion: reduce` el contenido queda en su estado final.
+ * Entrada de la home. El estado oculto solo existe con `data-reveal-motion`,
+ * que escribe el bootstrap antes de pintar; sin JavaScript o con movimiento
+ * reducido el contenido se sirve visible. El controlador añade `data-revealed`
+ * una sola vez y el navegador interpola desde el estado oculto. Solo se animan
+ * `opacity` y `transform`, con las variables de esta feature fuera de @theme.
  */
-@keyframes demo-reveal-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.5rem);
-    filter: blur(3px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-    filter: blur(0);
-  }
+[data-reveal] {
+  --reveal-duration: 560ms;
+  --reveal-stagger: 70ms;
+  --reveal-delay: 0ms;
+  --reveal-shift: 0px;
+  transition:
+    opacity var(--reveal-duration) var(--ease-out) var(--reveal-delay),
+    transform var(--reveal-duration) var(--ease-out) var(--reveal-delay);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .demo-reveal > * {
-      animation: demo-reveal-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
+[data-reveal="up"] {
+  --reveal-shift: 12px;
+}
 
-    .demo-reveal > :nth-child(2) {
-      animation-range: entry 8% entry 63%;
-    }
+[data-reveal="left"] {
+  --reveal-shift: -14px;
+}
 
-    .demo-reveal > :nth-child(3) {
-      animation-range: entry 16% entry 71%;
-    }
+[data-reveal="right"] {
+  --reveal-shift: 14px;
+}
 
-    .demo-reveal > :nth-child(4) {
-      animation-range: entry 24% entry 79%;
-    }
+[data-reveal="fade"] {
+  --reveal-shift: 0px;
+}
 
-    .demo-reveal > :nth-child(5) {
-      animation-range: entry 32% entry 87%;
-    }
+[data-reveal][data-reveal-delay="1"] {
+  --reveal-delay: calc(var(--reveal-stagger) * 1);
+}
 
-    .demo-reveal > :nth-child(n + 6) {
-      animation-range: entry 40% entry 95%;
-    }
+[data-reveal][data-reveal-delay="2"] {
+  --reveal-delay: calc(var(--reveal-stagger) * 2);
+}
+
+[data-reveal][data-reveal-delay="3"] {
+  --reveal-delay: calc(var(--reveal-stagger) * 3);
+}
+
+[data-reveal][data-reveal-delay="4"] {
+  --reveal-delay: calc(var(--reveal-stagger) * 4);
+}
+
+[data-reveal][data-reveal-delay="5"] {
+  --reveal-delay: calc(var(--reveal-stagger) * 5);
+}
+
+html[data-reveal-motion="on"] [data-reveal="up"]:not([data-revealed]),
+html[data-reveal-motion="on"] [data-reveal="fade"]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift));
+}
+
+html[data-reveal-motion="on"] [data-reveal="left"]:not([data-revealed]),
+html[data-reveal-motion="on"] [data-reveal="right"]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateX(var(--reveal-shift));
+}
+
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* El teclado muestra el elemento pendiente al instante, sin esperar al observer. */
+html[data-reveal-motion="on"] [data-reveal]:not([data-revealed]):focus-within {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0ms;
+  transition-duration: 0ms;
+}
+
+/* Cambio de preferencia en caliente: nada queda oculto ni se mueve. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-reveal-motion="on"] [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

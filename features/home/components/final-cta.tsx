@@ -15,19 +15,30 @@ export function FinalCta() {
 
       <div className="relative grid gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-8">
-          <p className="type-meta text-muted-strong">{FINAL_CTA.eyebrow}</p>
+          <p data-reveal="fade" className="type-meta text-muted-strong">
+            {FINAL_CTA.eyebrow}
+          </p>
           <h2
             id="siguiente-paso-title"
+            data-reveal="up"
             className="mt-4 max-w-[20ch] text-balance type-title text-foreground"
           >
             {FINAL_CTA.title}
           </h2>
-          <p className="mt-4 max-w-[52ch] type-body text-secondary">
+          <p
+            data-reveal="fade"
+            data-reveal-delay="1"
+            className="mt-4 max-w-[52ch] type-body text-secondary"
+          >
             {FINAL_CTA.intro}
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
+        <div
+          data-reveal="fade"
+          data-reveal-delay="2"
+          className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end"
+        >
           <ButtonLink href={FINAL_CTA.primary.href}>
             {FINAL_CTA.primary.label}
           </ButtonLink>
