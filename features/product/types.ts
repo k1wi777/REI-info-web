@@ -142,7 +142,7 @@ export type ProductDomainBlock =
   | { kind: "terminal" }
   | { kind: "viewer"; caption: string }
   | { kind: "issue"; number: number; caption: string }
-  | { kind: "initializer"; caption: string }
+  | { kind: "initializer"; text: string; caption: string }
   | { kind: "projection" };
 
 /** Prosa compartida con docs más los bloques propios del dominio producto. */

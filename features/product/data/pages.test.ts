@@ -193,6 +193,7 @@ describe("bloques de producto", () => {
               break;
 
             case "initializer":
+              expect(block.text.trim()).not.toBe("");
               expect(block.caption.trim()).not.toBe("");
               break;
 

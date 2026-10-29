@@ -108,7 +108,9 @@ function ProductBlockView({ block }: { block: ProductBlock }) {
       return <ProductIssue number={block.number} caption={block.caption} />;
 
     case "initializer":
-      return <ProductInitializer caption={block.caption} />;
+      return (
+        <ProductInitializer text={block.text} caption={block.caption} />
+      );
 
     case "projection":
       return <ProductProjection />;

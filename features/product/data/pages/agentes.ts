@@ -38,11 +38,8 @@ export const AGENTES_DOCUMENT: ProductDocument = {
           ],
         },
         {
-          kind: "paragraph",
-          text: "Los distintos CLI con adaptador nativo —OpenCode y Claude Code— reconocen `/personalize` como comando de proyecto: lanza la entrevista del Initializer, que conduce la personalización de la documentación. El Initializer no implementa código ni aprueba Work Items. La captura muestra Claude Code como ejemplo y el comando se ejecuta en el runtime del agente, no en esta web.",
-        },
-        {
           kind: "initializer",
+          text: "Los distintos CLI con adaptador nativo —OpenCode y Claude Code— reconocen `/personalize` como comando de proyecto: lanza la entrevista del Initializer, que conduce la personalización de la documentación. El Initializer no implementa código ni aprueba Work Items. La captura muestra Claude Code como ejemplo y el comando se ejecuta en el runtime del agente, no en esta web.",
           caption:
             "La captura muestra Claude Code; los adaptadores nativos exponen el mismo comando. La web solo muestra la evidencia.",
         },
