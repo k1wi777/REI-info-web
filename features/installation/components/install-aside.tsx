@@ -41,7 +41,7 @@ export function InstallAside() {
         </ul>
         <Link
           href={INSTALLATION_PATH}
-          className="inline-flex w-fit border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
+          className="-mt-1.5 inline-flex w-fit border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
         >
           Leer la documentación de instalación
         </Link>

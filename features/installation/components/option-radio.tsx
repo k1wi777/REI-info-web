@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type OptionRadioProps = {
@@ -8,11 +8,16 @@ type OptionRadioProps = {
   onSelect: (value: string) => void;
   children: ReactNode;
   className?: string;
+  /** Posición en el grupo: escalona la entrada de las opciones. */
+  index?: number;
 };
 
 /**
  * Opción de un grupo de radio: el `input` nativo (oculto a la vista) aporta
- * teclado y estado anunciado; la etiqueta es la tarjeta y refleja `:checked`.
+ * teclado y estado anunciado; la etiqueta es la tarjeta y refleja `:checked`
+ * con borde claro, relleno elevado y una luz tenue (`option-glow`); la marca de
+ * selección del contenido aporta la señal no cromática. El violeta no se usa:
+ * queda reservado a la puerta de aprobación.
  */
 export function OptionRadio({
   group,
@@ -21,11 +26,15 @@ export function OptionRadio({
   onSelect,
   children,
   className,
+  index = 0,
 }: OptionRadioProps) {
   const id = `${group}-${value}`;
 
   return (
-    <div className="relative min-w-0">
+    <div
+      className="option-enter relative min-w-0"
+      style={{ "--enter-index": index } as CSSProperties}
+    >
       <input
         id={id}
         type="radio"
@@ -38,7 +47,7 @@ export function OptionRadio({
       <label
         htmlFor={id}
         className={cn(
-          "block h-full cursor-pointer border border-hairline-strong bg-surface transition-colors duration-(--duration-fast) hover:border-muted peer-checked:border-accent peer-checked:bg-accent/10 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus",
+          "option-glow block h-full cursor-pointer border border-hairline-strong bg-surface-deep transition-colors duration-(--duration-fast) hover:border-muted peer-checked:border-foreground peer-checked:bg-surface peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus",
           className,
         )}
       >

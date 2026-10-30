@@ -1,4 +1,11 @@
-import { OS_IDS } from "@/lib/release";
+import { ARCH_IDS, OS_IDS } from "@/lib/release";
+import {
+  ARCH_CHECKS,
+  ARCH_CHOICES,
+  OS_CHOICES,
+  OS_LABELS,
+  archDescription,
+} from "@/features/installation/data/choices";
 import {
   ARCHIVE_TEMPLATE_TAR,
   COMMAND_EXTRACT_TAR,
@@ -69,5 +76,51 @@ describe("fillArchiveName", () => {
     ).toBe("tar -xzf rei_0.3.0_linux_amd64.tar.gz");
     expect(fillArchiveName(COMMAND_MOVE_BIN, "x")).toBe(COMMAND_MOVE_BIN);
     expect(COMMAND_EXTRACT_TAR).toContain(ARCHIVE_TEMPLATE_TAR);
+  });
+});
+
+describe("OS_CHOICES", () => {
+  it("cubre cada sistema una sola vez y su icono apunta a sí mismo", () => {
+    expect(OS_CHOICES.map((choice) => choice.id)).toEqual([...OS_IDS]);
+    for (const choice of OS_CHOICES) {
+      expect(choice.icon).toBe(choice.id);
+      expect(choice.label).toBe(OS_LABELS[choice.id]);
+      expect(choice.format).toMatch(/^\.(tar\.gz|zip)$/);
+    }
+  });
+
+  it("usa .zip solo en Windows", () => {
+    const zip = OS_CHOICES.filter((choice) => choice.format === ".zip");
+    expect(zip.map((choice) => choice.id)).toEqual(["windows"]);
+  });
+});
+
+describe("archDescription", () => {
+  it("describe arm64 según el sistema y amd64 igual en todos", () => {
+    expect(archDescription("macos", "arm64")).toContain("Apple Silicon");
+    expect(archDescription("linux", "arm64")).not.toContain("Apple");
+    expect(archDescription("windows", "arm64")).not.toContain("Apple");
+
+    for (const os of OS_IDS) {
+      expect(archDescription(os, "amd64")).toBe("Intel y AMD (x86_64)");
+    }
+  });
+});
+
+describe("ARCH_CHECKS", () => {
+  it("solo ofrece un comando de comprobación donde es estándar", () => {
+    expect(ARCH_CHECKS.linux).toContain("uname -m");
+    expect(ARCH_CHECKS.macos).toContain("uname -m");
+    expect(ARCH_CHECKS.windows).toBeNull();
+  });
+});
+
+describe("ARCH_CHOICES", () => {
+  it("cubre cada arquitectura una sola vez con un descriptor no vacío", () => {
+    expect(ARCH_CHOICES.map((choice) => choice.id)).toEqual([...ARCH_IDS]);
+    for (const choice of ARCH_CHOICES) {
+      expect(choice.label).toBe(choice.id);
+      expect(choice.description.length).toBeGreaterThan(0);
+    }
   });
 });

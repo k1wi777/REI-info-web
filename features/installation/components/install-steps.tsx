@@ -20,7 +20,7 @@ export function InstallSteps({ os, archiveName }: InstallStepsProps) {
           key={step.title}
           className="flex min-w-0 flex-col gap-3 bg-canvas px-5 py-5"
         >
-          <span className="type-meta text-accent-text">
+          <span className="type-meta text-muted-strong">
             Paso {String(index + 1).padStart(2, "0")}
           </span>
           <h3 className="type-ui font-medium text-foreground">{step.title}</h3>
