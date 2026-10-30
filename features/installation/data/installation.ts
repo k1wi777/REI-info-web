@@ -1,6 +1,71 @@
 import type { DocSection, TocItem } from "@/content/docs";
+import { INSTALL_PATH } from "@/content/site";
+import type { OsId } from "@/lib/release";
 
 export const INSTALLATION_PATH = "/docs/empezar/instalacion";
+
+/** Nombre genérico del archive; `fillArchiveName` lo sustituye por el real. */
+export const ARCHIVE_TEMPLATE_TAR = "rei_<versión>_<os>_<arch>.tar.gz";
+export const ARCHIVE_TEMPLATE_ZIP = "rei_<versión>_<os>_<arch>.zip";
+
+export const COMMAND_EXTRACT_TAR = `tar -xzf ${ARCHIVE_TEMPLATE_TAR}`;
+export const COMMAND_MOVE_BIN = "mv rei /usr/local/bin/";
+export const COMMAND_VERSION = "rei version";
+export const COMMAND_UPDATE = "rei update";
+export const COMMAND_UPDATE_CHECK = "rei update --check";
+
+export type InstallStep = {
+  title: string;
+  text: string;
+  /** Comando con la plantilla del archive; ausente si el paso es solo prosa. */
+  command?: string;
+};
+
+const UNIX_STEPS: InstallStep[] = [
+  {
+    title: "Descomprime el archive",
+    text: "Extrae el binario `rei` en el directorio donde descargaste el archivo.",
+    command: COMMAND_EXTRACT_TAR,
+  },
+  {
+    title: "Colócalo en tu PATH",
+    text: "Puedes moverlo a cualquier directorio del PATH, como `~/.local/bin`.",
+    command: COMMAND_MOVE_BIN,
+  },
+  {
+    title: "Verifica la instalación",
+    text: "Debe responder con la versión instalada.",
+    command: COMMAND_VERSION,
+  },
+];
+
+/** Pasos de instalación por sistema operativo; comandos definidos una vez. */
+export const INSTALL_STEPS: Record<OsId, InstallStep[]> = {
+  linux: UNIX_STEPS,
+  macos: UNIX_STEPS,
+  windows: [
+    {
+      title: "Descomprime el archive",
+      text: "En Windows el archive es .zip. Descomprímelo para obtener rei.exe.",
+    },
+    {
+      title: "Colócalo en tu PATH",
+      text: "Coloca rei.exe en un directorio incluido en el PATH.",
+    },
+    {
+      title: "Verifica la instalación",
+      text: "Abre una terminal nueva; debe responder con la versión instalada.",
+      command: COMMAND_VERSION,
+    },
+  ],
+};
+
+/** Sustituye la plantilla del archive por el nombre real del asset. */
+export function fillArchiveName(command: string, archiveName: string): string {
+  return command
+    .replace(ARCHIVE_TEMPLATE_TAR, archiveName)
+    .replace(ARCHIVE_TEMPLATE_ZIP, archiveName);
+}
 
 export const INSTALLATION_SECTIONS: DocSection[] = [
   {
@@ -32,13 +97,23 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
     title: "Descargar y colocar el binario",
     blocks: [
       {
+        kind: "note",
+        tone: "info",
+        title: "Descarga guiada",
+        text: "La página de instalación detecta tu sistema, resuelve el archive de la última release y muestra estos mismos pasos.",
+      },
+      {
+        kind: "links",
+        links: [{ label: "Instalar REI", href: INSTALL_PATH }],
+      },
+      {
         kind: "paragraph",
         text: "Entra en la página de releases y descarga el archive de tu sistema operativo y arquitectura: rei_<versión>_<os>_<arch>.tar.gz.",
       },
       {
         kind: "code",
         language: "Shell",
-        code: "tar -xzf rei_<versión>_<os>_<arch>.tar.gz\nmv rei /usr/local/bin/",
+        code: `${COMMAND_EXTRACT_TAR}\n${COMMAND_MOVE_BIN}`,
       },
       {
         kind: "paragraph",
@@ -59,7 +134,7 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
       {
         kind: "code",
         language: "Shell",
-        code: "rei version",
+        code: COMMAND_VERSION,
       },
       {
         kind: "paragraph",
@@ -78,7 +153,7 @@ export const INSTALLATION_SECTIONS: DocSection[] = [
       {
         kind: "code",
         language: "Shell",
-        code: "rei update\nrei update --check",
+        code: `${COMMAND_UPDATE}\n${COMMAND_UPDATE_CHECK}`,
       },
       {
         kind: "paragraph",

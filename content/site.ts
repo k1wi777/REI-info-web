@@ -23,7 +23,18 @@ export const SITE_DESCRIPTION =
 
 export const SITE_URL_FALLBACK = "http://localhost:3000";
 
-export const INSTALL_PATH = "/docs/empezar/instalacion";
+export const INSTALL_PATH = "/instalar";
+
+/** API pública de GitHub: única llamada externa del sitio, hecha en el servidor. */
+export const LATEST_RELEASE_API_URL =
+  "https://api.github.com/repos/k1wi777/REI-Harness/releases/latest";
+
+export const INSTALL_PAGE = {
+  path: INSTALL_PATH,
+  title: "Instalar REI",
+  description:
+    "Elige tu sistema operativo y arquitectura, descarga el binario rei de la última release de GitHub y verifícalo en minutos.",
+} as const;
 
 export function isExternal(href: string): boolean {
   return href.startsWith("http://") || href.startsWith("https://");
@@ -58,6 +69,7 @@ export const FOOTER_GROUPS: FooterGroup[] = [
   {
     title: "Documentación",
     items: [
+      { label: "Instalar", href: INSTALL_PATH },
       { label: "Empezar", href: "/docs/empezar/instalacion" },
       { label: "Primer Work Item", href: "/docs/empezar/primer-work-item" },
       { label: "Comandos", href: "/docs/referencia/comandos" },
@@ -361,6 +373,7 @@ export const PRODUCT_PAGES: ProductPage[] = [
 
 export const ROUTES: string[] = [
   "/",
+  INSTALL_PAGE.path,
   "/docs",
   ...DOCS_PAGES.map((page) => page.path),
   ...PRODUCT_PAGES.map((page) => page.path),

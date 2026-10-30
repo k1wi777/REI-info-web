@@ -2,6 +2,7 @@ import {
   DOCS_SECTIONS,
   DOCUMENTED_VERSION,
   DOCUMENTED_VERSION_DATE,
+  INSTALL_PAGE,
   PRODUCT_NAME,
   PRODUCT_PAGES,
   RELEASES_URL,
@@ -97,7 +98,14 @@ export function buildLlmsTxt(base: string = getSiteUrl()): string {
     ...docsEntries("guias").map(render),
   ]);
 
-  const starting = section("Empezar", docsEntries("empezar").map(render));
+  const starting = section("Empezar", [
+    render({
+      title: INSTALL_PAGE.title,
+      path: INSTALL_PAGE.path,
+      description: INSTALL_PAGE.description,
+    }),
+    ...docsEntries("empezar").map(render),
+  ]);
   const reference = section("Referencia", docsEntries("referencia").map(render));
   const operation = section("Operación", docsEntries("operacion").map(render));
 

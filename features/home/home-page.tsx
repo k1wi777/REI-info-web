@@ -8,10 +8,10 @@ import { ViewerDemo } from "@/features/home/components/demos/viewer-demo";
 import { FinalCta } from "@/features/home/components/final-cta";
 import { HeroSheet } from "@/features/home/components/hero-sheet";
 import { HomeSection } from "@/features/home/components/home-section";
-import { RevealController } from "@/features/home/components/reveal-controller";
+import { RevealController } from "@/components/ui/reveal-controller";
 import { HOME_ACTS } from "@/features/home/data/acts";
 import { LIMITS_BLOCK, PROCESS_INTRO } from "@/features/home/data/home";
-import { REVEAL_BOOTSTRAP_SCRIPT } from "@/features/home/data/motion";
+import { REVEAL_BOOTSTRAP_SCRIPT } from "@/lib/motion";
 
 const [PROBLEM_ACT, PROCESS_ACT, EVIDENCE_ACT, CLOSE_ACT] = HOME_ACTS;
 

@@ -6,7 +6,7 @@ import {
   REVEAL_READY_ATTRIBUTE,
   REVEAL_SCOPE_SELECTOR,
   REVEALED_ATTRIBUTE,
-} from "@/features/home/data/motion";
+} from "@/lib/motion";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
@@ -20,7 +20,7 @@ const useBeforePaintEffect =
 
 /**
  * Confirma la hidratación y revela una sola vez cada `[data-reveal]` de la
- * home. No envuelve contenido ni mantiene estado: toda la animación vive en CSS
+ * página. No envuelve contenido ni mantiene estado: toda la animación vive en CSS
  * y el observer se desconecta cuando no quedan elementos pendientes.
  */
 export function RevealController() {

@@ -1,6 +1,7 @@
 import {
   DOCS_PAGES,
   DOCUMENTED_VERSION,
+  INSTALL_PAGE,
   PRODUCT_PAGES,
   RELEASES_URL,
   REPOSITORY_README_URL,
@@ -45,6 +46,15 @@ describe("buildLlmsTxt", () => {
     for (const page of PRODUCT_PAGES) {
       expect(text).toContain(`[${page.title}](${BASE}${page.path})`);
     }
+  });
+
+  it("incluye la página de instalación en Empezar, antes de la docs", () => {
+    const entry = `[${INSTALL_PAGE.title}](${BASE}${INSTALL_PAGE.path})`;
+    const start = text.indexOf("## Empezar");
+
+    expect(text).toContain(entry);
+    expect(text.indexOf(entry)).toBeGreaterThan(start);
+    expect(text.indexOf(entry)).toBeLessThan(text.indexOf("[Instalación]"));
   });
 
   it("incluye cada página de documentación con título y URL canónica", () => {

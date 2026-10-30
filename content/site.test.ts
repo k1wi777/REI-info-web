@@ -3,6 +3,8 @@ import {
   DOCS_SECTIONS,
   DOCUMENTED_VERSION_DATE,
   FOOTER_GROUPS,
+  INSTALL_PAGE,
+  INSTALL_PATH,
   NAV_ITEMS,
   PRIMARY_CTA,
   PRODUCT_PAGES,
@@ -61,6 +63,29 @@ describe("rutas del sitio", () => {
         expect(item.external).toBe(true);
       }
     }
+  });
+});
+
+describe("página de instalación", () => {
+  it("publica /instalar en ROUTES, una sola vez", () => {
+    expect(INSTALL_PATH).toBe("/instalar");
+    expect(INSTALL_PAGE.path).toBe(INSTALL_PATH);
+    expect(ROUTES.filter((route) => route === INSTALL_PATH)).toHaveLength(1);
+  });
+
+  it("lleva el CTA primario y el pie a /instalar", () => {
+    expect(PRIMARY_CTA.href).toBe(INSTALL_PATH);
+    const footer = FOOTER_GROUPS.flatMap((group) => group.items);
+    expect(footer.some((item) => item.href === INSTALL_PATH)).toBe(true);
+  });
+
+  it("mantiene la instalación de la documentación como ruta distinta", () => {
+    expect(ROUTES).toContain("/docs/empezar/instalacion");
+  });
+
+  it("rellena título y descripción", () => {
+    expect(INSTALL_PAGE.title.trim()).not.toBe("");
+    expect(INSTALL_PAGE.description.trim()).not.toBe("");
   });
 });
 

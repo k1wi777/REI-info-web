@@ -403,7 +403,7 @@
 }
 
 /*
- * Entrada de la home. El estado oculto solo existe con `data-reveal-motion`,
+ * Entrada de las páginas con animación (home e instalación). El estado oculto solo existe con `data-reveal-motion`,
  * que escribe el bootstrap antes de pintar; sin JavaScript o con movimiento
  * reducido el contenido se sirve visible. El controlador añade `data-revealed`
  * una sola vez y el navegador interpola desde el estado oculto. Solo se animan
