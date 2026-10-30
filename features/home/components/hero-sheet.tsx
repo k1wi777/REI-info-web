@@ -18,7 +18,7 @@ export function HeroSheet() {
         className="pointer-events-none absolute inset-0 sheet-grid sheet-grid-compact opacity-75"
       />
 
-      <div className="relative grid grid-cols-1 items-baseline gap-x-4 gap-y-1 border-b border-hairline px-4 py-3 type-meta text-muted-strong sm:grid-cols-[1fr_auto_1fr]">
+      <div className="relative grid grid-cols-1 items-baseline gap-x-4 gap-y-1 border-b border-hairline px-4 py-3 lg:py-2 type-meta text-muted-strong sm:grid-cols-[1fr_auto_1fr]">
         <p>REI HARNESS / ARNÉS SDD</p>
         
         <p className="justify-self-end text-right">
@@ -27,7 +27,7 @@ export function HeroSheet() {
       </div>
 
       <div className="relative grid lg:grid-cols-6 xl:grid-cols-12">
-        <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-3 lg:border-b-0  lg:px-10 lg:py-14 xl:col-span-7">
+        <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-3 lg:border-b-0  lg:px-10 lg:py-8 xl:col-span-7">
           <p className="type-meta text-muted-strong">
             Spec Driven Development · Arnés de agentes de IA
           </p>
@@ -63,12 +63,12 @@ export function HeroSheet() {
           </p>
         </div>
 
-        <div className="min-w-0 px-5 py-8 sm:px-8 lg:col-span-3 lg:py-10 xl:col-span-5">
+        <div className="min-w-0 px-5 py-8 sm:px-8 lg:col-span-3 lg:py-4 xl:col-span-5">
           <ResponsibilityMatrix />
         </div>
       </div>
 
-      <div className="relative border-t border-hairline px-5 py-6 sm:px-8 lg:px-10">
+      <div className="relative border-t border-hairline px-5 py-6 sm:px-8 lg:px-10 lg:py-3">
         <StateScale />
       </div>
     </section>
