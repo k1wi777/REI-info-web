@@ -8,6 +8,7 @@ import {
   REPOSITORY_URL,
 } from "@/content/site";
 import { getInstallCopy } from "@/features/installation/copy";
+import { getProductCopy } from "@/features/product/copy";
 import { buildLlmsTxt } from "@/lib/llms";
 
 const BASE = "https://example.com";
@@ -45,7 +46,8 @@ describe("buildLlmsTxt", () => {
 
   it("incluye cada página de producto con título y URL canónica", () => {
     for (const page of PRODUCT_PAGES) {
-      expect(text).toContain(`[${page.title}](${BASE}/es${page.path})`);
+      const { title } = getProductCopy("es").pages[page.slug];
+      expect(text).toContain(`[${title}](${BASE}/es${page.path})`);
     }
   });
 
@@ -120,12 +122,20 @@ describe("buildLlmsTxt en inglés", () => {
   });
 
   it("enlaza a la versión en español las páginas sin traducir", () => {
-    for (const page of PRODUCT_PAGES) {
-      expect(english).toContain(`(${BASE}/es${page.path})`);
-    }
-    // Solo la instalación está traducida bajo /en.
+    expect(english).toContain(`(${BASE}/es/docs)`);
+    // Solo instalación y producto están traducidos bajo /en.
     const englishLinks = english.match(new RegExp(`${BASE}/en/[^)]*`, "g"));
-    expect(englishLinks).toEqual([`${BASE}/en/instalar`]);
+    expect(englishLinks).toEqual([
+      ...PRODUCT_PAGES.map((page) => `${BASE}/en${page.path}`),
+      `${BASE}/en/instalar`,
+    ]);
+  });
+
+  it("describe las páginas de producto en inglés", () => {
+    for (const page of PRODUCT_PAGES) {
+      const { title } = getProductCopy("en").pages[page.slug];
+      expect(english).toContain(`[${title}](${BASE}/en${page.path})`);
+    }
   });
 
   it("describe la instalación en inglés", () => {

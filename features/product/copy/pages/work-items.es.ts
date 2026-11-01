@@ -6,7 +6,7 @@ import type { ProductDocument } from "@/features/product/types";
 const FEATURE_PLANNING = ["requirements.md", "design.md", "tasks.md"];
 const TASK_PLANNING = ["plan.md"];
 
-export const WORK_ITEMS_DOCUMENT: ProductDocument = {
+export const WORK_ITEMS_ES: ProductDocument = {
   id: "work-items",
   eyebrow: "Producto · Work Items",
   meta: "Feature frente a Task · evidencia versionada",

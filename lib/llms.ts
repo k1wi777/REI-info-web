@@ -16,6 +16,7 @@ import {
 } from "@/content/site";
 import { localizePath, type Locale } from "@/lib/i18n";
 import { getInstallCopy } from "@/features/installation/copy";
+import { getProductCopy } from "@/features/product/copy";
 import { buildCanonicalUrl } from "@/lib/seo";
 
 type LlmsEntry = {
@@ -96,13 +97,12 @@ export function buildLlmsTxt(
 
   const product = section(
     llms.headings.product,
-    PRODUCT_PAGES.map((page) =>
-      render({
-        title: page.title,
-        path: page.path,
-        description: page.description,
-      }),
-    ),
+    PRODUCT_PAGES.map((page) => {
+      const { title, description } = getProductCopy(
+        getContentLocale(lang, page.path),
+      ).pages[page.slug];
+      return render({ title, path: page.path, description });
+    }),
   );
 
   const documentation = section(llms.headings.documentation, [

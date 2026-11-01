@@ -4,6 +4,7 @@ import {
   BRANCH_STATES,
   CYCLE_STATES,
   STATE_TRANSITIONS,
+  WORK_ITEM_STATES,
 } from "@/content/rei";
 import {
   CYCLE_BRANCHES,
@@ -11,8 +12,10 @@ import {
   branchTransitions,
   nextStop,
   previousStop,
+  resolveCycleStops,
   stopTransitions,
 } from "@/features/product/data/cycle";
+import type { CycleStopText } from "@/features/product/data/cycle";
 
 const ORDER = ["pending", "ready", "gate", "in_progress", "review", "done"];
 
@@ -27,20 +30,31 @@ describe("datos del ciclo", () => {
     expect(CYCLE_STOPS[gateIndex + 1]?.state).toBe("in_progress");
   });
 
-  it("deriva etiqueta y significado de CYCLE_STATES y APPROVAL_GATE", () => {
-    for (const stop of CYCLE_STOPS) {
+  it("resuelve etiqueta y significado desde los estados y el texto del idioma", () => {
+    const text = {
+      states: Object.fromEntries(
+        WORK_ITEM_STATES.map((state) => [state.id, state.meaning]),
+      ) as CycleStopText["states"],
+      gateLabel: APPROVAL_GATE.label,
+      gateDetail: APPROVAL_GATE.detail,
+    };
+    const stops = resolveCycleStops(text);
+
+    expect(stops.map((stop) => stop.id)).toEqual(ORDER);
+
+    for (const stop of stops) {
       expect(stop.label.trim()).not.toBe("");
       expect(stop.detail.trim()).not.toBe("");
     }
 
-    for (const stop of CYCLE_STOPS.filter((candidate) => !candidate.gate)) {
+    for (const stop of stops.filter((candidate) => !candidate.gate)) {
       const state = CYCLE_STATES.find((candidate) => candidate.id === stop.state);
       expect(state).toBeDefined();
       expect(stop.label).toBe(state?.label);
       expect(stop.detail).toBe(state?.meaning);
     }
 
-    const gate = CYCLE_STOPS.find((stop) => stop.gate);
+    const gate = stops.find((stop) => stop.gate);
     expect(gate?.label).toBe(APPROVAL_GATE.label);
     expect(gate?.detail).toBe(APPROVAL_GATE.detail);
     expect(gate?.state).toBeUndefined();

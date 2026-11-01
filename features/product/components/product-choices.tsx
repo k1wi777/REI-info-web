@@ -1,13 +1,15 @@
 import { InlineText } from "@/components/ui/inline-text";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
+import type { ProductCopy } from "@/features/product/copy/types";
 import type { ProductChoice } from "@/features/product/types";
 
 type ProductChoicesProps = {
   choices: ProductChoice[];
 };
 
-function documentCount(count: number): string {
+function documentCount(count: number, text: ProductCopy["choices"]): string {
   return `${String(count).padStart(2, "0")} ${
-    count === 1 ? "documento" : "documentos"
+    count === 1 ? text.documentOne : text.documentOther
   }`;
 }
 
@@ -16,13 +18,14 @@ function documentCount(count: number): string {
  * criterio en columnas alineadas. La comparación se lee de un vistazo y la
  * lista de artefactos conserva la forma de árbol de `.rei/`.
  */
-export function ProductChoices({ choices }: ProductChoicesProps) {
+export async function ProductChoices({ choices }: ProductChoicesProps) {
+  const { choices: text } = await getCurrentProductCopy();
   return (
     <div className="border border-hairline-strong">
       <div className="hidden grid-cols-12 gap-6 border-b border-hairline px-4 pb-2 pt-3 type-meta-sm text-muted-strong sm:grid">
-        <p className="col-span-3">Tipo</p>
-        <p className="col-span-4">Planificación</p>
-        <p className="col-span-5">Criterio</p>
+        <p className="col-span-3">{text.type}</p>
+        <p className="col-span-4">{text.planning}</p>
+        <p className="col-span-5">{text.criterion}</p>
       </div>
 
       {choices.map((choice) => (
@@ -33,13 +36,13 @@ export function ProductChoices({ choices }: ProductChoicesProps) {
           <div className="min-w-0 sm:col-span-3">
             <h3 className="type-docs-title text-foreground">{choice.name}</h3>
             <p className="mt-1 type-meta-sm text-muted-strong">
-              {documentCount(choice.planning.length)}
+              {documentCount(choice.planning.length, text)}
             </p>
           </div>
 
           <div className="min-w-0 sm:col-span-4">
             <p className="type-meta-sm text-muted-strong sm:hidden">
-              Planificación
+              {text.planning}
             </p>
             <ul className="mt-2 border-l border-border-strong sm:mt-0">
               {choice.planning.map((artifact) => (
@@ -59,7 +62,7 @@ export function ProductChoices({ choices }: ProductChoicesProps) {
 
           <div className="min-w-0 sm:col-span-5">
             <p className="type-meta-sm text-muted-strong sm:hidden">
-              Criterio
+              {text.criterion}
             </p>
             <p className="mt-2 max-w-[46ch] type-body text-secondary sm:mt-0">
               <InlineText text={choice.when} />

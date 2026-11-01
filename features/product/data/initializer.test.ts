@@ -29,8 +29,6 @@ describe("captura del Initializer", () => {
     ).toBe(false);
     expect(INITIALIZER_CAPTURE.label.trim()).not.toBe("");
     expect(INITIALIZER_CAPTURE.meta.trim()).not.toBe("");
-    expect(INITIALIZER_CAPTURE.alt.trim()).not.toBe("");
-    expect(INITIALIZER_CAPTURE.alt).toContain("/personalize");
   });
 
   it("queda fuera del manifiesto generado y del pipeline de captura", () => {

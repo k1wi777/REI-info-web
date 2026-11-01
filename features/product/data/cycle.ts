@@ -1,5 +1,4 @@
 import {
-  APPROVAL_GATE,
   BRANCH_STATES,
   CYCLE_STATES,
   STATE_TRANSITIONS,
@@ -20,17 +19,22 @@ export type CycleStopId =
   | "done";
 
 /**
- * Una parada del recorrido. La etiqueta y el significado se derivan de
- * `CYCLE_STATES` y `APPROVAL_GATE`; solo el rol se declara aquí porque el
- * modelo canónico de estados no lo asocia.
+ * Una parada del recorrido. Es el esqueleto neutro: ids, estado y rol. El
+ * texto visible (etiqueta y significado) depende del idioma y se resuelve con
+ * `resolveCycleStops`; solo el rol se declara aquí porque el modelo canónico
+ * de estados no lo asocia.
  */
 export type CycleStop = {
   id: CycleStopId;
   state?: WorkItemStateId;
   roleId?: AgentRoleId;
+  gate?: boolean;
+};
+
+/** Parada con el texto del idioma activo, lista para pintarse. */
+export type ResolvedCycleStop = CycleStop & {
   label: string;
   detail: string;
-  gate?: boolean;
 };
 
 /** Estados que forman el recorrido lineal; las ramas quedan fuera. */
@@ -57,29 +61,43 @@ function cycleState(id: CycleStateId): WorkItemState {
 
 function stopFromState(id: CycleStateId): CycleStop {
   const state = cycleState(id);
-  return {
-    id,
-    state: id,
-    roleId: STOP_ROLES[id],
-    label: state.label,
-    detail: state.meaning,
-  };
+  return { id, state: state.id, roleId: STOP_ROLES[id] };
 }
 
 /** Seis paradas: los cinco estados del ciclo con la puerta entre ready e in_progress. */
 export const CYCLE_STOPS: CycleStop[] = [
   stopFromState("pending"),
   stopFromState("ready"),
-  {
-    id: "gate",
-    label: APPROVAL_GATE.label,
-    detail: APPROVAL_GATE.detail,
-    gate: true,
-  },
+  { id: "gate", gate: true },
   stopFromState("in_progress"),
   stopFromState("review"),
   stopFromState("done"),
 ];
+
+/** Texto del idioma que completa el esqueleto de las paradas. */
+export type CycleStopText = {
+  /** Significado por estado. */
+  states: Record<WorkItemStateId, string>;
+  gateLabel: string;
+  gateDetail: string;
+};
+
+/**
+ * Completa cada parada: la etiqueta de un estado es su id (no se traduce) y la
+ * de la puerta y los significados vienen del idioma activo.
+ */
+export function resolveCycleStops(text: CycleStopText): ResolvedCycleStop[] {
+  return CYCLE_STOPS.map((stop) => {
+    if (stop.gate || !stop.state) {
+      return { ...stop, label: text.gateLabel, detail: text.gateDetail };
+    }
+    return {
+      ...stop,
+      label: cycleState(stop.id as CycleStateId).label,
+      detail: text.states[stop.state],
+    };
+  });
+}
 
 /** Aristas de entrada y salida de una parada o rama, sin declarar ninguna a mano. */
 export type StopTransitions = {

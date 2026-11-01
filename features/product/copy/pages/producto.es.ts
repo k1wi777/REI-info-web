@@ -1,7 +1,7 @@
 import { INSTALL_PATH, REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const PRODUCTO_DOCUMENT: ProductDocument = {
+export const PRODUCTO_ES: ProductDocument = {
   id: "producto",
   eyebrow: "Producto · Spec Driven Development",
   meta: "Fuente: README.md, docs/product-strategy.md y .rei/docs/",

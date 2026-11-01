@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { InlineText } from "@/components/ui/inline-text";
 import { StatusTag } from "@/components/ui/status-tag";
-import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
+import { AGENT_ROLES } from "@/content/rei";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import type { AgentRole, AgentRoleId } from "@/content/rei";
 
 type RoleListProps = {
@@ -9,7 +10,8 @@ type RoleListProps = {
 };
 
 /** Roles canónicos en el orden pedido; sin copias locales de nombres ni límites. */
-export function RoleList({ roleIds }: RoleListProps) {
+export async function RoleList({ roleIds }: RoleListProps) {
+  const copy = await getCurrentProductCopy();
   const roles = roleIds
     .map((id) => AGENT_ROLES.find((role) => role.id === id))
     .filter((role): role is AgentRole => Boolean(role))
@@ -26,12 +28,12 @@ export function RoleList({ roleIds }: RoleListProps) {
               <li className="border-b border-accent/40 bg-accent/10 px-4 py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
                   <p className="type-meta text-accent-text">
-                    {APPROVAL_GATE.label}
+                    {copy.gate.label}
                   </p>
-                  <StatusTag tone="accent">{APPROVAL_GATE.status}</StatusTag>
+                  <StatusTag tone="accent">{copy.gate.status}</StatusTag>
                 </div>
                 <p className="mt-2 max-w-[58ch] type-body text-secondary">
-                  {APPROVAL_GATE.detail}
+                  {copy.gate.detail}
                 </p>
               </li>
             ) : null}
@@ -45,19 +47,19 @@ export function RoleList({ roleIds }: RoleListProps) {
                   {role.name}
                 </h3>
                 <p className="mt-2 type-caption text-muted-strong">
-                  {role.when}
+                  {copy.roles[role.id].when}
                 </p>
               </div>
 
               <div className="min-w-0">
                 <p className="max-w-[58ch] type-body text-secondary">
-                  {role.responsibility}
+                  {copy.roles[role.id].responsibility}
                 </p>
                 <p className="mt-3 max-w-[58ch] type-caption text-secondary">
                   <span className="type-meta-sm text-muted-strong">
-                    Límite ·{" "}
+                    {copy.roleList.limit} ·{" "}
                   </span>
-                  {role.limit}
+                  {copy.roles[role.id].limit}
                 </p>
               </div>
             </li>
@@ -67,23 +69,23 @@ export function RoleList({ roleIds }: RoleListProps) {
 
       {initializer ? (
         <div className="mt-8">
-          <p className="type-meta-sm text-muted-strong">Fuera del ciclo</p>
+          <p className="type-meta-sm text-muted-strong">{copy.roleList.outsideCycle}</p>
 
           <div className="mt-2 border-t border-dashed border-border-strong pt-4">
             <h3 className="type-docs-heading text-foreground">
               {initializer.name}
             </h3>
             <p className="mt-2 max-w-[58ch] type-body text-secondary">
-              {initializer.responsibility}
+              {copy.roles.initializer.responsibility}
             </p>
             <p className="mt-2 max-w-[58ch] type-caption text-muted-strong">
-              {initializer.when}
+              {copy.roles.initializer.when}
             </p>
             <p className="mt-2 max-w-[58ch] type-caption text-secondary">
-              <InlineText text={initializer.limit} />
+              <InlineText text={copy.roles.initializer.limit} />
             </p>
             <p className="mt-3 type-caption text-muted-strong">
-              Prepara el repositorio; no aprueba ni implementa Work Items.
+              {copy.roleList.initializerNote}
             </p>
           </div>
         </div>

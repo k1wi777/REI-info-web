@@ -17,6 +17,7 @@ import {
   FOOTER_GROUPS,
   NAV_ITEMS,
   PRIMARY_CTA,
+  PRODUCT_PAGES,
   ROUTES,
   isExternal,
 } from "@/content/site";
@@ -130,15 +131,28 @@ describe("cobertura de traducción", () => {
     }
   });
 
-  it("declara traducidas en inglés solo la home y la instalación", () => {
-    expect([...TRANSLATED_ROUTES.en]).toEqual(["/", INSTALL_PATH]);
+  it("declara traducidas en inglés la home, la instalación y producto", () => {
+    expect([...TRANSLATED_ROUTES.en]).toEqual([
+      "/",
+      INSTALL_PATH,
+      ...PRODUCT_PAGES.map((page) => page.path),
+    ]);
+    for (const page of PRODUCT_PAGES) {
+      expect(translatedLocales(page.path)).toEqual(["es", "en"]);
+      expect(getContentLocale("en", page.path)).toBe("en");
+    }
     expect(translatedLocales("/")).toEqual(["es", "en"]);
     expect(translatedLocales(INSTALL_PATH)).toEqual(["es", "en"]);
     expect(getContentLocale("en", INSTALL_PATH)).toBe("en");
   });
 
   it("deja el resto de rutas en español bajo /en", () => {
-    const rest = ROUTES.filter((path) => path !== "/" && path !== INSTALL_PATH);
+    const translated = new Set<string>([
+      "/",
+      INSTALL_PATH,
+      ...PRODUCT_PAGES.map((page) => page.path),
+    ]);
+    const rest = ROUTES.filter((path) => !translated.has(path));
 
     expect(rest.length).toBeGreaterThan(0);
     for (const path of rest) {

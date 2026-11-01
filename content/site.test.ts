@@ -207,12 +207,9 @@ describe("árbol de producto", () => {
     }
   });
 
-  it("rellena slug, etiqueta, título y descripción de cada página", () => {
+  it("rellena slug y ruta de cada página", () => {
     for (const page of PRODUCT_PAGES) {
       expect(page.slug.trim()).not.toBe("");
-      expect(page.label.trim()).not.toBe("");
-      expect(page.title.trim()).not.toBe("");
-      expect(page.description.trim()).not.toBe("");
       expect(page.path.startsWith("/producto")).toBe(true);
     }
   });

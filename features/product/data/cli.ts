@@ -13,7 +13,6 @@ export const CLI_SAMPLES: CliSample[] = [
     commandId: "item-show",
     command: "rei item show 2026-10-27_22-04__home-demostrativa-playwright",
     capturedAt: CLI_SNAPSHOT_DATE,
-    note: "La ficha lista como «sí» la misma evidencia que dibuja el árbol.",
     lines: [
       { kind: "prompt", text: "rei item show 2026-10-27_22-04__home-demostrativa-playwright" },
       { kind: "output", text: "Work Item: 2026-10-27_22-04__home-demostrativa-playwright" },
@@ -47,7 +46,6 @@ export const CLI_SAMPLES: CliSample[] = [
     commandId: "validate",
     command: "rei validate 2026-10-27_22-04__home-demostrativa-playwright",
     capturedAt: CLI_SNAPSHOT_DATE,
-    note: "Un Work Item cerrado valida OK sin hallazgos.",
     lines: [
       { kind: "prompt", text: "rei validate 2026-10-27_22-04__home-demostrativa-playwright" },
       { kind: "output", text: "== Validando Work Item: 2026-10-27_22-04__home-demostrativa-playwright ==" },
@@ -60,7 +58,6 @@ export const CLI_SAMPLES: CliSample[] = [
     commandId: "doctor",
     command: "rei doctor",
     capturedAt: CLI_SNAPSHOT_DATE,
-    note: "El arnés completo: documentos, Work Items, git y HEAD detectados.",
     lines: [
       { kind: "prompt", text: "rei doctor" },
       { kind: "output", text: "[OK]    AGENTS.md" },

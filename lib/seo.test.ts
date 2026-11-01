@@ -133,16 +133,16 @@ describe("buildPageMetadata", () => {
 
 describe("metadata por idioma", () => {
   const input = {
-    path: "/producto",
-    title: "Producto",
-    description: "Descripción de producto.",
+    path: "/docs",
+    title: "Docs",
+    description: "Descripción de docs.",
   };
 
   it("apunta el canonical de una ruta sin traducir en /en al español", () => {
     const metadata = buildPageMetadata({ ...input, lang: "en" });
 
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL_FALLBACK}/es/producto`,
+      `${SITE_URL_FALLBACK}/es/docs`,
     );
     expect(metadata.alternates?.languages).toBeUndefined();
     expect(metadata.openGraph).toMatchObject({ locale: "es_ES" });
@@ -151,13 +151,13 @@ describe("metadata por idioma", () => {
   it("no declara alternates mientras solo exista el español", () => {
     expect(buildPageMetadata({ ...input, lang: "es" }).alternates?.languages)
       .toBeUndefined();
-    expect(buildAlternateLanguages("https://example.com", "/producto"))
+    expect(buildAlternateLanguages("https://example.com", "/docs"))
       .toBeUndefined();
   });
 
   describe("con una ruta traducida", () => {
     beforeEach(() => {
-      (TRANSLATED_ROUTES as { en: readonly string[] }).en = ["/producto"];
+      (TRANSLATED_ROUTES as { en: readonly string[] }).en = ["/docs"];
     });
 
     afterEach(() => {
@@ -168,16 +168,16 @@ describe("metadata por idioma", () => {
       const metadata = buildPageMetadata({ ...input, lang: "en" });
 
       expect(metadata.alternates?.canonical).toBe(
-        `${SITE_URL_FALLBACK}/en/producto`,
+        `${SITE_URL_FALLBACK}/en/docs`,
       );
       expect(metadata.alternates?.languages).toEqual({
-        es: `${SITE_URL_FALLBACK}/es/producto`,
-        en: `${SITE_URL_FALLBACK}/en/producto`,
-        "x-default": `${SITE_URL_FALLBACK}/es/producto`,
+        es: `${SITE_URL_FALLBACK}/es/docs`,
+        en: `${SITE_URL_FALLBACK}/en/docs`,
+        "x-default": `${SITE_URL_FALLBACK}/es/docs`,
       });
       expect(metadata.openGraph).toMatchObject({
         locale: "en_US",
-        url: "/en/producto",
+        url: "/en/docs",
       });
     });
   });

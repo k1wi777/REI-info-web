@@ -3,6 +3,8 @@ import { DOCUMENTED_VERSION, PRODUCT_PAGES } from "@/content/site";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { InlineText } from "@/components/ui/inline-text";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
+import { fillTemplate } from "@/lib/template";
 import type { ProductDocument } from "@/features/product/types";
 
 type ProductHeroProps = {
@@ -15,7 +17,8 @@ type ProductHeroProps = {
  * ficha con datos verificables del arnés. La retícula de plano solo aparece
  * aquí y en las secciones `lead`; el resto del artículo queda en canvas.
  */
-export function ProductHero({ page, document }: ProductHeroProps) {
+export async function ProductHero({ page, document }: ProductHeroProps) {
+  const { chrome, pages } = await getCurrentProductCopy();
   const index = PRODUCT_PAGES.findIndex((item) => item.slug === page.slug);
   const folio = String(index + 1).padStart(2, "0");
   const total = String(PRODUCT_PAGES.length).padStart(2, "0");
@@ -32,11 +35,11 @@ export function ProductHero({ page, document }: ProductHeroProps) {
 
       <Container className="relative">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-hairline py-3 type-meta text-muted-strong sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-baseline">
-          <p className="w-full sm:w-auto">REI HARNESS / DOSSIER DE PRODUCTO</p>
-          <p>
-            HOJA {folio} / {total}
+          <p className="w-full sm:w-auto">{chrome.bar}</p>
+          <p>{fillTemplate(chrome.sheetOf, { folio, total })}</p>
+          <p className="sm:text-right">
+            {DOCUMENTED_VERSION} · {chrome.langTag}
           </p>
-          <p className="sm:text-right">{DOCUMENTED_VERSION} · ES</p>
         </div>
 
         <div className="grid lg:grid-cols-12">
@@ -47,11 +50,11 @@ export function ProductHero({ page, document }: ProductHeroProps) {
               id="product-title"
               className="mt-5 max-w-[18ch] text-balance type-display text-foreground"
             >
-              {page.title}
+              {pages[page.slug].title}
             </h1>
 
             <p className="mt-5 max-w-[52ch] type-body text-secondary">
-              {page.description}
+              {pages[page.slug].description}
             </p>
 
             {document.actions && document.actions.length > 0 ? (
@@ -76,7 +79,7 @@ export function ProductHero({ page, document }: ProductHeroProps) {
           </div>
 
           <aside className="min-w-0 border-t border-hairline py-8 lg:col-span-5 lg:border-t-0 lg:border-l lg:py-12 lg:pl-8">
-            <p className="type-meta text-muted-strong">Ficha</p>
+            <p className="type-meta text-muted-strong">{chrome.factsTitle}</p>
 
             <dl className="mt-4 border-t border-hairline-strong">
               {document.facts.map((fact) => (
@@ -95,7 +98,7 @@ export function ProductHero({ page, document }: ProductHeroProps) {
             </dl>
 
             <p className="mt-4 type-meta-sm text-muted-strong">
-              Datos del arnés · no métricas de adopción
+              {chrome.factsNote}
             </p>
           </aside>
         </div>

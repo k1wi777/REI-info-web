@@ -1,3 +1,4 @@
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import { EVIDENCE } from "@/features/product/data/evidence";
 import type { EvidenceSource, EvidenceSourceId } from "@/features/product/types";
 
@@ -10,7 +11,8 @@ type EvidenceTableProps = {
  * implicación para REI. Cada fuente enlaza a su origen; nada se resume sin
  * enlace.
  */
-export function EvidenceTable({ ids }: EvidenceTableProps) {
+export async function EvidenceTable({ ids }: EvidenceTableProps) {
+  const copy = await getCurrentProductCopy();
   const sources = ids
     .map((id) => EVIDENCE.find((source) => source.id === id))
     .filter((source): source is EvidenceSource => Boolean(source));
@@ -18,7 +20,7 @@ export function EvidenceTable({ ids }: EvidenceTableProps) {
   return (
     <div>
       <p className="type-meta-sm text-muted-strong">
-        Evidencia externa citada · cada caso enlaza a su fuente
+        {copy.evidence.intro}
       </p>
 
       <ol className="mt-3 border-t border-hairline-strong">
@@ -37,25 +39,25 @@ export function EvidenceTable({ ids }: EvidenceTableProps) {
                 target="_blank"
                 rel="noreferrer"
               >
-                {source.title}
+                {copy.evidence.sources[source.id].title}
                 <span aria-hidden="true" className="ml-1.5 text-muted-strong">
                   ↗
                 </span>
               </a>
               <p className="mt-1.5 type-meta-sm text-muted-strong">
-                {source.date}
+                {copy.evidence.sources[source.id].date}
               </p>
             </div>
 
             <div className="min-w-0">
               <p className="max-w-[64ch] type-body text-secondary">
-                {source.finding}
+                {copy.evidence.sources[source.id].finding}
               </p>
 
               <div className="mt-3 border-l border-border-strong pl-4">
-                <p className="type-meta-sm text-muted-strong">Implicación</p>
+                <p className="type-meta-sm text-muted-strong">{copy.evidence.implication}</p>
                 <p className="mt-1 max-w-[58ch] type-body text-foreground">
-                  {source.implication}
+                  {copy.evidence.sources[source.id].implication}
                 </p>
               </div>
             </div>

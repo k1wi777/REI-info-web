@@ -14,7 +14,7 @@ describe("muestras del CLI", () => {
 
     for (const sample of CLI_SAMPLES) {
       expect(sample.capturedAt).toBe(CLI_SNAPSHOT_DATE);
-      expect(sample.note.trim()).not.toBe("");
+      expect(sample.lines[0]?.kind).toBe("prompt");
     }
   });
 

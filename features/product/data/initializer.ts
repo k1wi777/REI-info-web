@@ -11,5 +11,4 @@ export const INITIALIZER_CAPTURE: InitializerCapture = {
   capturedAt: "2026-10-28",
   label: "claude code · /personalize",
   meta: "Claude Code v2.1.312",
-  alt: "Terminal de Claude Code v2.1.312 con la lista de comandos de proyecto abierta: `/init` y `/personalize`, este descrito como la entrevista de personalización del proyecto (rol initializer).",
 };

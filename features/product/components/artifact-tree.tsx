@@ -1,20 +1,11 @@
 import { Fragment } from "react";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import { WindowFrame } from "@/components/ui/window-frame";
+import { fillTemplate } from "@/lib/template";
 import {
   ARTIFACT_ENTRIES,
   ARTIFACT_GROUPS,
 } from "@/features/product/data/artifacts";
-import type { ArtifactAppliesTo } from "@/features/product/types";
-
-const TAG_LABELS: Record<ArtifactAppliesTo, string> = {
-  feature: "Feature",
-  task: "Task",
-  ambos: "Feature y Task",
-  sesion: "sesión",
-  opcional: "opcional",
-  bloqueo: "solo bloqueo",
-  estado: "estado",
-};
 
 /** Rompe la ruta por sus barras, nunca por la mitad de un nombre de archivo. */
 function PathText({ path }: { path: string }) {
@@ -40,15 +31,16 @@ function PathText({ path }: { path: string }) {
  * Árbol real de `.rei/` con conectores, qué deja cada documento y quién lo
  * escribe. El texto lleva la misma información que el dibujo.
  */
-export function ArtifactTree() {
+export async function ArtifactTree() {
+  const copy = (await getCurrentProductCopy()).artifacts;
   return (
     <WindowFrame
-      label="árbol · .rei/"
+      label={copy.windowLabel}
       meta={`${ARTIFACT_ENTRIES.length}`}
-      footer={`${ARTIFACT_ENTRIES.length} documentos. Cada documento aparece una vez y conserva su ruta real. La derecha dice quién lo escribe.`}
+      footer={fillTemplate(copy.footer, { count: ARTIFACT_ENTRIES.length })}
     >
       <div
-        aria-label="Árbol de artefactos de .rei"
+        aria-label={copy.treeLabel}
         tabIndex={0}
         className="scroll-code overflow-x-auto px-4 py-4 lg:max-h-[32.5rem] lg:overflow-y-auto lg:overscroll-contain xl:max-h-[30rem]"
       >
@@ -58,7 +50,7 @@ export function ArtifactTree() {
               {group.root}
             </p>
             <p className="mt-0.5 type-meta-sm text-muted-strong">
-              {group.label}
+              {copy.groups[group.id]}
             </p>
 
             <ul className="mt-2 border-l border-border-strong">
@@ -78,16 +70,16 @@ export function ArtifactTree() {
                         <PathText path={entry.path} />
                       </p>
                       <p className="mt-1 break-words type-caption text-secondary">
-                        {entry.note}
+                        {copy.entries[entry.id].note}
                       </p>
                     </div>
 
                     <div className="min-w-0 lg:text-right">
                       <p className="type-meta-sm text-muted-strong">
-                        {TAG_LABELS[entry.appliesTo]}
+                        {copy.applies[entry.appliesTo]}
                       </p>
                       <p className="mt-1 break-words type-caption text-secondary">
-                        {entry.owner}
+                        {copy.entries[entry.id].owner}
                       </p>
                     </div>
                   </div>

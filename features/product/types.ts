@@ -20,12 +20,9 @@ export type EvidenceSourceId =
   | "stack-overflow-2025"
   | "github-copilot-2023";
 
+/** Esqueleto de una fuente; título, fecha y lectura salen de la copy. */
 export type EvidenceSource = {
   id: EvidenceSourceId;
-  title: string;
-  date: string;
-  finding: string;
-  implication: string;
   url: string;
 };
 
@@ -43,8 +40,6 @@ export type CliSample = {
   command: string;
   /** Fecha ISO corta de la captura. */
   capturedAt: string;
-  /** Una frase: qué demuestra la salida. */
-  note: string;
   lines: CliLine[];
 };
 
@@ -60,7 +55,6 @@ export type InitializerCapture = {
   capturedAt: string;
   label: string;
   meta: string;
-  alt: string;
 };
 
 /** Dato de la ficha técnica del hero; siempre verificable en el repositorio. */
@@ -110,10 +104,6 @@ export type ArtifactEntry = {
   id: string;
   /** Ruta real dentro de `.rei/`. */
   path: string;
-  /** Qué deja el documento. */
-  note: string;
-  /** Quién lo escribe. */
-  owner: string;
   appliesTo: ArtifactAppliesTo;
 };
 
@@ -121,7 +111,6 @@ export type ArtifactEntry = {
 export type ArtifactGroup = {
   id: "specs" | "progress" | "work-items";
   root: string;
-  label: string;
   entries: ArtifactEntry[];
 };
 

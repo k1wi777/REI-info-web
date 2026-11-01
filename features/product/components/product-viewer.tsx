@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { CaptureLink } from "@/components/ui/capture-link";
 import { WindowFrame } from "@/components/ui/window-frame";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import {
   PRODUCT_EVIDENCE_DAY,
   productViewerCapture,
 } from "@/features/product/data/captures";
+import type { ProductCaptureId } from "@/features/product/copy/types";
+import { fillTemplate } from "@/lib/template";
 
 type ProductViewerProps = {
   caption: string;
@@ -14,16 +17,18 @@ type ProductViewerProps = {
  * Evidencia real del visor: la ventana principal y la FICHA. Las capturas
  * vienen del manifiesto; aquí solo se compone la lectura, no se simula nada.
  */
-export function ProductViewer({ caption }: ProductViewerProps) {
+export async function ProductViewer({ caption }: ProductViewerProps) {
+  const copy = await getCurrentProductCopy();
+  const alt = (id: string) => copy.captures[id as ProductCaptureId];
   const desktop = productViewerCapture("desktop");
   const ficha = productViewerCapture("ficha");
 
   if (!desktop) {
     return (
       <p className="type-body text-secondary">
-        No hay captura del visor en el manifiesto. Ejecuta{" "}
+        {copy.viewer.missingBefore}{" "}
         <code className="type-code text-foreground">pnpm capture:evidence</code>{" "}
-        para generarla.
+        {copy.viewer.missingAfter}
       </p>
     );
   }
@@ -33,12 +38,12 @@ export function ProductViewer({ caption }: ProductViewerProps) {
       <figure className="min-w-0 lg:col-span-8">
         <WindowFrame
           label="127.0.0.1 · rei view"
-          meta="solo lectura"
+          meta={copy.viewer.windowMeta}
           bodyClassName="bg-canvas"
         >
           <Image
             src={desktop.file}
-            alt={desktop.alt}
+            alt={alt(desktop.id)}
             width={desktop.width}
             height={desktop.height}
             sizes="(min-width: 1024px) 62vw, 100vw"
@@ -48,9 +53,12 @@ export function ProductViewer({ caption }: ProductViewerProps) {
 
         <figcaption className="mt-3 flex flex-col items-start gap-1 type-caption text-muted-strong">
           <span>
-            {caption} · {PRODUCT_EVIDENCE_DAY}
+            {fillTemplate(copy.viewer.caption, {
+              caption,
+              date: PRODUCT_EVIDENCE_DAY,
+            })}
           </span>
-          <CaptureLink href={desktop.file} />
+          <CaptureLink href={desktop.file} label={copy.captureLink} />
         </figcaption>
       </figure>
 
@@ -60,7 +68,7 @@ export function ProductViewer({ caption }: ProductViewerProps) {
             <WindowFrame label="FICHA" bodyClassName="bg-canvas">
               <Image
                 src={ficha.file}
-                alt={ficha.alt}
+                alt={alt(ficha.id)}
                 width={ficha.width}
                 height={ficha.height}
                 sizes="(min-width: 1024px) 24vw, 100vw"
@@ -69,17 +77,15 @@ export function ProductViewer({ caption }: ProductViewerProps) {
             </WindowFrame>
             <figcaption className="mt-2 flex flex-col items-start gap-1 type-caption text-muted-strong">
               <span>
-                Tipo, estado y enlaces del Work Item. Sin botón ni ruta de
-                aprobación.
+                {copy.viewer.fichaCaption}
               </span>
-              <CaptureLink href={ficha.file} />
+              <CaptureLink href={ficha.file} label={copy.captureLink} />
             </figcaption>
           </figure>
         ) : null}
 
         <p className="border-t border-hairline pt-4 type-caption text-muted-strong">
-          Captura real del visor servido en local. La aprobación se registra
-          desde el CLI.
+          {copy.viewer.footnote}
         </p>
       </div>
     </div>

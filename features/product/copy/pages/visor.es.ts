@@ -1,7 +1,7 @@
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const VISOR_DOCUMENT: ProductDocument = {
+export const VISOR_ES: ProductDocument = {
   id: "visor",
   eyebrow: "Producto · Visor",
   meta: "Local · solo lectura · sin aprobación",

@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { CaptureLink } from "@/components/ui/capture-link";
 import { WindowFrame } from "@/components/ui/window-frame";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
+import type { ProductCaptureId } from "@/features/product/copy/types";
+import { fillTemplate } from "@/lib/template";
 import {
   PRODUCT_EVIDENCE_DAY,
   issueStateLabel,
@@ -16,7 +19,8 @@ type ProductIssueProps = {
  * Una issue pública real, con su estado y sus labels. Es una proyección del
  * trabajo: el enlace de origen permite comprobar que existe.
  */
-export function ProductIssue({ number, caption }: ProductIssueProps) {
+export async function ProductIssue({ number, caption }: ProductIssueProps) {
+  const copy = await getCurrentProductCopy();
   const capture = productIssueCapture(number);
 
   if (!capture) {
@@ -47,14 +51,14 @@ export function ProductIssue({ number, caption }: ProductIssueProps) {
             )}
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-              <CaptureLink href={capture.file} />
+              <CaptureLink href={capture.file} label={copy.captureLink} />
               <a
                 className="inline-flex min-h-6 items-center border-b border-border-strong pb-0.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
                 href={capture.source}
                 target="_blank"
                 rel="noreferrer"
               >
-                Abrir la issue #{number} ↗
+                {fillTemplate(copy.issue.open, { number })}
               </a>
             </div>
           </div>
@@ -62,7 +66,7 @@ export function ProductIssue({ number, caption }: ProductIssueProps) {
       >
         <Image
           src={capture.file}
-          alt={capture.alt}
+          alt={copy.captures[capture.id as ProductCaptureId]}
           width={capture.width}
           height={capture.height}
           sizes="(min-width: 1024px) 72vw, 100vw"
@@ -71,7 +75,10 @@ export function ProductIssue({ number, caption }: ProductIssueProps) {
       </WindowFrame>
 
       <figcaption className="mt-3 type-caption text-muted-strong">
-        {caption} · captura del {PRODUCT_EVIDENCE_DAY}
+        {fillTemplate(copy.issue.caption, {
+          caption,
+          date: PRODUCT_EVIDENCE_DAY,
+        })}
       </figcaption>
     </figure>
   );

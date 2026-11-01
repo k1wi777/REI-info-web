@@ -1,14 +1,20 @@
+import { getCurrentLocale } from "@/content/i18n/server";
 import type { ProductPage as ProductPageMeta } from "@/content/site";
 import { ProductArticle } from "@/features/product/components/product-article";
-import { PRODUCT_DOCUMENTS } from "@/features/product/data/pages";
+import { getProductDocument } from "@/features/product/copy";
 
 type ProductPageProps = {
   page: ProductPageMeta;
 };
 
 /** Compone la página de producto a partir del registro y su documento. */
-export function ProductPage({ page }: ProductPageProps) {
+export async function ProductPage({ page }: ProductPageProps) {
+  const lang = await getCurrentLocale();
+
   return (
-    <ProductArticle page={page} document={PRODUCT_DOCUMENTS[page.slug]} />
+    <ProductArticle
+      page={page}
+      document={getProductDocument(page.slug, lang)}
+    />
   );
 }

@@ -1,5 +1,5 @@
 import { InlineText } from "@/components/ui/inline-text";
-import { APPROVAL_GATE } from "@/content/rei";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import type { ProductPoint } from "@/features/product/types";
 import { cn } from "@/lib/cn";
 
@@ -21,7 +21,11 @@ function PointTitle({ point, className }: { point: ProductPoint; className?: str
  * se leen como ledger, los principios como manifiesto y los límites como
  * espacio negativo con marca textual, nunca con color.
  */
-export function ProductPoints({ points, variant = "ledger" }: ProductPointsProps) {
+export async function ProductPoints({
+  points,
+  variant = "ledger",
+}: ProductPointsProps) {
+  const { gate } = await getCurrentProductCopy();
   if (variant === "manifesto") {
     return (
       <ol className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
@@ -97,7 +101,7 @@ export function ProductPoints({ points, variant = "ledger" }: ProductPointsProps
               {String(index + 1).padStart(2, "0")}
             </span>
             <p className="type-meta text-accent-text">
-              {APPROVAL_GATE.label}
+              {gate.label}
             </p>
             <p className="col-start-2 type-body text-secondary sm:col-start-3">
               <InlineText text={point.detail} />

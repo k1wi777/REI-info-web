@@ -19,7 +19,6 @@ describe("árbol de artefactos", () => {
 
     for (const group of ARTIFACT_GROUPS) {
       expect(group.root).toBe(ROOTS[group.id]);
-      expect(group.label.trim()).not.toBe("");
       expect(group.entries.length).toBeGreaterThan(0);
     }
   });
@@ -86,8 +85,7 @@ describe("árbol de artefactos", () => {
     ]);
 
     for (const entry of ARTIFACT_ENTRIES) {
-      expect(entry.note.trim()).not.toBe("");
-      expect(entry.owner.trim()).not.toBe("");
+      expect(entry.path.trim()).not.toBe("");
       expect(tags.has(entry.appliesTo)).toBe(true);
     }
   });

@@ -2,7 +2,7 @@ import { AGENT_ROLES, WORK_ITEM_ROLES } from "@/content/rei";
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const AGENTES_DOCUMENT: ProductDocument = {
+export const AGENTES_ES: ProductDocument = {
   id: "agentes",
   eyebrow: "Producto · Roles",
   meta: "Cinco roles · contratos explícitos",

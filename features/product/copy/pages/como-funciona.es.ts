@@ -2,7 +2,7 @@ import { BRANCH_STATES, CYCLE_STATES } from "@/content/rei";
 import { INSTALL_PATH } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const COMO_FUNCIONA_DOCUMENT: ProductDocument = {
+export const COMO_FUNCIONA_ES: ProductDocument = {
   id: "como-funciona",
   eyebrow: "Producto · Flujo",
   meta: "Un Work Item · una puerta · un solo in_progress",

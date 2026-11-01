@@ -1,14 +1,17 @@
 import { LocaleLink } from "@/components/ui/locale-link";
 import { Container } from "@/components/ui/container";
 import { PRODUCT_PAGES } from "@/content/site";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import { cn } from "@/lib/cn";
+import { fillTemplate } from "@/lib/template";
 
 type ProductPagerProps = {
   path: string;
 };
 
 /** Índice encuadernado: hoja anterior y siguiente dentro del dossier. */
-export function ProductPager({ path }: ProductPagerProps) {
+export async function ProductPager({ path }: ProductPagerProps) {
+  const { chrome, pages } = await getCurrentProductCopy();
   const index = PRODUCT_PAGES.findIndex((page) => page.path === path);
   const previous = index > 0 ? PRODUCT_PAGES[index - 1] : undefined;
   const next =
@@ -25,7 +28,7 @@ export function ProductPager({ path }: ProductPagerProps) {
   return (
     <Container className="mt-14 pb-10 lg:pb-14">
       <nav
-        aria-label="Hojas del dossier de producto"
+        aria-label={chrome.pagerLabel}
         className={cn(
           "grid gap-px border border-hairline-strong bg-hairline-strong",
           previous && next ? "sm:grid-cols-2" : "sm:grid-cols-1",
@@ -37,13 +40,13 @@ export function ProductPager({ path }: ProductPagerProps) {
             href={previous.path}
           >
             <span className="type-meta-sm text-muted-strong">
-              Hoja anterior · {folio(index - 1)}
+              {fillTemplate(chrome.pagerPrevious, { folio: folio(index - 1) })}
             </span>
             <span className="flex items-baseline gap-3 type-docs-heading text-foreground">
               <span aria-hidden="true" className="type-code text-muted-strong">
                 ←
               </span>
-              {previous.label}
+              {pages[previous.slug].label}
             </span>
           </LocaleLink>
         ) : null}
@@ -57,10 +60,10 @@ export function ProductPager({ path }: ProductPagerProps) {
             href={next.path}
           >
             <span className="type-meta-sm text-muted-strong">
-              Hoja siguiente · {folio(index + 1)}
+              {fillTemplate(chrome.pagerNext, { folio: folio(index + 1) })}
             </span>
             <span className="flex items-baseline gap-3 type-docs-heading text-foreground">
-              {next.label}
+              {pages[next.slug].label}
               <span aria-hidden="true" className="type-code text-muted-strong">
                 →
               </span>

@@ -1,12 +1,20 @@
 import { COMMANDS } from "@/content/rei";
 import type { Command } from "@/content/rei";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
+import { PRODUCT_COMMAND_IDS } from "@/features/product/copy/types";
+import type { ProductCommandId } from "@/features/product/copy/types";
 
 type CommandListProps = {
   ids: string[];
 };
 
 /** Comandos reales por id: nombre y resumen, sin flags duplicados. */
-export function CommandList({ ids }: CommandListProps) {
+function isProductCommandId(id: string): id is ProductCommandId {
+  return (PRODUCT_COMMAND_IDS as readonly string[]).includes(id);
+}
+
+export async function CommandList({ ids }: CommandListProps) {
+  const copy = await getCurrentProductCopy();
   const commands = ids
     .map((id) => COMMANDS.find((command) => command.id === id))
     .filter((command): command is Command => Boolean(command));
@@ -25,7 +33,7 @@ export function CommandList({ ids }: CommandListProps) {
             {command.name}
           </p>
           <p className="max-w-[58ch] type-body text-secondary">
-            {command.summary}
+            {isProductCommandId(command.id) ? copy.commands[command.id] : null}
           </p>
         </li>
       ))}

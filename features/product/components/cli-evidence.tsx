@@ -1,7 +1,9 @@
 import { WindowFrame } from "@/components/ui/window-frame";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import { CLI_SAMPLES, CLI_SNAPSHOT_DATE } from "@/features/product/data/cli";
 import type { CliLine } from "@/features/product/types";
 import { cn } from "@/lib/cn";
+import { fillTemplate } from "@/lib/template";
 
 /** Colores de los estados que el propio CLI imprime entre corchetes. */
 const STATE_TONES: Record<string, string> = {
@@ -80,20 +82,23 @@ function outputCount(lines: CliLine[]): number {
  * Salidas reales del CLI en disclosures nativos: sin estado, sin tecleo
  * simulado y sin temporizadores. La primera queda abierta también sin JS.
  */
-export function CliEvidence() {
+export async function CliEvidence() {
+  const { cli } = await getCurrentProductCopy();
   return (
     <WindowFrame
       label="rei"
-      meta={`instantánea · ${CLI_SNAPSHOT_DATE} · ${CLI_SAMPLES.length} comandos`}
+      meta={fillTemplate(cli.windowMeta, {
+        date: CLI_SNAPSHOT_DATE,
+        count: CLI_SAMPLES.length,
+      })}
       bodyClassName="bg-canvas"
       footer={
         <>
-          Instantánea del {CLI_SNAPSHOT_DATE}: el estado de los Work Items
-          cambia con el tiempo.
-          <span className="mt-1 block">
-            La primera salida está abierta; el resto se despliega con Enter o un
-            toque.
-          </span>
+          {fillTemplate(cli.snapshotFooter, { date: CLI_SNAPSHOT_DATE })}
+          <span className="mt-1 block">{cli.openHint}</span>
+          {cli.outputLanguageNote ? (
+            <span className="mt-1 block">{cli.outputLanguageNote}</span>
+          ) : null}
         </>
       }
     >
@@ -120,13 +125,15 @@ export function CliEvidence() {
               <span className="col-span-2 col-start-2 flex flex-wrap items-baseline gap-x-1.5 type-caption text-muted-strong sm:col-auto sm:ml-auto sm:flex-nowrap">
                 <span>{sample.capturedAt}</span>
                 <span aria-hidden="true">·</span>
-                <span>{lines} líneas</span>
+                <span>{fillTemplate(cli.lines, { count: lines })}</span>
               </span>
             </summary>
 
             <div className="border-t border-hairline bg-canvas">
               <ol
-                aria-label={`Salida de ${sample.command}`}
+                aria-label={fillTemplate(cli.outputLabel, {
+                  command: sample.command,
+                })}
                 tabIndex={0}
                 className={cn(
                   "scroll-code max-h-[18rem] overflow-auto px-4 py-4",
@@ -139,9 +146,7 @@ export function CliEvidence() {
               </ol>
 
               <p className="border-t border-hairline px-4 py-2 type-caption text-muted-strong">
-                {mayScroll
-                  ? "La salida se desplaza en vertical y en horizontal dentro de la ventana; el texto está completo."
-                  : "Salida completa."}
+                {mayScroll ? cli.scrollNote : cli.completeNote}
               </p>
             </div>
           </details>

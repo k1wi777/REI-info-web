@@ -1,7 +1,7 @@
 import { REPOSITORY_URL } from "@/content/site";
 import type { ProductDocument } from "@/features/product/types";
 
-export const GITHUB_ISSUES_DOCUMENT: ProductDocument = {
+export const GITHUB_ISSUES_ES: ProductDocument = {
   id: "github-issues",
   eyebrow: "Producto · GitHub Issues",
   meta: "Integración opcional GitHub Issues · proyección del trabajo",

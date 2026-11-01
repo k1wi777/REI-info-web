@@ -1,44 +1,29 @@
 import { InlineText } from "@/components/ui/inline-text";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 
-const TARGETS = [
-  {
-    id: "issue",
-    title: "Issue",
-    text: "Existe, se asigna y se cierra como reflejo del Work Item.",
-  },
-  {
-    id: "rama",
-    title: "Rama",
-    text: "Contiene el trabajo que el Reviewer verifica.",
-  },
-  {
-    id: "pr",
-    title: "PR",
-    text: "Propone el cambio; `.rei` sigue mandando sobre el estado.",
-  },
-];
+const TARGET_IDS = ["issue", "branch", "pr"] as const;
 
 /**
  * Diagrama de proyección: la fuente a la izquierda y los tres destinos de
  * GitHub a la derecha. Sin capturas simuladas ni estado inventado.
  */
-export function ProductProjection() {
+export async function ProductProjection() {
+  const copy = (await getCurrentProductCopy()).projection;
   return (
     <div className="min-w-0 border border-hairline-strong bg-surface-deep p-5 sm:p-6">
-      <p className="type-meta text-muted-strong">Proyección, no fuente</p>
+      <p className="type-meta text-muted-strong">{copy.title}</p>
 
       <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <p className="break-words type-code text-foreground">
           .rei/specs/&lt;id&gt;/
         </p>
         <span className="type-meta-sm text-muted-strong">
-          fuente de verdad
+          {copy.source}
         </span>
       </div>
 
       <p className="mt-2 max-w-[52ch] type-body text-secondary">
-        Planificación, progreso e historial viven en el repositorio, no en la
-        issue.
+        {copy.sourceNote}
       </p>
 
       <svg
@@ -57,20 +42,19 @@ export function ProductProjection() {
       </svg>
 
       <ul className="mt-2 grid border-t border-hairline sm:grid-cols-3 sm:divide-x sm:divide-hairline">
-        {TARGETS.map((target) => (
-          <li key={target.id} className="min-w-0 py-3 sm:px-3 sm:first:pl-0">
-            <p className="type-meta text-foreground">{target.title}</p>
+        {TARGET_IDS.map((id) => (
+          <li key={id} className="min-w-0 py-3 sm:px-3 sm:first:pl-0">
+            <p className="type-meta text-foreground">{copy.targets[id].title}</p>
             <p className="mt-1.5 type-caption text-secondary">
-              <InlineText text={target.text} />
+              <InlineText text={copy.targets[id].text} />
             </p>
           </li>
         ))}
       </ul>
 
       <p className="mt-4 border-t border-hairline pt-3 type-caption text-muted-strong">
-        Integración opcional: se activa con{" "}
-        <code className="type-code text-foreground">rei github enable</code> y el
-        flujo funciona sin ella.
+        {copy.optionalBefore}{" "}
+        <code className="type-code text-foreground">rei github enable</code> {copy.optionalAfter}
       </p>
     </div>
   );

@@ -1,6 +1,8 @@
 import { Fragment } from "react";
-import { APPROVAL_GATE, WORK_ITEM_STATES } from "@/content/rei";
+import { WORK_ITEM_STATES } from "@/content/rei";
 import type { WorkItemState, WorkItemStateId } from "@/content/rei";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
+import type { ProductCopy } from "@/features/product/copy/types";
 import { cn } from "@/lib/cn";
 
 type StateTableProps = {
@@ -16,7 +18,13 @@ type MapNode =
  * una síntesis visual del registro que viene debajo, por eso no repite texto
  * para lectores de pantalla.
  */
-function CycleMap({ cycle }: { cycle: WorkItemState[] }) {
+function CycleMap({
+  cycle,
+  text,
+}: {
+  cycle: WorkItemState[];
+  text: ProductCopy["stateTable"];
+}) {
   const gateIndex = cycle.findIndex((state) => state.id === "ready");
   const showGate =
     gateIndex >= 0 && cycle[gateIndex + 1]?.id === "in_progress";
@@ -35,9 +43,9 @@ function CycleMap({ cycle }: { cycle: WorkItemState[] }) {
   return (
     <div aria-hidden="true" className="hidden sm:block">
       <div className="flex items-baseline justify-between gap-4">
-        <p className="type-meta-sm text-muted-strong">Ciclo · recorrido</p>
+        <p className="type-meta-sm text-muted-strong">{text.mapTitle}</p>
         <p className="type-meta-sm text-muted-strong">
-          Puerta entre ready e in_progress
+          {text.mapGate}
         </p>
       </div>
 
@@ -62,7 +70,7 @@ function CycleMap({ cycle }: { cycle: WorkItemState[] }) {
                 >
                   <span className="h-4 w-[3px] bg-accent/70" />
                   <span className="type-meta-sm text-accent-text">
-                    Aprobación
+                    {text.approval}
                   </span>
                 </li>
               );
@@ -107,7 +115,8 @@ function CycleMap({ cycle }: { cycle: WorkItemState[] }) {
  * puerta entre ready e in_progress, luego las ramas aparte. `done` va en verde
  * y lo dice el texto «terminal»; el color nunca es el único portador.
  */
-export function StateTable({ stateIds }: StateTableProps) {
+export async function StateTable({ stateIds }: StateTableProps) {
+  const copy = await getCurrentProductCopy();
   const states = stateIds
     .map((id) => WORK_ITEM_STATES.find((state) => state.id === id))
     .filter((state): state is WorkItemState => Boolean(state));
@@ -120,7 +129,7 @@ export function StateTable({ stateIds }: StateTableProps) {
 
   return (
     <div>
-      <CycleMap cycle={cycle} />
+      <CycleMap cycle={cycle} text={copy.stateTable} />
 
       <ol className="mt-6 border-t border-hairline-strong sm:mt-7">
         {cycle.map((state, index) => (
@@ -139,11 +148,13 @@ export function StateTable({ stateIds }: StateTableProps) {
                   {state.label}
                 </span>
                 {state.terminal ? (
-                  <span className="type-meta-sm text-success">terminal</span>
+                  <span className="type-meta-sm text-success">
+                    {copy.stateTable.terminal}
+                  </span>
                 ) : null}
               </span>
               <span className="col-start-2 type-body text-secondary sm:col-start-3">
-                {state.meaning}
+                {copy.states[state.id]}
               </span>
             </li>
 
@@ -154,14 +165,14 @@ export function StateTable({ stateIds }: StateTableProps) {
                 </span>
                 <span className="min-w-0">
                   <span className="block type-code text-accent-text">
-                    {APPROVAL_GATE.label}
+                    {copy.gate.label}
                   </span>
                   <span className="mt-0.5 block type-meta-sm text-accent-text">
-                    firma humana
+                    {copy.stateTable.humanSignature}
                   </span>
                 </span>
                 <span className="col-start-2 max-w-[58ch] type-body text-secondary sm:col-start-3">
-                  {APPROVAL_GATE.detail}
+                  {copy.gate.detail}
                 </span>
               </li>
             ) : null}
@@ -172,7 +183,7 @@ export function StateTable({ stateIds }: StateTableProps) {
       {branches.length > 0 ? (
         <>
           <p className="mt-7 type-meta-sm text-muted-strong">
-            Ramas · fuera del ciclo
+            {copy.stateTable.branchesTitle}
           </p>
 
           <ul className="mt-3 border-t border-dashed border-border-strong">
@@ -186,15 +197,14 @@ export function StateTable({ stateIds }: StateTableProps) {
                 </span>
                 <span className="type-code text-foreground">{state.label}</span>
                 <span className="col-start-2 type-body text-secondary sm:col-start-3">
-                  {state.meaning}
+                  {copy.states[state.id]}
                 </span>
               </li>
             ))}
           </ul>
 
           <p className="mt-3 type-caption text-muted-strong">
-            Ramas, no atajos: describen trabajo detenido o una revisión que exige
-            correcciones.
+            {copy.stateTable.branchesNote}
           </p>
         </>
       ) : null}

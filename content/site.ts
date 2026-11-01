@@ -325,63 +325,22 @@ export type ProductPageSlug =
   | "visor"
   | "github-issues";
 
+/**
+ * Páginas de producto: solo identidad y ruta. La etiqueta, el título y la
+ * descripción dependen del idioma y viven en `features/product/copy`.
+ */
 export type ProductPage = {
   slug: ProductPageSlug;
   path: string;
-  label: string;
-  title: string;
-  description: string;
 };
 
 export const PRODUCT_PAGES: ProductPage[] = [
-  {
-    slug: "producto",
-    path: "/producto",
-    label: "Producto",
-    title: "Qué es REI",
-    description:
-      "Qué es REI Harness, qué problema resuelve y por qué el proceso importa antes que los comandos.",
-  },
-  {
-    slug: "como-funciona",
-    path: "/producto/como-funciona",
-    label: "Cómo funciona",
-    title: "Cómo funciona",
-    description:
-      "El flujo completo de un Work Item, la puerta de aprobación humana, los estados y el modo directo.",
-  },
-  {
-    slug: "agentes",
-    path: "/producto/agentes",
-    label: "Agentes",
-    title: "Agentes",
-    description:
-      "Los cinco roles de REI Harness, su responsabilidad, su límite y el momento en que intervienen.",
-  },
-  {
-    slug: "work-items",
-    path: "/producto/work-items",
-    label: "Work Items",
-    title: "Work Items",
-    description:
-      "Feature frente a Task, ciclo de vida, aprobación previa y evidencia versionada con revisión por diff.",
-  },
-  {
-    slug: "visor",
-    path: "/producto/visor",
-    label: "Visor",
-    title: "Visor",
-    description:
-      "rei view: visor local de solo lectura, recarga en vivo, FICHA y límites.",
-  },
-  {
-    slug: "github-issues",
-    path: "/producto/github-issues",
-    label: "GitHub Issues",
-    title: "GitHub Issues",
-    description:
-      "Integración opcional GitHub Issues: issue y rama para Features, PR y merge bajo orden, GitHub como proyección.",
-  },
+  { slug: "producto", path: "/producto" },
+  { slug: "como-funciona", path: "/producto/como-funciona" },
+  { slug: "agentes", path: "/producto/agentes" },
+  { slug: "work-items", path: "/producto/work-items" },
+  { slug: "visor", path: "/producto/visor" },
+  { slug: "github-issues", path: "/producto/github-issues" },
 ];
 
 export const ROUTES: string[] = [

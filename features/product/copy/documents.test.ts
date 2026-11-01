@@ -5,20 +5,35 @@ import {
   productViewerCapture,
 } from "@/features/product/data/captures";
 import { EVIDENCE } from "@/features/product/data/evidence";
-import { PRODUCT_DOCUMENTS } from "@/features/product/data/pages";
-import { PRODUCT_NAV_ITEMS } from "@/features/product/data/product-nav";
+import { getProductCopy, getProductDocument } from "@/features/product/copy";
+import { productNavItems } from "@/features/product/data/product-nav";
+import type { ProductDocument } from "@/features/product/types";
+import { LOCALES } from "@/lib/i18n";
 
-const DOCUMENTS = Object.values(PRODUCT_DOCUMENTS);
+function documentsOf(lang: (typeof LOCALES)[number]) {
+  return Object.fromEntries(
+    PRODUCT_PAGES.map((page) => [page.slug, getProductDocument(page.slug, lang)]),
+  ) as Record<(typeof PRODUCT_PAGES)[number]["slug"], ProductDocument>;
+}
+
+/** Documentos en español: las pruebas de unicidad cuentan una vez cada bloque. */
+const PRODUCT_DOCUMENTS = documentsOf("es");
+const ES_DOCUMENTS = Object.values(PRODUCT_DOCUMENTS);
+/** Cada documento en cada idioma, para las comprobaciones de contenido. */
+const DOCUMENTS = LOCALES.flatMap((lang) => Object.values(documentsOf(lang)));
 const SECTION_WEIGHTS = new Set(["lead", "body", "fine"]);
 
 describe("documentos de producto", () => {
   it("declara un documento por slug publicado y ninguno extra", () => {
-    expect(Object.keys(PRODUCT_DOCUMENTS).sort()).toEqual(
-      PRODUCT_PAGES.map((page) => page.slug).sort(),
-    );
+    for (const lang of LOCALES) {
+      const copy = getProductCopy(lang);
+      expect(Object.keys(copy.documents).sort()).toEqual(
+        PRODUCT_PAGES.map((page) => page.slug).sort(),
+      );
 
-    for (const page of PRODUCT_PAGES) {
-      expect(PRODUCT_DOCUMENTS[page.slug].id).toBe(page.slug);
+      for (const page of PRODUCT_PAGES) {
+        expect(copy.documents[page.slug].id).toBe(page.slug);
+      }
     }
   });
 
@@ -207,18 +222,18 @@ describe("bloques de producto", () => {
 
   it("usa un solo ciclo y una sola terminal en las páginas que los explican", () => {
     const blocksOf = (kind: "cycle" | "terminal") =>
-      DOCUMENTS.flatMap((document) =>
+      ES_DOCUMENTS.flatMap((document) =>
         document.sections.flatMap((section) =>
           section.blocks.filter((block) => block.kind === kind),
         ),
       );
 
-    const cycleDocuments = DOCUMENTS.filter((document) =>
+    const cycleDocuments = ES_DOCUMENTS.filter((document) =>
       document.sections.some((section) =>
         section.blocks.some((block) => block.kind === "cycle"),
       ),
     );
-    const terminalDocuments = DOCUMENTS.filter((document) =>
+    const terminalDocuments = ES_DOCUMENTS.filter((document) =>
       document.sections.some((section) =>
         section.blocks.some((block) => block.kind === "terminal"),
       ),
@@ -253,8 +268,24 @@ describe("bloques de producto", () => {
     expect(text).toContain("no ejecuta comandos ni aprueba work items");
   });
 
+  it("presenta también en inglés el ciclo como simulación sin aprobar nada", () => {
+    const blocks = getProductDocument("como-funciona", "en").sections.flatMap(
+      (section) => section.blocks,
+    );
+    const cycleIndex = blocks.findIndex((block) => block.kind === "cycle");
+    const following = blocks[cycleIndex + 1];
+    if (!following || following.kind !== "paragraph") {
+      throw new Error("The cycle must be followed by an explanatory paragraph.");
+    }
+
+    const text = following.text.toLowerCase();
+    expect(text).toContain("simulation");
+    expect(text).toContain("cli");
+    expect(text).toContain("does not run commands or approve work items");
+  });
+
   it("publica la captura de /personalize una sola vez y solo en la página de roles", () => {
-    const documentsWithBlock = DOCUMENTS.filter((document) =>
+    const documentsWithBlock = ES_DOCUMENTS.filter((document) =>
       document.sections.some((section) =>
         section.blocks.some((block) => block.kind === "initializer"),
       ),
@@ -264,7 +295,7 @@ describe("bloques de producto", () => {
       "agentes",
     ]);
 
-    const blocks = DOCUMENTS.flatMap((document) =>
+    const blocks = ES_DOCUMENTS.flatMap((document) =>
       document.sections.flatMap((section) =>
         section.blocks.filter((block) => block.kind === "initializer"),
       ),
@@ -299,16 +330,19 @@ describe("bloques de producto", () => {
 
 describe("subnavegación de producto", () => {
   it("deriva una entrada por página, sin hrefs duplicados ni vacíos", () => {
-    expect(PRODUCT_NAV_ITEMS.map((item) => item.href)).toEqual(
-      PRODUCT_PAGES.map((page) => page.path),
-    );
+    for (const lang of LOCALES) {
+      const items = productNavItems(getProductCopy(lang));
+      expect(items.map((item) => item.href)).toEqual(
+        PRODUCT_PAGES.map((page) => page.path),
+      );
 
-    const hrefs = PRODUCT_NAV_ITEMS.map((item) => item.href);
-    expect(new Set(hrefs).size).toBe(hrefs.length);
+      const hrefs = items.map((item) => item.href);
+      expect(new Set(hrefs).size).toBe(hrefs.length);
 
-    for (const item of PRODUCT_NAV_ITEMS) {
-      expect(item.label.trim()).not.toBe("");
-      expect(ROUTES).toContain(item.href);
+      for (const item of items) {
+        expect(item.label.trim()).not.toBe("");
+        expect(ROUTES).toContain(item.href);
+      }
     }
   });
 });

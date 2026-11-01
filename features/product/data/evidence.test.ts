@@ -29,13 +29,4 @@ describe("evidencia externa de producto", () => {
       expect(url.protocol).toBe("https:");
     }
   });
-
-  it("rellena título, fecha, hallazgo e implicación", () => {
-    for (const source of EVIDENCE) {
-      expect(source.title.trim()).not.toBe("");
-      expect(source.date.trim()).not.toBe("");
-      expect(source.finding.trim()).not.toBe("");
-      expect(source.implication.trim()).not.toBe("");
-    }
-  });
 });

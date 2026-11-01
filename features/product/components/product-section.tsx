@@ -4,6 +4,7 @@ import type {
   ProductSection as ProductSectionData,
   ProductSectionWeight,
 } from "@/features/product/types";
+import { getCurrentProductCopy } from "@/features/product/copy/server";
 import { cn } from "@/lib/cn";
 
 const WEIGHTS: Record<
@@ -46,7 +47,12 @@ type ProductSectionProps = {
  * la hoja a sangre con retícula de plano, `body` la entrada estándar y `fine`
  * una nota al pie del capítulo. El folio y la etiqueta viven en el margen.
  */
-export function ProductSection({ section, folio, children }: ProductSectionProps) {
+export async function ProductSection({
+  section,
+  folio,
+  children,
+}: ProductSectionProps) {
+  const { chrome } = await getCurrentProductCopy();
   const weight = section.weight ?? "body";
   const styles = WEIGHTS[weight];
   const headingId = `${section.id}-heading`;
@@ -69,7 +75,7 @@ export function ProductSection({ section, folio, children }: ProductSectionProps
               <span className="text-muted-strong tabular-nums">{folio}</span>
               <span className="text-foreground">{section.label}</span>
             </p>
-            <p className="type-meta-sm text-muted-strong">Hoja destacada</p>
+            <p className="type-meta-sm text-muted-strong">{chrome.featuredSheet}</p>
           </div>
 
           <h2
