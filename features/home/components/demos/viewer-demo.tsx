@@ -2,71 +2,56 @@ import Image from "next/image";
 import { CaptureLink } from "@/components/ui/capture-link";
 import { WindowFrame } from "@/components/ui/window-frame";
 import { DemoSection } from "@/features/home/components/demo-section";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
 import {
   EVIDENCE_MANIFEST,
   VIEWER_DESKTOP,
   VIEWER_DIFF,
   VIEWER_FICHA,
   VIEWER_MOBILE,
+  localizeCapture,
 } from "@/features/home/data/evidence";
 
 const DAY = EVIDENCE_MANIFEST.generatedAt.slice(0, 10);
 
-const ANNOTATIONS = [
-  {
-    id: "toc",
-    title: "TOC del Work Item",
-    text: "El índice lista los documentos del Work Item; los que no existen se marcan como «no existe».",
-  },
-  {
-    id: "validacion",
-    title: "Validación",
-    text: "El visor muestra el resultado de los checkpoints junto a la FICHA, con el estado real del trabajo.",
-  },
-  {
-    id: "ficha",
-    title: "FICHA",
-    text: "Tipo, estado, fecha y enlaces del Work Item. No hay botón ni ruta de aprobación.",
-  },
-];
-
-const DIFF_ANNOTATION = {
-  title: "Diff",
-  text: "Si hay cambios respecto de la base de revisión, el visor los publica; aquí aparecen como líneas añadidas.",
-};
-
 /** Capturas reales del visor, incrustadas en marcos y anotadas al margen. */
-export function ViewerDemo() {
+export async function ViewerDemo() {
+  const { viewer, captures, ui } = await getCurrentHomeCopy();
+  const desktop = VIEWER_DESKTOP && localizeCapture(VIEWER_DESKTOP, captures);
+  const ficha = VIEWER_FICHA && localizeCapture(VIEWER_FICHA, captures);
+  const mobile = VIEWER_MOBILE && localizeCapture(VIEWER_MOBILE, captures);
+  const diff = VIEWER_DIFF && localizeCapture(VIEWER_DIFF, captures);
+
   return (
     <DemoSection
       id="visor"
-      eyebrow="Visor"
-      title="rei view muestra el Work Item, no lo aprueba"
-      intro="Una captura real del visor local: documentos renderizados, tabla de contenidos, validación y FICHA. Es de solo lectura y no tiene botones que finjan aprobar."
-      note={`Captura tomada con \`pnpm capture:evidence\` el ${DAY}; el visor se sirve en local y no forma parte de la web.`}
-      link={{ label: "Ver la página del visor", href: "/producto/visor" }}
+      eyebrow={viewer.eyebrow}
+      title={viewer.title}
+      intro={viewer.intro}
+      note={viewer.note(DAY)}
+      link={{ label: viewer.linkLabel, href: "/producto/visor" }}
     >
-      {VIEWER_DESKTOP ? (
+      {desktop ? (
         <>
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
             <figure data-reveal="left" className="min-w-0 lg:col-span-8">
               <WindowFrame
                 label="127.0.0.1 · rei view"
-                meta="solo lectura"
+                meta={viewer.frameMeta}
                 bodyClassName="bg-canvas"
               >
                 <Image
-                  src={VIEWER_DESKTOP.file}
-                  alt={VIEWER_DESKTOP.alt}
-                  width={VIEWER_DESKTOP.width}
-                  height={VIEWER_DESKTOP.height}
+                  src={desktop.file}
+                  alt={desktop.alt}
+                  width={desktop.width}
+                  height={desktop.height}
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   className="h-auto w-full"
                 />
               </WindowFrame>
               <figcaption className="mt-3 flex flex-col items-start gap-1 type-caption text-muted-strong">
-                <span>Captura real del visor · {DAY}</span>
-                <CaptureLink href={VIEWER_DESKTOP.file} />
+                <span>{viewer.caption(DAY)}</span>
+                <CaptureLink href={desktop.file} label={ui.captureLink} />
               </figcaption>
             </figure>
 
@@ -75,7 +60,7 @@ export function ViewerDemo() {
               className="flex min-w-0 flex-col gap-8 lg:col-span-4"
             >
               <ol className="grid gap-4">
-                {ANNOTATIONS.map((annotation, index) => (
+                {viewer.annotations.map((annotation, index) => (
                   <li
                     key={annotation.id}
                     className="grid grid-cols-[1.5rem_1fr] gap-3 border-t border-hairline pt-3"
@@ -96,40 +81,40 @@ export function ViewerDemo() {
               </ol>
 
               <div className="grid grid-cols-2 gap-3">
-                {VIEWER_FICHA ? (
+                {ficha ? (
                   <figure className="flex min-w-0 flex-col">
                     <WindowFrame label="FICHA" bodyClassName="bg-canvas">
                       <Image
-                        src={VIEWER_FICHA.file}
-                        alt={VIEWER_FICHA.alt}
-                        width={VIEWER_FICHA.width}
-                        height={VIEWER_FICHA.height}
+                        src={ficha.file}
+                        alt={ficha.alt}
+                        width={ficha.width}
+                        height={ficha.height}
                         sizes="(min-width: 1024px) 16vw, 45vw"
                         className="h-auto w-full"
                       />
                     </WindowFrame>
                     <figcaption className="mt-auto pt-2">
-                      <CaptureLink href={VIEWER_FICHA.file} />
+                      <CaptureLink href={ficha.file} label={ui.captureLink} />
                     </figcaption>
                   </figure>
                 ) : null}
 
-                {VIEWER_MOBILE ? (
+                {mobile ? (
                   <figure className="flex min-w-0 flex-col">
                     <WindowFrame label="390 × 844" bodyClassName="bg-canvas">
                       <div className="fade-bottom h-60 overflow-hidden">
                         <Image
-                          src={VIEWER_MOBILE.file}
-                          alt={VIEWER_MOBILE.alt}
-                          width={VIEWER_MOBILE.width}
-                          height={VIEWER_MOBILE.height}
+                          src={mobile.file}
+                          alt={mobile.alt}
+                          width={mobile.width}
+                          height={mobile.height}
                           sizes="(min-width: 1024px) 16vw, 45vw"
                           className="h-auto w-full"
                         />
                       </div>
                     </WindowFrame>
                     <figcaption className="mt-auto pt-2">
-                      <CaptureLink href={VIEWER_MOBILE.file} />
+                      <CaptureLink href={mobile.file} label={ui.captureLink} />
                     </figcaption>
                   </figure>
                 ) : null}
@@ -137,7 +122,7 @@ export function ViewerDemo() {
             </div>
           </div>
 
-          {VIEWER_DIFF ? (
+          {diff ? (
             <div className="mt-8 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-10">
               <figure data-reveal="up" className="min-w-0 lg:col-span-8">
                 <WindowFrame
@@ -147,10 +132,10 @@ export function ViewerDemo() {
                 >
                   <div className="fade-bottom h-80 overflow-hidden">
                     <Image
-                      src={VIEWER_DIFF.file}
-                      alt={VIEWER_DIFF.alt}
-                      width={VIEWER_DIFF.width}
-                      height={VIEWER_DIFF.height}
+                      src={diff.file}
+                      alt={diff.alt}
+                      width={diff.width}
+                      height={diff.height}
                       sizes="(min-width: 1024px) 58vw, 100vw"
                       className="h-auto w-full"
                     />
@@ -164,18 +149,17 @@ export function ViewerDemo() {
                 className="min-w-0 lg:col-span-4 lg:pt-2"
               >
                 <p className="type-meta text-foreground">
-                  {DIFF_ANNOTATION.title}
+                  {viewer.diff.title}
                 </p>
                 <p className="mt-3 type-caption text-secondary">
-                  {DIFF_ANNOTATION.text}
+                  {viewer.diff.text}
                 </p>
                 <p className="mt-4 border-t border-hairline pt-3 type-caption text-muted-strong">
-                  {VIEWER_DIFF.description}
+                  {diff.description}
                 </p>
                 <p className="mt-3 type-caption text-muted-strong">
-                  El recorte muestra el inicio del diff; la captura completa
-                  queda en la evidencia del Work Item.{" "}
-                  <CaptureLink href={VIEWER_DIFF.file} />
+                  {viewer.diff.crop}{" "}
+                  <CaptureLink href={diff.file} label={ui.captureLink} />
                 </p>
               </div>
             </div>
@@ -183,9 +167,9 @@ export function ViewerDemo() {
         </>
       ) : (
         <p className="type-body text-secondary">
-          No hay captura del visor en el manifiesto. Ejecuta{" "}
+          {viewer.missingPre}{" "}
           <code className="type-code text-foreground">pnpm capture:evidence</code>{" "}
-          para generarla.
+          {viewer.missingPost}
         </p>
       )}
     </DemoSection>

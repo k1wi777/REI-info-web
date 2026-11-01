@@ -1,8 +1,11 @@
 import { ButtonLink } from "@/components/ui/button-link";
-import { FINAL_CTA } from "@/features/home/data/home";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { buildFinalCta } from "@/features/home/data/home";
 
 /** Cierre de la home: una última hoja con los dos caminos reales. */
-export function FinalCta() {
+export async function FinalCta() {
+  const FINAL_CTA = buildFinalCta((await getCurrentHomeCopy()).cta);
+
   return (
     <section
       aria-labelledby="siguiente-paso-title"

@@ -7,6 +7,7 @@ import {
   REPOSITORY_README_URL,
   REPOSITORY_URL,
 } from "@/content/site";
+import { getInstallCopy } from "@/features/installation/copy";
 import { buildLlmsTxt } from "@/lib/llms";
 
 const BASE = "https://example.com";
@@ -49,7 +50,7 @@ describe("buildLlmsTxt", () => {
   });
 
   it("incluye la página de instalación en Empezar, antes de la docs", () => {
-    const entry = `[${INSTALL_PAGE.title}](${BASE}/es${INSTALL_PAGE.path})`;
+    const entry = `[${getInstallCopy("es").meta.title}](${BASE}/es${INSTALL_PAGE.path})`;
     const start = text.indexOf("## Empezar");
 
     expect(text).toContain(entry);
@@ -122,7 +123,14 @@ describe("buildLlmsTxt en inglés", () => {
     for (const page of PRODUCT_PAGES) {
       expect(english).toContain(`(${BASE}/es${page.path})`);
     }
-    expect(english).not.toContain(`${BASE}/en/`);
+    // Solo la instalación está traducida bajo /en.
+    const englishLinks = english.match(new RegExp(`${BASE}/en/[^)]*`, "g"));
+    expect(englishLinks).toEqual([`${BASE}/en/instalar`]);
+  });
+
+  it("describe la instalación en inglés", () => {
+    const { title } = getInstallCopy("en").meta;
+    expect(english).toContain(`[${title}](${BASE}/en/instalar)`);
   });
 
   it("mantiene el formato estable", () => {

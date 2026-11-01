@@ -56,3 +56,15 @@ export const VIEWER_DESKTOP = viewerCapture("desktop");
 export const VIEWER_FICHA = viewerCapture("ficha");
 export const VIEWER_MOBILE = viewerCapture("mobile");
 export const VIEWER_DIFF = viewerCapture("diff");
+
+/**
+ * Captura con `alt` y `description` en el idioma pedido. Rutas, dimensiones y
+ * fuente siguen siendo las del manifiesto; solo cambia el texto.
+ */
+export function localizeCapture(
+  capture: EvidenceCapture,
+  texts: Record<string, { alt: string; description: string }>,
+): EvidenceCapture {
+  const text = texts[capture.id];
+  return text ? { ...capture, ...text } : capture;
+}

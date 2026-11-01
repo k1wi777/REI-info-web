@@ -2,7 +2,8 @@ import { InlineText } from "@/components/ui/inline-text";
 import { WindowFrame } from "@/components/ui/window-frame";
 import { ArtifactsTree } from "@/features/home/components/demos/artifacts-tree";
 import { DemoSection } from "@/features/home/components/demo-section";
-import { TERMINAL_SNAPSHOT } from "@/features/home/data/demos";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { buildTerminalSnapshot } from "@/features/home/data/demos";
 import type { TerminalLine } from "@/features/home/types";
 import { cn } from "@/lib/cn";
 
@@ -68,14 +69,17 @@ function TerminalRow({ line }: { line: TerminalLine }) {
 }
 
 /** Terminal del CLI y árbol de artefactos: el rastro que no deja el chat. */
-export function TerminalDemo() {
+export async function TerminalDemo() {
+  const { terminal: copy } = await getCurrentHomeCopy();
+  const TERMINAL_SNAPSHOT = buildTerminalSnapshot(copy);
+
   return (
     <DemoSection
       id="terminal"
-      eyebrow="CLI y artefactos"
-      title="La terminal deja lo que el chat no deja"
-      intro="Una instantánea real de `rei items status` junto al árbol de planificación del Work Item. No hay vídeo ni reproducción simulada: el texto es el que produjo el CLI."
-      note={`La captura está fechada (${TERMINAL_SNAPSHOT.capturedAt}); los estados cambian con el tiempo.`}
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      intro={copy.intro}
+      note={copy.note(TERMINAL_SNAPSHOT.capturedAt)}
     >
       <div className="grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-6">
         <div
@@ -84,18 +88,18 @@ export function TerminalDemo() {
         >
           <WindowFrame
             label={TERMINAL_SNAPSHOT.command}
-            meta={`instantánea · ${TERMINAL_SNAPSHOT.capturedAt}`}
+            meta={copy.snapshotMeta(TERMINAL_SNAPSHOT.capturedAt)}
             footer={
               <>
                 <InlineText text={TERMINAL_SNAPSHOT.caption} />
                 <span className="mt-1 block">
-                  Desliza o usa las flechas para ver la línea completa.
+                  {copy.scrollHint}
                 </span>
               </>
             }
           >
             <ol
-              aria-label={`Salida de ${TERMINAL_SNAPSHOT.command}`}
+              aria-label={copy.outputLabel(TERMINAL_SNAPSHOT.command)}
               tabIndex={0}
               className="scroll-code max-xl:fade-right overflow-x-auto bg-canvas px-4 py-4"
             >

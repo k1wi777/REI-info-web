@@ -1,6 +1,8 @@
 import { ARCH_IDS, OS_IDS } from "@/lib/release";
+import { getInstallCopy } from "@/features/installation/copy";
+import { LOCALES } from "@/lib/i18n";
 import {
-  ARCH_CHECKS,
+  ARCH_CHECKABLE,
   ARCH_CHOICES,
   OS_CHOICES,
   OS_LABELS,
@@ -14,7 +16,8 @@ import {
   COMMAND_UPDATE_CHECK,
   COMMAND_VERSION,
   INSTALLATION_SECTIONS,
-  INSTALL_STEPS,
+  INSTALL_STEP_COMMANDS,
+  buildInstallSteps,
   fillArchiveName,
 } from "@/features/installation/data/installation";
 import { INSTALL_PATH } from "@/content/site";
@@ -24,7 +27,9 @@ const docsCode = INSTALLATION_SECTIONS.flatMap((section) => section.blocks)
   .map((block) => block.code)
   .join("\n");
 
-describe("INSTALL_STEPS", () => {
+describe.each(LOCALES)("INSTALL_STEPS (%s)", (lang) => {
+  const INSTALL_STEPS = buildInstallSteps(getInstallCopy(lang).installer.steps);
+
   it("define tres pasos para cada sistema, terminando en rei version", () => {
     for (const os of OS_IDS) {
       expect(INSTALL_STEPS[os]).toHaveLength(3);
@@ -33,7 +38,8 @@ describe("INSTALL_STEPS", () => {
   });
 
   it("comparte los comandos de Linux y macOS", () => {
-    expect(INSTALL_STEPS.linux).toBe(INSTALL_STEPS.macos);
+    expect(INSTALL_STEPS.linux).toEqual(INSTALL_STEPS.macos);
+    expect(INSTALL_STEP_COMMANDS.linux).toBe(INSTALL_STEP_COMMANDS.macos);
     expect(INSTALL_STEPS.linux.map((step) => step.command)).toEqual([
       COMMAND_EXTRACT_TAR,
       COMMAND_MOVE_BIN,
@@ -95,32 +101,40 @@ describe("OS_CHOICES", () => {
   });
 });
 
-describe("archDescription", () => {
+describe.each(LOCALES)("archDescription (%s)", (lang) => {
+  const { archDescriptions, archHints } = getInstallCopy(lang).installer;
+
   it("describe arm64 según el sistema y amd64 igual en todos", () => {
-    expect(archDescription("macos", "arm64")).toContain("Apple Silicon");
-    expect(archDescription("linux", "arm64")).not.toContain("Apple");
-    expect(archDescription("windows", "arm64")).not.toContain("Apple");
+    expect(archDescription(archDescriptions, "macos", "arm64")).toContain(
+      "Apple Silicon",
+    );
+    expect(archDescription(archDescriptions, "linux", "arm64")).not.toContain(
+      "Apple",
+    );
+    expect(archDescription(archDescriptions, "windows", "arm64")).not.toContain(
+      "Apple",
+    );
 
     for (const os of OS_IDS) {
-      expect(archDescription(os, "amd64")).toBe("Intel y AMD (x86_64)");
+      expect(archDescription(archDescriptions, os, "amd64")).toBe(
+        archDescriptions.amd64,
+      );
     }
   });
-});
 
-describe("ARCH_CHECKS", () => {
   it("solo ofrece un comando de comprobación donde es estándar", () => {
-    expect(ARCH_CHECKS.linux).toContain("uname -m");
-    expect(ARCH_CHECKS.macos).toContain("uname -m");
-    expect(ARCH_CHECKS.windows).toBeNull();
+    expect(ARCH_CHECKABLE).toEqual({ linux: true, macos: true, windows: false });
+    expect(archHints.linux).toContain("uname -m");
+    expect(archHints.macos).toContain("uname -m");
+    expect(archHints.windows).not.toContain("uname");
   });
 });
 
 describe("ARCH_CHOICES", () => {
-  it("cubre cada arquitectura una sola vez con un descriptor no vacío", () => {
+  it("cubre cada arquitectura una sola vez", () => {
     expect(ARCH_CHOICES.map((choice) => choice.id)).toEqual([...ARCH_IDS]);
     for (const choice of ARCH_CHOICES) {
       expect(choice.label).toBe(choice.id);
-      expect(choice.description.length).toBeGreaterThan(0);
     }
   });
 });

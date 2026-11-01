@@ -1,5 +1,6 @@
 import { DemoSection } from "@/features/home/components/demo-section";
-import { PROBLEM_DEMO } from "@/features/home/data/demos";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { buildProblemDemo } from "@/features/home/data/demos";
 import type { DemoAlert } from "@/features/home/types";
 import { cn } from "@/lib/cn";
 
@@ -12,17 +13,20 @@ const DOTS: Record<DemoAlert, string> = {
 };
 
 /** El mismo caso sin proceso y con el arnés: dos columnas, pasos numerados. */
-export function ProblemDemo() {
+export async function ProblemDemo() {
+  const { problem } = await getCurrentHomeCopy();
+  const columns = buildProblemDemo(problem);
+
   return (
     <DemoSection
       id="problema-demo"
-      eyebrow="Sin REI / Con REI"
-      title="El mismo caso, dos resultados"
-      intro="Los agentes de IA y los LLM escriben código a partir de una conversación. Cuando decidir, planificar y ejecutar viven en la misma conversación, nada queda registrado y nadie puede revisar la decisión. El arnés separa esas tres cosas y deja la decisión por escrito."
+      eyebrow={problem.eyebrow}
+      title={problem.title}
+      intro={problem.intro}
       example
     >
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-5">
-        {PROBLEM_DEMO.map((column, columnIndex) => (
+        {columns.map((column, columnIndex) => (
           <div
             key={column.id}
             data-reveal={columnIndex === 0 ? "left" : "right"}

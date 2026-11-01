@@ -1,3 +1,4 @@
+import type { InstallerCopy } from "@/features/installation/copy/types";
 import type { ArchId, OsId } from "@/lib/release";
 
 export type OsChoice = {
@@ -8,6 +9,7 @@ export type OsChoice = {
   format: string;
 };
 
+/** Los nombres de sistema operativo y el formato del archive no se traducen. */
 export const OS_CHOICES: OsChoice[] = [
   { id: "linux", label: "Linux", icon: "linux", format: ".tar.gz" },
   { id: "macos", label: "macOS", icon: "macos", format: ".tar.gz" },
@@ -17,26 +19,24 @@ export const OS_CHOICES: OsChoice[] = [
 export type ArchChoice = {
   id: ArchId;
   label: string;
-  /** Descriptor de equipo para quien no recuerda el nombre de su arquitectura. */
-  description: string;
 };
 
+/** Las arquitecturas son identificadores; su descriptor de equipo sale de la copy. */
 export const ARCH_CHOICES: ArchChoice[] = [
-  { id: "amd64", label: "amd64", description: "Intel y AMD (x86_64)" },
-  { id: "arm64", label: "arm64", description: "Procesadores ARM (aarch64)" },
+  { id: "amd64", label: "amd64" },
+  { id: "arm64", label: "arm64" },
 ];
 
-/** Cómo se llama arm64 en cada sistema, para que no suene a otro equipo. */
-const ARM64_DESCRIPTIONS: Record<OsId, string> = {
-  linux: "Servidores y equipos ARM (aarch64)",
-  macos: "Apple Silicon (aarch64)",
-  windows: "Equipos Windows con procesador ARM",
-};
-
-/** Descriptor de equipo de una arquitectura en el sistema elegido. */
-export function archDescription(os: OsId, arch: ArchId): string {
-  if (arch === "arm64") return ARM64_DESCRIPTIONS[os];
-  return ARCH_CHOICES.find((choice) => choice.id === arch)?.description ?? "";
+/**
+ * Descriptor de equipo de una arquitectura en el sistema elegido: arm64 se
+ * llama distinto en cada sistema para que no suene a otro equipo.
+ */
+export function archDescription(
+  descriptions: InstallerCopy["archDescriptions"],
+  os: OsId,
+  arch: ArchId,
+): string {
+  return arch === "arm64" ? descriptions.arm64[os] : descriptions.amd64;
 }
 
 export const OS_LABELS: Record<OsId, string> = {
@@ -45,19 +45,12 @@ export const OS_LABELS: Record<OsId, string> = {
   windows: "Windows",
 };
 
-/** Cómo comprobar la arquitectura; solo donde es un comando estándar del sistema. */
-export const ARCH_HINTS: Record<OsId, string> = {
-  linux: "Comprueba la tuya con `uname -m`: x86_64 es amd64; aarch64 es arm64.",
-  macos: "Comprueba la tuya con `uname -m`: x86_64 es amd64; arm64 es arm64.",
-  windows: "Elige la arquitectura de tu equipo; no se pudo detectar.",
-};
-
 /**
- * Cómo comprobar la arquitectura aunque se haya detectado. Solo donde hay un
- * comando estándar documentado; en Windows no se afirma ninguno.
+ * Sistemas donde hay un comando estándar para comprobar la arquitectura
+ * (`uname -m`) aunque se haya detectado; en Windows no se afirma ninguno.
  */
-export const ARCH_CHECKS: Record<OsId, string | null> = {
-  linux: ARCH_HINTS.linux,
-  macos: ARCH_HINTS.macos,
-  windows: null,
+export const ARCH_CHECKABLE: Record<OsId, boolean> = {
+  linux: true,
+  macos: true,
+  windows: false,
 };

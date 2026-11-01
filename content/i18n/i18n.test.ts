@@ -13,6 +13,7 @@ import {
 import { en } from "@/content/i18n/en";
 import { es } from "@/content/i18n/es";
 import {
+  INSTALL_PATH,
   FOOTER_GROUPS,
   NAV_ITEMS,
   PRIMARY_CTA,
@@ -126,6 +127,23 @@ describe("cobertura de traducción", () => {
     if (untranslated) {
       expect(getContentLocale("en", untranslated)).toBe("es");
       expect(translatedLocales(untranslated)).toEqual(["es"]);
+    }
+  });
+
+  it("declara traducidas en inglés solo la home y la instalación", () => {
+    expect([...TRANSLATED_ROUTES.en]).toEqual(["/", INSTALL_PATH]);
+    expect(translatedLocales("/")).toEqual(["es", "en"]);
+    expect(translatedLocales(INSTALL_PATH)).toEqual(["es", "en"]);
+    expect(getContentLocale("en", INSTALL_PATH)).toBe("en");
+  });
+
+  it("deja el resto de rutas en español bajo /en", () => {
+    const rest = ROUTES.filter((path) => path !== "/" && path !== INSTALL_PATH);
+
+    expect(rest.length).toBeGreaterThan(0);
+    for (const path of rest) {
+      expect(isTranslated("en", path)).toBe(false);
+      expect(getContentLocale("en", path)).toBe("es");
     }
   });
 });

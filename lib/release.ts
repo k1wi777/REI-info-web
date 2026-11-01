@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n";
+
 export type OsId = "linux" | "macos" | "windows";
 export type ArchId = "amd64" | "arm64";
 
@@ -105,9 +107,12 @@ export function checksumsAsset(release: Release): ReleaseAsset | undefined {
   return release.assets.find((asset) => asset.name === CHECKSUMS_ASSET_NAME);
 }
 
-/** Fecha de publicación legible en español, fijada a UTC para no variar entre servidor y cliente. */
-export function formatReleaseDate(publishedAt: string): string {
-  return new Intl.DateTimeFormat("es", {
+/** Fecha de publicación legible en el idioma pedido, fijada a UTC para no variar entre servidor y cliente. */
+export function formatReleaseDate(
+  publishedAt: string,
+  lang: Locale,
+): string {
+  return new Intl.DateTimeFormat(lang, {
     dateStyle: "long",
     timeZone: "UTC",
   }).format(new Date(publishedAt));

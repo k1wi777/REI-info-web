@@ -1,6 +1,7 @@
 import { ArchIcon } from "@/features/installation/components/arch-icon";
 import { OptionRadio } from "@/features/installation/components/option-radio";
 import { SelectionMark } from "@/features/installation/components/selection-mark";
+import type { InstallerCopy } from "@/features/installation/copy/types";
 import {
   ARCH_CHOICES,
   archDescription,
@@ -9,6 +10,7 @@ import { cn } from "@/lib/cn";
 import type { ArchId, OsId } from "@/lib/release";
 
 type ArchSelectorProps = {
+  descriptions: InstallerCopy["archDescriptions"];
   os: OsId;
   value: ArchId;
   onSelect: (value: ArchId) => void;
@@ -19,7 +21,12 @@ type ArchSelectorProps = {
  * también un grupo de radio nativo. Altura propia: no se estiran para igualar
  * a la columna vecina.
  */
-export function ArchSelector({ os, value, onSelect }: ArchSelectorProps) {
+export function ArchSelector({
+  descriptions,
+  os,
+  value,
+  onSelect,
+}: ArchSelectorProps) {
   return (
     <div className="grid grid-cols-2 gap-3">
       {ARCH_CHOICES.map((choice, index) => {
@@ -50,7 +57,7 @@ export function ArchSelector({ os, value, onSelect }: ArchSelectorProps) {
                 {choice.label}
               </span>
               <span className="type-caption text-secondary">
-                {archDescription(os, choice.id)}
+                {archDescription(descriptions, os, choice.id)}
               </span>
             </span>
             <SelectionMark

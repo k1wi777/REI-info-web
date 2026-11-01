@@ -1,5 +1,7 @@
 import { Installer } from "@/features/installation/components/installer";
 import { getLatestRelease } from "@/features/installation/data/release";
+import { getCurrentInstallCopy } from "@/features/installation/copy/server";
+import { getCurrentLocale } from "@/content/i18n/server";
 import type { Release } from "@/lib/release";
 
 /**
@@ -7,6 +9,8 @@ import type { Release } from "@/lib/release";
  * GitHub no rompe la página: se muestra el respaldo con el enlace a releases.
  */
 export async function ReleaseSection() {
+  const lang = await getCurrentLocale();
+  const { installer } = await getCurrentInstallCopy();
   let release: Release | null = null;
 
   try {
@@ -20,6 +24,8 @@ export async function ReleaseSection() {
     <Installer
       status={release ? "ready" : "unavailable"}
       release={release}
+      copy={installer}
+      lang={lang}
     />
   );
 }

@@ -5,8 +5,15 @@ import { buildSitemap } from "@/lib/sitemap";
 const BASE = "https://example.com";
 const mutableRoutes = TRANSLATED_ROUTES as { en: readonly string[] };
 
-afterEach(() => {
+const REAL_EN_ROUTES = mutableRoutes.en;
+
+// Las pruebas fijan su propia cobertura; la real se restaura al terminar.
+beforeEach(() => {
   mutableRoutes.en = [];
+});
+
+afterEach(() => {
+  mutableRoutes.en = REAL_EN_ROUTES;
 });
 
 describe("buildSitemap", () => {
@@ -52,5 +59,16 @@ describe("buildSitemap", () => {
 
     expect(urls).toHaveLength(ROUTES.length * 2);
     expect(new Set(urls).size).toBe(urls.length);
+  });
+
+  it("con la cobertura real lista la home y la instalación en inglés", () => {
+    mutableRoutes.en = REAL_EN_ROUTES;
+    const urls = buildSitemap(BASE).map((entry) => entry.url);
+
+    expect(urls).toHaveLength(ROUTES.length + REAL_EN_ROUTES.length);
+    expect(urls.filter((url) => url.startsWith(`${BASE}/en`)).sort()).toEqual([
+      `${BASE}/en`,
+      `${BASE}/en/instalar`,
+    ]);
   });
 });

@@ -1,12 +1,17 @@
 import { AGENT_ROLES, CYCLE_STATES } from "@/content/rei";
-import { HOME_ACTS, HOME_ANCHORS } from "./acts";
+import { getHomeCopy } from "@/features/home/copy";
+import { LOCALES, type Locale } from "@/lib/i18n";
+import { HOME_ANCHORS, buildActs } from "./acts";
 import {
-  AGENT_NODES,
-  ARTIFACT_TREE,
-  GATE_DEMO,
-  PROBLEM_DEMO,
-  TERMINAL_SNAPSHOT,
+  buildAgentNodes,
+  buildArtifactTree,
+  buildGateDemo,
+  buildProblemDemo,
+  buildTerminalSnapshot,
 } from "./demos";
+
+/** Palabra que cada idioma usa para marcar un ejemplo ilustrativo. */
+const EXAMPLE_WORD: Record<Locale, string> = { es: "ejemplo", en: "example" };
 
 const ORIGINAL_ANCHORS = [
   "problema",
@@ -17,6 +22,15 @@ const ORIGINAL_ANCHORS = [
   "github",
   "limites",
 ];
+
+describe.each(LOCALES)("datos de la home (%s)", (lang) => {
+  const copy = getHomeCopy(lang);
+  const HOME_ACTS = buildActs(copy.acts);
+  const PROBLEM_DEMO = buildProblemDemo(copy.problem);
+  const GATE_DEMO = buildGateDemo(copy.gate);
+  const AGENT_NODES = buildAgentNodes(copy.agents.handoffs);
+  const TERMINAL_SNAPSHOT = buildTerminalSnapshot(copy.terminal);
+  const ARTIFACT_TREE = buildArtifactTree(copy.terminal.artifacts);
 
 describe("actos de la home", () => {
   it("define cuatro actos con anclas y tesis únicas", () => {
@@ -43,7 +57,7 @@ describe("demo del problema", () => {
       "sin-rei",
       "con-rei",
     ]);
-    expect(PROBLEM_DEMO.every((column) => column.note.toLowerCase().includes("ejemplo"))).toBe(true);
+    expect(PROBLEM_DEMO.every((column) => column.note.toLowerCase().includes(EXAMPLE_WORD[lang]))).toBe(true);
   });
 
   it("numera pasos no vacíos y cada marca lleva etiqueta textual", () => {
@@ -128,4 +142,5 @@ describe("terminal y artefactos", () => {
     expect(ARTIFACT_TREE[0]?.depth).toBe(0);
     expect(ARTIFACT_TREE.some((entry) => entry.depth > 0)).toBe(true);
   });
+});
 });

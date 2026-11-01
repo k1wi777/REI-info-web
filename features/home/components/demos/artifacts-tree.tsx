@@ -1,14 +1,16 @@
 import { WindowFrame } from "@/components/ui/window-frame";
-import { ARTIFACT_TREE } from "@/features/home/data/demos";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { buildArtifactTree } from "@/features/home/data/demos";
 
 /** Árbol de `.rei/specs/<id>/` con conectores dibujados y notas del arnés. */
-export function ArtifactsTree() {
-  const [root, ...files] = ARTIFACT_TREE;
+export async function ArtifactsTree() {
+  const { terminal } = await getCurrentHomeCopy();
+  const [root, ...files] = buildArtifactTree(terminal.artifacts);
 
   return (
     <WindowFrame
-      label={`árbol · ${root.path}`}
-      meta={`${files.length} archivos`}
+      label={terminal.treeLabel(root.path)}
+      meta={terminal.treeMeta(files.length)}
       footer={root.note}
     >
       <div className="scroll-code overflow-x-auto px-4 py-4">

@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import type { ArchId, OsId } from "@/lib/release";
 
 type ArchiveStageProps = {
+  fileHeading: string;
   os: OsId;
   arch: ArchId;
   /** Nombre real del archive, o la plantilla si aún no hay release. */
@@ -16,7 +17,12 @@ type ArchiveStageProps = {
  * arquitectura elegidos resaltados. Al cambiar la elección, solo los segmentos
  * que cambian se vuelven a montar y entran con el fundido corto del sistema.
  */
-export function ArchiveStage({ os, arch, fileLabel }: ArchiveStageProps) {
+export function ArchiveStage({
+  fileHeading,
+  os,
+  arch,
+  fileLabel,
+}: ArchiveStageProps) {
   const segments = splitArchiveName(fileLabel);
 
   return (
@@ -34,7 +40,7 @@ export function ArchiveStage({ os, arch, fileLabel }: ArchiveStageProps) {
         </span>
 
         <div className="flex min-w-0 flex-col gap-2">
-          <p className="type-meta-sm text-muted-strong">Archivo</p>
+          <p className="type-meta-sm text-muted-strong">{fileHeading}</p>
           <p className="break-all font-mono text-body leading-snug sm:text-docs-heading">
             <span className="sr-only">{fileLabel}</span>
             <span aria-hidden="true">

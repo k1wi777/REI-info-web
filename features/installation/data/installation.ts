@@ -1,5 +1,6 @@
 import type { DocSection, TocItem } from "@/content/docs";
 import { INSTALL_PATH } from "@/content/site";
+import type { InstallerCopy } from "@/features/installation/copy/types";
 import type { OsId } from "@/lib/release";
 
 export const INSTALLATION_PATH = "/docs/empezar/instalacion";
@@ -21,44 +22,34 @@ export type InstallStep = {
   command?: string;
 };
 
-const UNIX_STEPS: InstallStep[] = [
-  {
-    title: "Descomprime el archive",
-    text: "Extrae el binario `rei` en el directorio donde descargaste el archivo.",
-    command: COMMAND_EXTRACT_TAR,
-  },
-  {
-    title: "Colócalo en tu PATH",
-    text: "Puedes moverlo a cualquier directorio del PATH, como `~/.local/bin`.",
-    command: COMMAND_MOVE_BIN,
-  },
-  {
-    title: "Verifica la instalación",
-    text: "Debe responder con la versión instalada.",
-    command: COMMAND_VERSION,
-  },
+const UNIX_COMMANDS: (string | undefined)[] = [
+  COMMAND_EXTRACT_TAR,
+  COMMAND_MOVE_BIN,
+  COMMAND_VERSION,
 ];
 
-/** Pasos de instalación por sistema operativo; comandos definidos una vez. */
-export const INSTALL_STEPS: Record<OsId, InstallStep[]> = {
-  linux: UNIX_STEPS,
-  macos: UNIX_STEPS,
-  windows: [
-    {
-      title: "Descomprime el archive",
-      text: "En Windows el archive es .zip. Descomprímelo para obtener rei.exe.",
-    },
-    {
-      title: "Colócalo en tu PATH",
-      text: "Coloca rei.exe en un directorio incluido en el PATH.",
-    },
-    {
-      title: "Verifica la instalación",
-      text: "Abre una terminal nueva; debe responder con la versión instalada.",
-      command: COMMAND_VERSION,
-    },
-  ],
+/**
+ * Comando de cada paso de instalación por sistema operativo, definido una
+ * vez. Los títulos y textos salen de la copy del idioma, en el mismo orden.
+ */
+export const INSTALL_STEP_COMMANDS: Record<OsId, (string | undefined)[]> = {
+  linux: UNIX_COMMANDS,
+  macos: UNIX_COMMANDS,
+  windows: [undefined, undefined, COMMAND_VERSION],
 };
+
+/** Pasos de instalación: texto del idioma + comando compartido. */
+export function buildInstallSteps(
+  steps: InstallerCopy["steps"],
+): Record<OsId, InstallStep[]> {
+  const build = (os: OsId): InstallStep[] =>
+    steps[os].map((step, index) => ({
+      ...step,
+      command: INSTALL_STEP_COMMANDS[os][index],
+    }));
+
+  return { linux: build("linux"), macos: build("macos"), windows: build("windows") };
+}
 
 /** Sustituye la plantilla del archive por el nombre real del asset. */
 export function fillArchiveName(command: string, archiveName: string): string {

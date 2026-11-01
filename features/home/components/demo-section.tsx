@@ -1,6 +1,7 @@
 import { LocaleLink } from "@/components/ui/locale-link";
 import type { ReactNode } from "react";
 import { InlineText } from "@/components/ui/inline-text";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
 import { cn } from "@/lib/cn";
 
 type DemoSectionLink = {
@@ -26,7 +27,7 @@ type DemoSectionProps = {
  * izquierda y la explicación la derecha, para que la sección no empiece con un
  * hueco muerto bajo la etiqueta.
  */
-export function DemoSection({
+export async function DemoSection({
   id,
   eyebrow,
   title,
@@ -37,6 +38,7 @@ export function DemoSection({
   children,
   className,
 }: DemoSectionProps) {
+  const { ui } = await getCurrentHomeCopy();
   const titleId = `${id}-title`;
 
   return (
@@ -60,7 +62,7 @@ export function DemoSection({
                 data-reveal-delay="1"
                 className="type-meta-sm text-warning"
               >
-                Ejemplo de mecanismo
+                {ui.exampleTag}
               </p>
             ) : null}
           </div>

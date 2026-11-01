@@ -1,7 +1,9 @@
 import { Fragment } from "react";
-import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
+import { AGENT_ROLES } from "@/content/rei";
 import { DemoSection } from "@/features/home/components/demo-section";
-import { AGENT_NODES } from "@/features/home/data/demos";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import type { HomeCopy } from "@/features/home/copy/types";
+import { buildAgentNodes } from "@/features/home/data/demos";
 import type { AgentRole, AgentRoleId } from "@/content/rei";
 import type { AgentNode } from "@/features/home/types";
 import { cn } from "@/lib/cn";
@@ -26,6 +28,7 @@ function Chevron() {
 }
 
 type RoleNodeProps = {
+  copy: HomeCopy["agents"];
   role: AgentRole;
   node: AgentNode;
   branch?: boolean;
@@ -33,6 +36,7 @@ type RoleNodeProps = {
 };
 
 function RoleNode({
+  copy,
   role,
   node,
   branch = false,
@@ -46,7 +50,7 @@ function RoleNode({
     >
       <details className="group" name="agent-roles">
         <summary
-          aria-label={`${role.name}. ${node.handoff}. Ver responsabilidad y límite.`}
+          aria-label={copy.summaryLabel(role.name, node.handoff)}
           className={cn(
             "relative flex min-h-28 cursor-pointer list-none flex-col border-t pt-4 pl-2 transition-colors group-open:bg-surface-deep/50 [&::-webkit-details-marker]:hidden",
             branch
@@ -67,7 +71,7 @@ function RoleNode({
             {role.name}
           </span>
           <span className="mt-auto flex items-center justify-between gap-2 pt-4 type-meta-sm text-muted-strong">
-            Responsabilidad y límite
+            {copy.openLabel}
             <Chevron />
           </span>
         </summary>
@@ -80,19 +84,21 @@ function RoleNode({
           )}
         >
           <p className="type-meta-sm text-muted-strong">
-            {role.name} · Responsabilidad y límite
+            {copy.detailHeading(role.name)}
           </p>
 
           <div className="mt-3 grid gap-4 sm:grid-cols-2">
             <div>
-              <p className="type-meta-sm text-muted-strong">Responsabilidad</p>
+              <p className="type-meta-sm text-muted-strong">{copy.responsibility}</p>
               <p className="mt-1 type-caption text-secondary">
-                {role.responsibility}
+                {copy.roles[role.id].responsibility}
               </p>
             </div>
             <div>
-              <p className="type-meta-sm text-muted-strong">Límite</p>
-              <p className="mt-1 type-caption text-secondary">{role.limit}</p>
+              <p className="type-meta-sm text-muted-strong">{copy.limit}</p>
+              <p className="mt-1 type-caption text-secondary">
+                {copy.roles[role.id].limit}
+              </p>
             </div>
           </div>
         </div>
@@ -104,17 +110,19 @@ function RoleNode({
 const FOLLOWS: AgentRoleId = "implementer";
 
 /** Grafo de roles: cuatro etapas, la puerta en medio y el Initializer aparte. */
-export function AgentsDemo() {
+export async function AgentsDemo() {
+  const { agents: copy, sheet } = await getCurrentHomeCopy();
+  const AGENT_NODES = buildAgentNodes(copy.handoffs);
   const flow = AGENT_NODES.filter((node) => !node.branch);
   const branches = AGENT_NODES.filter((node) => node.branch);
 
   return (
     <DemoSection
       id="agentes"
-      eyebrow="Roles"
-      title="Roles explícitos, límites explícitos"
-      intro="Cada rol recibe un contrato propio y no invade el trabajo de otro. Abre cualquier rol —también con teclado— para leer su responsabilidad y su límite."
-      note="La puerta ocupa el lugar entre Spec Author e Implementer; el Initializer es una rama lateral que no recorre el ciclo del Work Item. Los adaptadores nativos de OpenCode y Claude Code son opcionales; Cursor y Codex funcionan por fallback."
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      intro={copy.intro}
+      note={copy.note}
     >
       <ol className="relative grid items-start gap-6 sm:grid-cols-2 sm:has-[details[open]]:pb-32 lg:grid-cols-5 lg:gap-5 lg:has-[details[open]]:pb-28">
         {flow.map((node, index) => {
@@ -133,17 +141,18 @@ export function AgentsDemo() {
                     aria-hidden="true"
                     className="absolute -top-[0.1875rem] left-0 size-1.5 rounded-full bg-accent-text"
                   />
-                  <p className="type-meta-sm text-accent-text">La puerta</p>
+                  <p className="type-meta-sm text-accent-text">{copy.gateTag}</p>
                   <p className="mt-2 break-words type-docs text-foreground">
-                    {APPROVAL_GATE.label}
+                    {sheet.gate.label}
                   </p>
                   <p className="mt-auto flex items-center gap-2 pt-4 type-meta-sm text-accent-text">
-                    {APPROVAL_GATE.status}
-                    <span className="text-secondary">· firma humana</span>
+                    {sheet.gate.status}
+                    <span className="text-secondary">{copy.gateSigned}</span>
                   </p>
                 </li>
               ) : null}
               <RoleNode
+                copy={copy}
                 role={role}
                 node={node}
                 revealDelay={Math.min(index + 1, 5)}
@@ -159,13 +168,18 @@ export function AgentsDemo() {
           if (!role) return null;
           return (
             <ul key={node.roleId} className="lg:col-start-1">
-              <RoleNode role={role} node={node} branch revealDelay={1} />
+              <RoleNode
+                copy={copy}
+                role={role}
+                node={node}
+                branch
+                revealDelay={1}
+              />
             </ul>
           );
         })}
         <p className="max-w-[36ch] type-caption text-muted-strong lg:col-span-4 lg:self-start lg:pt-6">
-          El Initializer prepara el repositorio; no aprueba ni implementa Work
-          Items.
+          {copy.initializerNote}
         </p>
       </div>
     </DemoSection>

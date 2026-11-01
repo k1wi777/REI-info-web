@@ -1,7 +1,9 @@
 import { StatusTag } from "@/components/ui/status-tag";
-import { AGENT_ROLES, APPROVAL_GATE } from "@/content/rei";
+import { AGENT_ROLES } from "@/content/rei";
 import { DemoSection } from "@/features/home/components/demo-section";
-import { GATE_BRANCHES, GATE_DEMO } from "@/features/home/data/demos";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { GATE_BRANCHES, buildGateDemo } from "@/features/home/data/demos";
+import type { BranchStateId } from "@/features/home/copy/types";
 import type { GateStage } from "@/features/home/types";
 
 const ROLE_NAMES = new Map(AGENT_ROLES.map((role) => [role.id, role.name]));
@@ -44,7 +46,9 @@ function Stage({ stage, index }: StageProps) {
 }
 
 /** Ciclo completo: planificación, puerta y entrega, con la firma en el centro. */
-export function GateDemo() {
+export async function GateDemo() {
+  const { gate: copy, sheet } = await getCurrentHomeCopy();
+  const GATE_DEMO = buildGateDemo(copy);
   const stages = GATE_DEMO.filter((stage) => !stage.gate);
   const gate = GATE_DEMO.find((stage) => stage.gate);
   const planning = stages.slice(0, 2);
@@ -55,10 +59,10 @@ export function GateDemo() {
   return (
     <DemoSection
       id="puerta"
-      eyebrow="Ciclo y puerta"
-      title="La aprobación no es un trámite"
-      intro="Un Work Item recorre cinco estados. La puerta no está antes ni después del trabajo: está entre la planificación y el código. Ningún control de esta página aprueba; la firma se registra desde el CLI."
-      note="Los artefactos de la puerta son legibles sin JavaScript; el ciclo se lee de arriba abajo en móvil."
+      eyebrow={copy.eyebrow}
+      title={copy.title}
+      intro={copy.intro}
+      note={copy.note}
       example
     >
       <div className="grid gap-8">
@@ -75,7 +79,7 @@ export function GateDemo() {
           >
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
               <p className="type-meta text-accent-text">{gate.label}</p>
-              <StatusTag tone="accent">{APPROVAL_GATE.status}</StatusTag>
+              <StatusTag tone="accent">{sheet.gate.status}</StatusTag>
             </div>
 
             <p className="mt-3 max-w-[62ch] type-body text-secondary">
@@ -101,7 +105,7 @@ export function GateDemo() {
             </ul>
 
             <p className="mt-4 type-caption text-muted-strong">
-              La firma se registra desde el CLI; esta página no aprueba.
+              {copy.signNote}
             </p>
           </div>
         ) : null}
@@ -127,13 +131,13 @@ export function GateDemo() {
               <span className="mr-2 type-code text-foreground">
                 {branch.id}
               </span>
-              {branch.meaning}
+              {copy.branches[branch.id as BranchStateId]}
             </p>
           ))}
         </div>
 
         <p className="type-caption text-muted-strong">
-          Ramas, no atajos. Solo un Work Item puede estar in_progress a la vez.
+          {copy.footnote}
         </p>
       </div>
     </DemoSection>

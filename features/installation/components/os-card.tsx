@@ -5,6 +5,7 @@ import type { OsChoice } from "@/features/installation/data/choices";
 import { cn } from "@/lib/cn";
 
 type OsCardProps = {
+  detectedLabel: string;
   choice: OsChoice;
   checked: boolean;
   /** El sistema del visitante coincide con esta tarjeta (solo informa). */
@@ -18,7 +19,14 @@ type OsCardProps = {
  * archivo y, si procede, «Detectado». Ficha vertical en móvil (tres en fila) y
  * fila ancha desde `lg`, donde apila el selector junto al escenario de descarga.
  */
-export function OsCard({ choice, checked, detected, index, onSelect }: OsCardProps) {
+export function OsCard({
+  choice,
+  checked,
+  detected,
+  detectedLabel,
+  index,
+  onSelect,
+}: OsCardProps) {
   return (
     <OptionRadio
       group="instalar-os"
@@ -50,7 +58,7 @@ export function OsCard({ choice, checked, detected, index, onSelect }: OsCardPro
               aria-hidden="true"
               className="size-1.5 rounded-full bg-success"
             />
-            Detectado
+            {detectedLabel}
           </span>
         ) : null}
       </span>

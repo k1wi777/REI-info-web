@@ -1,13 +1,18 @@
 import { ButtonLink } from "@/components/ui/button-link";
 import { ResponsibilityMatrix } from "@/features/home/components/responsibility-matrix";
 import { StateScale } from "@/features/home/components/state-scale";
+import { getCurrentLocale } from "@/content/i18n/server";
 import { DOCUMENTED_VERSION, INSTALL_PATH } from "@/content/site";
+import { getHomeCopy } from "@/features/home/copy";
 
 /**
  * Primer viewport: hoja única con tesis, deck y CTAs a la izquierda y la
  * matriz con la puerta de aprobación a la derecha.
  */
-export function HeroSheet() {
+export async function HeroSheet() {
+  const lang = await getCurrentLocale();
+  const { hero } = getHomeCopy(lang);
+
   return (
     <section
       aria-labelledby="home-tesis"
@@ -19,47 +24,45 @@ export function HeroSheet() {
       />
 
       <div className="relative grid grid-cols-1 items-baseline gap-x-4 gap-y-1 border-b border-hairline px-4 py-3 lg:py-2 type-meta text-muted-strong sm:grid-cols-[1fr_auto_1fr]">
-        <p>REI HARNESS / ARNÉS SDD</p>
-        
+        <p>{hero.brand}</p>
+
         <p className="justify-self-end text-right">
-          REV. 03 · {DOCUMENTED_VERSION} · ES
+          REV. 03 · {DOCUMENTED_VERSION} · {lang.toUpperCase()}
         </p>
       </div>
 
       <div className="relative grid lg:grid-cols-6 xl:grid-cols-12">
         <div className="min-w-0 border-b border-hairline px-5 py-10 sm:px-8 lg:col-span-3 lg:border-b-0  lg:px-10 lg:py-8 xl:col-span-7">
           <p className="type-meta text-muted-strong">
-            Spec Driven Development · Arnés de agentes de IA
+            {hero.kicker}
           </p>
 
           <h1
             id="home-tesis"
             className="type-display mt-6 max-w-[22ch] text-balance text-foreground"
           >
-            <span className="block">Tu agente escribe.</span>{" "}
+            <span className="block">{hero.titleLine}</span>{" "}
             <span className="block">
               <span className="underline decoration-accent decoration-2 underline-offset-4">
-                Tú decides
+                {hero.titleEmphasis}
               </span>
               .
             </span>
           </h1>
 
           <p className="type-body mt-6 max-w-[46ch] text-secondary">
-            REI Harness convierte el trabajo con agentes de IA en un proceso con
-            especificación, aprobación humana y evidencia, dentro de tu propio
-            repositorio.
+            {hero.lede}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href={INSTALL_PATH}>Instalar REI</ButtonLink>
+            <ButtonLink href={INSTALL_PATH}>{hero.install}</ButtonLink>
             <ButtonLink href="#como-funciona" variant="secondary">
-              Ver el flujo
+              {hero.flow}
             </ButtonLink>
           </div>
 
           <p className="mt-6 type-meta-sm text-muted-strong">
-            La aprobación se registra desde el CLI. El silencio no aprueba.
+            {hero.approvalNote}
           </p>
         </div>
 

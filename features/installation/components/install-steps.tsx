@@ -1,27 +1,31 @@
 import { CodeBlock } from "@/components/ui/code-block";
 import { InlineText } from "@/components/ui/inline-text";
+import type { InstallerCopy } from "@/features/installation/copy/types";
 import {
-  INSTALL_STEPS,
+  buildInstallSteps,
   fillArchiveName,
 } from "@/features/installation/data/installation";
 import type { OsId } from "@/lib/release";
 
 type InstallStepsProps = {
+  copy: InstallerCopy;
   os: OsId;
   archiveName: string;
 };
 
 /** Pasos de instalación del sistema elegido, con el nombre real del archive. */
-export function InstallSteps({ os, archiveName }: InstallStepsProps) {
+export function InstallSteps({ copy, os, archiveName }: InstallStepsProps) {
+  const steps = buildInstallSteps(copy.steps);
+
   return (
     <ol className="grid gap-px border border-hairline-strong bg-hairline-strong lg:grid-cols-3">
-      {INSTALL_STEPS[os].map((step, index) => (
+      {steps[os].map((step, index) => (
         <li
           key={step.title}
           className="flex min-w-0 flex-col gap-3 bg-canvas px-5 py-5"
         >
           <span className="type-meta text-muted-strong">
-            Paso {String(index + 1).padStart(2, "0")}
+            {copy.stepLabel} {String(index + 1).padStart(2, "0")}
           </span>
           <h3 className="type-ui font-medium text-foreground">{step.title}</h3>
           <p className="type-caption text-secondary">

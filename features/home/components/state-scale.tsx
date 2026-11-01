@@ -1,18 +1,20 @@
 import { CYCLE_STATES } from "@/content/rei";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
 import { cn } from "@/lib/cn";
 
 /**
  * Línea de cotas con los cinco estados del ciclo. `done` se distingue en verde
  * y el estado actual se anuncia con texto, nunca solo con color.
  */
-export function StateScale() {
+export async function StateScale() {
+  const { states } = await getCurrentHomeCopy();
   const currentState = "ready";
 
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4">
-        <p className="type-meta text-muted-strong">Estados del ciclo</p>
-        <p className="type-meta-sm text-muted-strong">actual: {currentState}</p>
+        <p className="type-meta text-muted-strong">{states.heading}</p>
+        <p className="type-meta-sm text-muted-strong">{states.current(currentState)}</p>
       </div>
 
       <div className="relative mt-5">
@@ -50,7 +52,7 @@ export function StateScale() {
                 >
                   {state.label}
                   {isCurrent ? (
-                    <span className="sr-only"> (estado actual)</span>
+                    <span className="sr-only">{states.currentSr}</span>
                   ) : null}
                 </span>
               </li>
@@ -60,7 +62,7 @@ export function StateScale() {
       </div>
 
       <p className="mt-4 type-meta-sm text-muted-strong">
-        Solo un Work Item puede estar en in_progress a la vez.
+        {states.oneAtATime}
       </p>
     </div>
   );

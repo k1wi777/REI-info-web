@@ -9,13 +9,17 @@ import { FinalCta } from "@/features/home/components/final-cta";
 import { HeroSheet } from "@/features/home/components/hero-sheet";
 import { HomeSection } from "@/features/home/components/home-section";
 import { RevealController } from "@/components/ui/reveal-controller";
-import { HOME_ACTS } from "@/features/home/data/acts";
-import { LIMITS_BLOCK, PROCESS_INTRO } from "@/features/home/data/home";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import { buildActs } from "@/features/home/data/acts";
+import { buildLimitsBlock, buildProcessIntro } from "@/features/home/data/home";
 import { REVEAL_BOOTSTRAP_SCRIPT } from "@/lib/motion";
 
-const [PROBLEM_ACT, PROCESS_ACT, EVIDENCE_ACT, CLOSE_ACT] = HOME_ACTS;
+export async function HomePage() {
+  const copy = await getCurrentHomeCopy();
+  const [PROBLEM_ACT, PROCESS_ACT, EVIDENCE_ACT, CLOSE_ACT] = buildActs(
+    copy.acts,
+  );
 
-export function HomePage() {
   return (
     <>
       {/* Bootstrap estático: oculta el contenido antes del paint solo con JS válido. */}
@@ -33,7 +37,7 @@ export function HomePage() {
       </ActSection>
 
       <ActSection act={PROCESS_ACT}>
-        <HomeSection block={PROCESS_INTRO} columns={4} />
+        <HomeSection block={buildProcessIntro(copy)} columns={4} />
         <GateDemo />
         <AgentsDemo />
         <TerminalDemo />
@@ -42,7 +46,7 @@ export function HomePage() {
       <ActSection act={EVIDENCE_ACT}>
         <ViewerDemo />
         <GithubIssuesDemo />
-        <HomeSection block={LIMITS_BLOCK} />
+        <HomeSection block={buildLimitsBlock(copy)} />
       </ActSection>
 
       <ActSection act={CLOSE_ACT}>

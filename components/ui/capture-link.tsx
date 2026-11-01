@@ -3,6 +3,8 @@ import { cn } from "@/lib/cn";
 type CaptureLinkProps = {
   /** Archivo de la captura completa; se abre en otra pestaña. */
   href: string;
+  /** Texto del enlace; por defecto, el de las páginas en español. */
+  label?: string;
   className?: string;
 };
 
@@ -10,7 +12,11 @@ type CaptureLinkProps = {
  * Enlace al archivo completo de una captura recortada. Primitiva sin dominio:
  * solo conoce la ruta y el texto fijo del sistema.
  */
-export function CaptureLink({ href, className }: CaptureLinkProps) {
+export function CaptureLink({
+  href,
+  label = "Ver captura completa",
+  className,
+}: CaptureLinkProps) {
   return (
     <a
       className={cn(
@@ -21,7 +27,7 @@ export function CaptureLink({ href, className }: CaptureLinkProps) {
       target="_blank"
       rel="noreferrer"
     >
-      Ver captura completa
+      {label}
     </a>
   );
 }

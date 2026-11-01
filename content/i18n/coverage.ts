@@ -1,4 +1,4 @@
-import { ROUTES } from "@/content/site";
+import { INSTALL_PATH, ROUTES } from "@/content/site";
 import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
 
 /**
@@ -9,7 +9,7 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
  */
 export const TRANSLATED_ROUTES: Record<Locale, readonly string[]> = {
   es: ROUTES,
-  en: [],
+  en: ["/", INSTALL_PATH],
 };
 
 export function isTranslated(lang: Locale, path: string): boolean {

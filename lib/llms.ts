@@ -15,6 +15,7 @@ import {
   type DocsSection,
 } from "@/content/site";
 import { localizePath, type Locale } from "@/lib/i18n";
+import { getInstallCopy } from "@/features/installation/copy";
 import { buildCanonicalUrl } from "@/lib/seo";
 
 type LlmsEntry = {
@@ -118,9 +119,8 @@ export function buildLlmsTxt(
 
   const starting = section(llms.headings.start, [
     render({
-      title: INSTALL_PAGE.title,
+      ...getInstallCopy(getContentLocale(lang, INSTALL_PAGE.path)).meta,
       path: INSTALL_PAGE.path,
-      description: INSTALL_PAGE.description,
     }),
     ...docsEntries("empezar").map(render),
   ]);

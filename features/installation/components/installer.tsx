@@ -6,9 +6,9 @@ import { ArchSelector } from "@/features/installation/components/arch-selector";
 import { DownloadPanel } from "@/features/installation/components/download-panel";
 import { InstallSteps } from "@/features/installation/components/install-steps";
 import { OsCard } from "@/features/installation/components/os-card";
+import type { InstallerCopy } from "@/features/installation/copy/types";
 import {
-  ARCH_CHECKS,
-  ARCH_HINTS,
+  ARCH_CHECKABLE,
   OS_CHOICES,
   OS_LABELS,
 } from "@/features/installation/data/choices";
@@ -21,6 +21,7 @@ import {
   type InstallerStatus,
   type Selection,
 } from "@/features/installation/types";
+import type { Locale } from "@/lib/i18n";
 import { detectPlatform, type PlatformHints } from "@/lib/platform";
 import {
   ARCH_IDS,
@@ -35,6 +36,8 @@ import {
 type InstallerProps = {
   status: InstallerStatus;
   release: Release | null;
+  copy: InstallerCopy;
+  lang: Locale;
 };
 
 type UserAgentData = {
@@ -74,7 +77,7 @@ function isArchId(value: string): value is ArchId {
  * selección por defecto (legible sin JavaScript); tras hidratar solo ajusta la
  * selección inicial con lo detectado, sin pisar una elección ya hecha.
  */
-export function Installer({ status, release }: InstallerProps) {
+export function Installer({ status, release, copy, lang }: InstallerProps) {
   const [selection, setSelection] = useState<Selection>(DEFAULT_SELECTION);
   const [archUnknown, setArchUnknown] = useState(false);
   const [detectedOs, setDetectedOs] = useState<OsId | null>(null);
@@ -130,7 +133,7 @@ export function Installer({ status, release }: InstallerProps) {
         <div className="flex min-w-0 flex-col gap-8 lg:col-span-5">
           <fieldset className="min-w-0">
             <legend className="mb-3 type-ui font-medium text-foreground">
-              Sistema operativo
+              {copy.osLegend}
             </legend>
             <div className="grid grid-cols-3 gap-3 lg:grid-cols-1">
               {OS_CHOICES.map((choice, index) => (
@@ -140,6 +143,7 @@ export function Installer({ status, release }: InstallerProps) {
                   choice={choice}
                   checked={selection.os === choice.id}
                   detected={detectedOs === choice.id}
+                  detectedLabel={copy.detected}
                   onSelect={chooseOs}
                 />
               ))}
@@ -148,20 +152,21 @@ export function Installer({ status, release }: InstallerProps) {
 
           <fieldset className="flex min-w-0 flex-col">
             <legend className="mb-3 type-ui font-medium text-foreground">
-              Arquitectura
+              {copy.archLegend}
             </legend>
             <ArchSelector
+              descriptions={copy.archDescriptions}
               os={selection.os}
               value={selection.arch}
               onSelect={chooseArch}
             />
             {archUnknown ? (
               <p role="status" className="mt-4 max-w-[52ch] type-caption text-secondary">
-                <InlineText text={ARCH_HINTS[selection.os]} />
+                <InlineText text={copy.archHints[selection.os]} />
               </p>
-            ) : ARCH_CHECKS[selection.os] ? (
+            ) : ARCH_CHECKABLE[selection.os] ? (
               <p className="mt-4 max-w-[52ch] type-caption text-secondary">
-                <InlineText text={ARCH_CHECKS[selection.os] ?? ""} />
+                <InlineText text={copy.archHints[selection.os]} />
               </p>
             ) : null}
           </fieldset>
@@ -169,6 +174,8 @@ export function Installer({ status, release }: InstallerProps) {
 
         <div className="min-w-0 lg:sticky lg:top-24 lg:col-span-7">
           <DownloadPanel
+            copy={copy}
+            lang={lang}
             status={status}
             release={release}
             asset={asset}
@@ -182,10 +189,14 @@ export function Installer({ status, release }: InstallerProps) {
 
       <div className="flex flex-col gap-4">
         <h2 className="type-docs-heading text-foreground">
-          Instalar en {OS_LABELS[selection.os]}
+          {copy.installOn} {OS_LABELS[selection.os]}
         </h2>
         <div key={selection.os} className="cycle-panel-in">
-          <InstallSteps os={selection.os} archiveName={archiveName} />
+          <InstallSteps
+            copy={copy}
+            os={selection.os}
+            archiveName={archiveName}
+          />
         </div>
       </div>
     </div>

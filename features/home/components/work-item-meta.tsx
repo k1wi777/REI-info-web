@@ -1,3 +1,5 @@
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
+import type { HomeCopy } from "@/features/home/copy/types";
 import { cn } from "@/lib/cn";
 import { EXAMPLE_SHEET } from "@/features/home/data/sheet";
 
@@ -7,19 +9,24 @@ type MetaRow = {
   tone?: "accent" | "warning";
 };
 
-const ROWS: MetaRow[] = [
-  { label: "Estado", value: EXAMPLE_SHEET.state, tone: "accent" },
-  { label: "Checkpoints", value: EXAMPLE_SHEET.checkpoints },
-  { label: "Aprobación", value: EXAMPLE_SHEET.approval, tone: "warning" },
-  { label: "Tipo", value: EXAMPLE_SHEET.type },
-];
+function buildRows(sheet: HomeCopy["sheet"]): MetaRow[] {
+  return [
+    { label: sheet.meta.state, value: EXAMPLE_SHEET.state, tone: "accent" },
+    { label: sheet.meta.checkpoints, value: EXAMPLE_SHEET.checkpoints },
+    { label: sheet.meta.approval, value: sheet.gate.status, tone: "warning" },
+    { label: sheet.meta.type, value: EXAMPLE_SHEET.type },
+  ];
+}
 
 /** Pie de la ficha: metadata de la hoja de ejemplo, sin métricas inventadas. */
-export function WorkItemMeta() {
+export async function WorkItemMeta() {
+  const { sheet } = await getCurrentHomeCopy();
+  const rows = buildRows(sheet);
+
   return (
     <footer className="border-t border-hairline-strong px-4 py-4">
       <dl className="grid grid-cols-2 gap-x-6 gap-y-3">
-        {ROWS.map((row) => (
+        {rows.map((row) => (
           <div key={row.label}>
             <dt className="type-meta-sm text-muted-strong">{row.label}</dt>
             <dd

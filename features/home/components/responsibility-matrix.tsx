@@ -1,4 +1,5 @@
-import { APPROVAL_GATE, WORK_ITEM_ROLES } from "@/content/rei";
+import { WORK_ITEM_ROLES } from "@/content/rei";
+import { getCurrentHomeCopy } from "@/features/home/copy/server";
 import { WorkItemMeta } from "@/features/home/components/work-item-meta";
 import { EXAMPLE_SHEET, SHEET_PHASES } from "@/features/home/data/sheet";
 
@@ -7,7 +8,9 @@ import { EXAMPLE_SHEET, SHEET_PHASES } from "@/features/home/data/sheet";
  * puerta de aprobación en alfa y pie de metadata. Las marcas no dependen del
  * color; cada una lleva su texto para lectores de pantalla.
  */
-export function ResponsibilityMatrix() {
+export async function ResponsibilityMatrix() {
+  const { sheet } = await getCurrentHomeCopy();
+
   return (
     <section
       aria-labelledby="home-matrix-title"
@@ -26,23 +29,23 @@ export function ResponsibilityMatrix() {
           id="home-matrix-title"
           className="mt-3 type-docs-heading text-foreground"
         >
-          {EXAMPLE_SHEET.title}
+          {sheet.title}
         </p>
         <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1.5">
-          <p className="type-meta-sm text-muted-strong">4 roles · 1 firma</p>
-          <p className="type-meta-sm text-warning">Hoja de ejemplo</p>
+          <p className="type-meta-sm text-muted-strong">{sheet.summary}</p>
+          <p className="type-meta-sm text-warning">{sheet.exampleTag}</p>
         </div>
       </header>
 
       <div
         role="group"
-        aria-label={`${EXAMPLE_SHEET.title}: matriz de roles y fases`}
+        aria-label={sheet.matrixLabel(sheet.title)}
         tabIndex={0}
         className="scroll-code max-sm:fade-right min-w-0 overflow-x-auto"
       >
         <table className="w-full table-fixed border-collapse text-left max-sm:min-w-[25rem]">
           <caption className="sr-only">
-            Matriz de responsabilidades por rol y fase
+            {sheet.caption}
           </caption>
           <thead>
             <tr className="border-b border-hairline">
@@ -50,7 +53,7 @@ export function ResponsibilityMatrix() {
                 scope="col"
                 className="w-[4.5rem] px-0.5 py-2.5 sm:w-[6.5rem]"
               >
-                <span className="sr-only">Fase</span>
+                <span className="sr-only">{sheet.phaseColumn}</span>
               </th>
               {WORK_ITEM_ROLES.map((role) => (
                 <th
@@ -74,7 +77,7 @@ export function ResponsibilityMatrix() {
                     {phase.id}
                   </span>
                   <span className="block break-words type-meta-sm tracking-normal hyphens-auto text-secondary">
-                    {phase.label}
+                    {sheet.phases[phase.id]}
                   </span>
                 </th>
                 {WORK_ITEM_ROLES.map((role) => {
@@ -94,7 +97,7 @@ export function ResponsibilityMatrix() {
                         {isResponsible ? "●" : "·"}
                       </span>
                       <span className="sr-only">
-                        {isResponsible ? "Responsable" : "No interviene"}
+                        {isResponsible ? sheet.responsible : sheet.notInvolved}
                       </span>
                     </td>
                   );
@@ -108,14 +111,14 @@ export function ResponsibilityMatrix() {
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1.5">
                   <p className="type-meta text-accent-text">
-                    {APPROVAL_GATE.label}
+                    {sheet.gate.label}
                   </p>
                   <p className="type-meta text-accent-text">
-                    {APPROVAL_GATE.status}
+                    {sheet.gate.status}
                   </p>
                 </div>
                 <p className="mt-2 type-body text-secondary">
-                  {APPROVAL_GATE.detail}
+                  {sheet.gate.detail}
                 </p>
               </td>
             </tr>

@@ -1,18 +1,16 @@
 import type { AgentRoleId, WorkItemStateId } from "@/content/rei";
 
+/** Datos de la hoja de ejemplo que no cambian por idioma. */
 export type SheetMeta = {
   code: string;
   revision: string;
-  title: string;
   type: string;
   state: string;
   checkpoints: string;
-  approval: string;
 };
 
 export type SheetPhase = {
-  id: string;
-  label: string;
+  id: "01" | "02" | "04" | "05";
   roleId: AgentRoleId;
 };
 
@@ -51,8 +49,12 @@ export type FinalCta = {
 /** Fondo de un acto: solo tokens existentes del sistema. */
 export type HomeActTone = "canvas" | "deep" | "surface";
 
+export const HOME_ACT_IDS = ["problema", "proceso", "evidencia", "cierre"] as const;
+
+export type HomeActId = (typeof HOME_ACT_IDS)[number];
+
 export type HomeAct = {
-  id: string;
+  id: HomeActId;
   anchor: string;
   number: string;
   label: string;
@@ -71,8 +73,10 @@ export type DemoStep = {
   alertLabel: string;
 };
 
+export type ProblemCaseId = "sin-rei" | "con-rei";
+
 export type ProblemCase = {
-  id: "sin-rei" | "con-rei";
+  id: ProblemCaseId;
   label: string;
   title: string;
   intro: string;

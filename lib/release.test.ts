@@ -114,7 +114,12 @@ describe("checksumsAsset", () => {
 
 describe("formatReleaseDate", () => {
   it("formatea en español y en UTC", () => {
-    expect(formatReleaseDate("2026-10-26T08:17:41Z")).toBe("26 de octubre de 2026");
-    expect(formatReleaseDate("2026-10-26T23:59:00Z")).toBe("26 de octubre de 2026");
+    expect(formatReleaseDate("2026-10-26T08:17:41Z", "es")).toBe("26 de octubre de 2026");
+    expect(formatReleaseDate("2026-10-26T23:59:00Z", "es")).toBe("26 de octubre de 2026");
+  });
+
+  it("formatea en inglés y en UTC", () => {
+    expect(formatReleaseDate("2026-10-26T08:17:41Z", "en")).toBe("October 26, 2026");
+    expect(formatReleaseDate("2026-10-26T23:59:00Z", "en")).toBe("October 26, 2026");
   });
 });

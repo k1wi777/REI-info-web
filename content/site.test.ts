@@ -79,11 +79,6 @@ describe("página de instalación", () => {
   it("mantiene la instalación de la documentación como ruta distinta", () => {
     expect(ROUTES).toContain("/docs/empezar/instalacion");
   });
-
-  it("rellena título y descripción", () => {
-    expect(INSTALL_PAGE.title.trim()).not.toBe("");
-    expect(INSTALL_PAGE.description.trim()).not.toBe("");
-  });
 });
 
 describe("árbol de documentación", () => {

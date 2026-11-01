@@ -24,11 +24,9 @@ export const INSTALL_PATH = "/instalar";
 export const LATEST_RELEASE_API_URL =
   "https://api.github.com/repos/k1wi777/REI-Harness/releases/latest";
 
+/** Ruta de `/instalar`; título y descripción salen de `features/installation/copy`. */
 export const INSTALL_PAGE = {
   path: INSTALL_PATH,
-  title: "Instalar REI",
-  description:
-    "Elige tu sistema operativo y arquitectura, descarga el binario rei de la última release de GitHub y verifícalo en minutos.",
 } as const;
 
 export function isExternal(href: string): boolean {

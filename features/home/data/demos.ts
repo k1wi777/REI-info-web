@@ -1,16 +1,23 @@
 import {
-  APPROVAL_GATE,
   BRANCH_STATES,
   CYCLE_STATES,
   WORK_ITEM_ROLES,
 } from "@/content/rei";
-import type { WorkItemStateId } from "@/content/rei";
+import type { AgentRoleId, WorkItemStateId } from "@/content/rei";
+import type {
+  ArtifactId,
+  GateArtifactName,
+  HomeCopy,
+  ProblemStepId,
+} from "@/features/home/copy/types";
 import type {
   AgentNode,
   ArtifactEntry,
+  DemoAlert,
   GateArtifact,
   GateStage,
   ProblemCase,
+  ProblemCaseId,
   TerminalSnapshot,
 } from "@/features/home/types";
 
@@ -26,209 +33,140 @@ function cycleLabel(id: WorkItemStateId): string {
   return label;
 }
 
+type ProblemStepBase = { id: ProblemStepId; alert: DemoAlert };
+
 /**
  * El problema y su reverso sobre el mismo caso. Los pasos son un ejemplo de
  * mecanismo, no una conversación real; los estados y roles sí son los del
- * arnés y se importan de `content/rei`.
+ * arnés y se importan de `content/rei`. Aquí solo viven ids y marcas; el texto
+ * sale de la copy.
  */
-export const PROBLEM_DEMO: ProblemCase[] = [
+const PROBLEM_BASES: { id: ProblemCaseId; steps: ProblemStepBase[] }[] = [
   {
     id: "sin-rei",
-    label: "Sin REI",
-    title: "La conversación decide por ti",
-    intro:
-      "Mismo caso: «añade un filtro por estado al listado». Sin alcance escrito, el agente empieza por el código.",
     steps: [
-      {
-        id: "sin-rei-1",
-        title: "Alcance tardío",
-        detail:
-          "El LLM escribe el filtro antes de que el alcance esté claro: nadie acordó dónde entra ni qué estados cubre.",
-        alert: "warning",
-        alertLabel: "Riesgo",
-      },
-      {
-        id: "sin-rei-2",
-        title: "Alucinaciones",
-        detail:
-          "Inventa una API o un dato y lo presenta como cierto.",
-        alert: "error",
-        alertLabel: "Fallo",
-      },
-      {
-        id: "sin-rei-3",
-        title: "Decisiones no autorizadas",
-        detail:
-          "Cambia la arquitectura o el alcance sin una aprobación que lo respalde.",
-        alert: "error",
-        alertLabel: "Fallo",
-      },
-      {
-        id: "sin-rei-4",
-        title: "Acciones fuera de límite",
-        detail:
-          "Toca datos o entornos que no le corresponden para probar el cambio.",
-        alert: "error",
-        alertLabel: "Fallo",
-      },
-      {
-        id: "sin-rei-5",
-        title: "Retrabajo",
-        detail:
-          "El código rápido es caro de corregir; la decisión solo existió en el chat.",
-        alert: "error",
-        alertLabel: "Coste",
-      },
+      { id: "sin-rei-1", alert: "warning" },
+      { id: "sin-rei-2", alert: "error" },
+      { id: "sin-rei-3", alert: "error" },
+      { id: "sin-rei-4", alert: "error" },
+      { id: "sin-rei-5", alert: "error" },
     ],
-    note: "Ejemplo de mecanismo; no reproduce una conversación real.",
   },
   {
     id: "con-rei",
-    label: "Con REI",
-    title: "La hoja decide antes del código",
-    intro:
-      "El mismo caso entra en un Work Item: planificación revisable, firma humana y evidencia en el repositorio.",
     steps: [
-      {
-        id: "con-rei-1",
-        title: "Work Item",
-        detail:
-          "El Leader registra el alcance, el tipo y el estado pending antes de escribir código.",
-        alert: "neutral",
-        alertLabel: "Paso",
-      },
-      {
-        id: "con-rei-2",
-        title: "Planificación",
-        detail:
-          "El Spec Author entrega requirements, design y tasks revisables.",
-        alert: "neutral",
-        alertLabel: "Artefactos",
-      },
-      {
-        id: "con-rei-3",
-        title: "Aprobación",
-        detail:
-          "La persona revisa y firma; el CLI registra el paso a in_progress. El silencio no aprueba.",
-        alert: "accent",
-        alertLabel: "Puerta",
-      },
-      {
-        id: "con-rei-4",
-        title: "Implementación",
-        detail:
-          "El Implementer ejecuta solo la planificación aprobada y deja evidencia de verificación.",
-        alert: "neutral",
-        alertLabel: "Límite",
-      },
-      {
-        id: "con-rei-5",
-        title: "Revisión",
-        detail:
-          "El Reviewer verifica contra la planificación; done exige un veredicto favorable.",
-        alert: "success",
-        alertLabel: "Hecho",
-      },
+      { id: "con-rei-1", alert: "neutral" },
+      { id: "con-rei-2", alert: "neutral" },
+      { id: "con-rei-3", alert: "accent" },
+      { id: "con-rei-4", alert: "neutral" },
+      { id: "con-rei-5", alert: "success" },
     ],
-    note: "Ejemplo de mecanismo construido con los estados y roles reales del arnés.",
   },
 ];
 
+export function buildProblemDemo(copy: HomeCopy["problem"]): ProblemCase[] {
+  return PROBLEM_BASES.map(({ id, steps }) => ({
+    id,
+    ...copy.cases[id],
+    steps: steps.map((step) => ({
+      id: step.id,
+      alert: step.alert,
+      ...copy.steps[step.id],
+    })),
+  }));
+}
+
 /** Artefactos que la persona firma al abrir la puerta. */
-export const GATE_ARTIFACTS: GateArtifact[] = [
-  {
-    name: "requirements.md",
-    note: "Qué debe cumplirse y cómo se verifica.",
-  },
-  {
-    name: "design.md",
-    note: "Cómo se resuelve y qué alternativas se descartaron.",
-  },
-  {
-    name: "tasks.md",
-    note: "Orden de ejecución con tareas marcables.",
-  },
+export const GATE_ARTIFACT_NAMES: GateArtifactName[] = [
+  "requirements.md",
+  "design.md",
+  "tasks.md",
 ];
 
 /** Etapas del ciclo con la puerta insertada entre `ready` e `in_progress`. */
-export const GATE_DEMO: GateStage[] = [
-  {
-    id: "pending",
-    label: cycleLabel("pending"),
-    state: "pending",
-    roleId: "leader",
-    detail: "El Leader registra el Work Item y acuerda el alcance.",
-  },
-  {
-    id: "ready",
-    label: cycleLabel("ready"),
-    state: "ready",
-    roleId: "spec-author",
-    detail: "El Spec Author entrega requisitos, diseño y tareas revisables.",
-    artifacts: GATE_ARTIFACTS,
-  },
-  {
-    id: "gate",
-    label: APPROVAL_GATE.label,
-    gate: true,
-    detail: APPROVAL_GATE.detail,
-  },
-  {
-    id: "in_progress",
-    label: cycleLabel("in_progress"),
-    state: "in_progress",
-    roleId: "implementer",
-    detail: "El Implementer ejecuta solo la planificación aprobada.",
-  },
-  {
-    id: "review",
-    label: cycleLabel("review"),
-    state: "review",
-    roleId: "reviewer",
-    detail: "El Reviewer verifica contra la planificación y los checkpoints.",
-  },
-  {
-    id: "done",
-    label: cycleLabel("done"),
-    state: "done",
-    detail: "Estado terminal: trabajo aprobado y evidencia en el repositorio.",
-  },
-];
+export function buildGateDemo(copy: HomeCopy["gate"]): GateStage[] {
+  const artifacts: GateArtifact[] = GATE_ARTIFACT_NAMES.map((name) => ({
+    name,
+    note: copy.artifacts[name],
+  }));
+
+  return [
+    {
+      id: "pending",
+      label: cycleLabel("pending"),
+      state: "pending",
+      roleId: "leader",
+      detail: copy.stages.pending,
+    },
+    {
+      id: "ready",
+      label: cycleLabel("ready"),
+      state: "ready",
+      roleId: "spec-author",
+      detail: copy.stages.ready,
+      artifacts,
+    },
+    {
+      id: "gate",
+      label: copy.gateLabel,
+      gate: true,
+      detail: copy.stages.gate,
+    },
+    {
+      id: "in_progress",
+      label: cycleLabel("in_progress"),
+      state: "in_progress",
+      roleId: "implementer",
+      detail: copy.stages.in_progress,
+    },
+    {
+      id: "review",
+      label: cycleLabel("review"),
+      state: "review",
+      roleId: "reviewer",
+      detail: copy.stages.review,
+    },
+    {
+      id: "done",
+      label: cycleLabel("done"),
+      state: "done",
+      detail: copy.stages.done,
+    },
+  ];
+}
 
 /** Ramas del ciclo: no son atajos ni etapas del camino lineal. */
 export const GATE_BRANCHES = BRANCH_STATES;
 
-const ROLE_NODES: Record<string, string> = {
-  leader: "Recibe la solicitud",
-  "spec-author": "Recibe el Work Item",
-  implementer: "Recibe la planificación aprobada",
-  reviewer: "Recibe la implementación",
-  initializer: "Rama lateral tras rei init",
-};
-
 /** Los cuatro roles del ciclo y el Initializer como rama lateral. */
-export const AGENT_NODES: AgentNode[] = [
-  ...WORK_ITEM_ROLES.map(
-    (role): AgentNode => ({ roleId: role.id, handoff: ROLE_NODES[role.id] }),
-  ),
-  {
-    roleId: "initializer",
-    branch: true,
-    handoff: ROLE_NODES.initializer,
-  },
-];
+export function buildAgentNodes(
+  handoffs: Record<AgentRoleId, string>,
+): AgentNode[] {
+  return [
+    ...WORK_ITEM_ROLES.map(
+      (role): AgentNode => ({ roleId: role.id, handoff: handoffs[role.id] }),
+    ),
+    {
+      roleId: "initializer",
+      branch: true,
+      handoff: handoffs.initializer,
+    },
+  ];
+}
 
 /**
  * Instantánea real de `rei items status` en este repositorio. Es una
  * fotografía con fecha, no una salida en vivo; el estado cambia con el tiempo.
  */
-export const TERMINAL_SNAPSHOT: TerminalSnapshot = {
-  command: "rei items status",
-  capturedAt: "2026-10-27",
-  caption:
-    "Instantánea real de `rei items status` en este repositorio. El estado de los Work Items cambia con el tiempo.",
-  lines: [
-    { kind: "prompt", text: "$ rei items status" },
+export const TERMINAL_COMMAND = "rei items status";
+export const TERMINAL_CAPTURED_AT = "2026-10-27";
+
+/**
+ * Líneas de la salida del CLI: no se traducen y no dependen del idioma.
+ * La nota final y el pie son prosa y salen de la copy.
+ */
+export const TERMINAL_OUTPUT_LINES: TerminalSnapshot["lines"] = [
+  { kind: "prompt", text: "$ rei items status" },
     { kind: "output", text: "Work Items:" },
     {
       kind: "output",
@@ -267,46 +205,40 @@ export const TERMINAL_SNAPSHOT: TerminalSnapshot = {
       text: "  - 2026-10-27_22-04__home-demostrativa-playwright     [in_progress] (type: feature)   << ACTIVO",
       emphasis: true,
     },
-    {
-      kind: "note",
-      text: "Solo un Work Item puede estar in_progress a la vez.",
-    },
-  ],
-};
+];
+
+export function buildTerminalSnapshot(
+  copy: HomeCopy["terminal"],
+): TerminalSnapshot {
+  return {
+    command: TERMINAL_COMMAND,
+    capturedAt: TERMINAL_CAPTURED_AT,
+    caption: copy.caption,
+    lines: [
+      ...TERMINAL_OUTPUT_LINES,
+      { kind: "note", text: copy.snapshotNote },
+    ],
+  };
+}
 
 /**
  * Árbol de `.rei/specs/<id>/`: el componente, no una captura. Las rutas son
- * el patrón documentado del arnés, no un Work Item concreto.
+ * el patrón documentado del arnés, no un Work Item concreto; las notas salen
+ * de la copy.
  */
-export const ARTIFACT_TREE: ArtifactEntry[] = [
-  {
-    id: "root",
-    path: ARTIFACT_ROOT,
-    note: "Un directorio por Work Item; el id es fecha y slug.",
-    depth: 0,
-  },
-  {
-    id: "requirements",
-    path: `${ARTIFACT_ROOT}requirements.md`,
-    note: "Qué debe cumplirse y cómo se verifica.",
-    depth: 1,
-  },
-  {
-    id: "design",
-    path: `${ARTIFACT_ROOT}design.md`,
-    note: "Cómo se resuelve; alternativas descartadas.",
-    depth: 1,
-  },
-  {
-    id: "tasks",
-    path: `${ARTIFACT_ROOT}tasks.md`,
-    note: "Orden de ejecución con tareas marcables.",
-    depth: 1,
-  },
-  {
-    id: "meta",
-    path: `${ARTIFACT_ROOT}meta.json`,
-    note: "id, tipo, estado, commit base y revisión.",
-    depth: 1,
-  },
+const ARTIFACT_BASES: Omit<ArtifactEntry, "note">[] = [
+  { id: "root", path: ARTIFACT_ROOT, depth: 0 },
+  { id: "requirements", path: `${ARTIFACT_ROOT}requirements.md`, depth: 1 },
+  { id: "design", path: `${ARTIFACT_ROOT}design.md`, depth: 1 },
+  { id: "tasks", path: `${ARTIFACT_ROOT}tasks.md`, depth: 1 },
+  { id: "meta", path: `${ARTIFACT_ROOT}meta.json`, depth: 1 },
 ];
+
+export function buildArtifactTree(
+  notes: Record<ArtifactId, string>,
+): ArtifactEntry[] {
+  return ARTIFACT_BASES.map((entry) => ({
+    ...entry,
+    note: notes[entry.id as ArtifactId],
+  }));
+}
