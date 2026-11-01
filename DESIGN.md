@@ -214,6 +214,14 @@ la nota «Desliza o usa las flechas para ver la línea completa.» en su pie.
 La navegación móvil no usa estado de cliente ni bloqueo de scroll: `<details>`
 funciona sin JavaScript y por teclado. La marca y el CTA permanecen visibles.
 
+`LanguageSwitcher` es un interruptor de plano: contorno `border-strong` sobre
+`surface-deep`, icono de traducción decorativo (SVG inline de 20 px,
+`aria-hidden`) en zona propia separada por un filete, y un segmento por idioma.
+El idioma activo es un bloque de relleno `foreground` con texto `canvas`, como
+el botón primario; el inactivo es texto `secondary` que sube a `foreground` con
+fondo `hairline-strong` en hover. Cada segmento supera 24 px de caja, no usa
+violeta ni sombra, y el foco hereda el anillo global.
+
 ### Home (`features/home`)
 
 `HeroSheet` mantiene tesis, deck, CTAs, matriz de responsabilidades, panel de

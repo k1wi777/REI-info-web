@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { LocaleLink } from "@/components/ui/locale-link";
+import { useUnlocalizedPathname } from "@/components/ui/use-unlocalized-pathname";
 import { DOCS_SECTIONS } from "@/content/site";
 
 /**
@@ -9,7 +9,7 @@ import { DOCS_SECTIONS } from "@/content/site";
  * nativo: sin JavaScript obligatorio y accesible por teclado.
  */
 export function DocsSidebar() {
-  const pathname = usePathname();
+  const pathname = useUnlocalizedPathname();
   const section =
     DOCS_SECTIONS.find((candidate) =>
       candidate.pages.some(
@@ -24,7 +24,7 @@ export function DocsSidebar() {
         const active = pathname === page.path;
         return (
           <li key={page.path}>
-            <Link
+            <LocaleLink
               href={page.path}
               aria-current={active ? "page" : undefined}
               className={
@@ -34,7 +34,7 @@ export function DocsSidebar() {
               }
             >
               {page.title}
-            </Link>
+            </LocaleLink>
           </li>
         );
       })}

@@ -1,0 +1,24 @@
+import type { Metadata, ResolvingMetadata } from "next";
+import { getDocsPageOrThrow } from "@/content/site";
+import { DocsModeLandingPage, GUIAS_MODE_PATH } from "@/features/docs";
+import { pageMetadata } from "@/lib/seo";
+
+const docsPage = getDocsPageOrThrow(GUIAS_MODE_PATH);
+
+export async function generateMetadata(
+  { params }: PageProps<"/[lang]/docs/guias">,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { lang } = await params;
+
+  return pageMetadata(parent, {
+    lang,
+    path: "/docs/guias",
+    title: docsPage.title,
+    description: docsPage.description,
+  });
+}
+
+export default function Page() {
+  return <DocsModeLandingPage mode="guias" />;
+}

@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { LocaleLink } from "@/components/ui/locale-link";
+import { useUnlocalizedPathname } from "@/components/ui/use-unlocalized-pathname";
 import type { NavItem } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -30,7 +30,7 @@ export function NavLinks({
   itemClassName,
   exact = false,
 }: NavLinksProps) {
-  const pathname = usePathname();
+  const pathname = useUnlocalizedPathname();
 
   return (
     <ul className={cn("flex items-center", className)}>
@@ -60,13 +60,13 @@ export function NavLinks({
                 {item.label}
               </a>
             ) : (
-              <Link
+              <LocaleLink
                 className={classes}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
               >
                 {item.label}
-              </Link>
+              </LocaleLink>
             )}
           </li>
         );

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import type { ReactNode } from "react";
 import { InlineText } from "@/components/ui/inline-text";
 import { cn } from "@/lib/cn";
@@ -97,14 +97,14 @@ export function DemoSection({
           ) : null}
 
           {link ? (
-            <Link
+            <LocaleLink
               data-reveal="fade"
               data-reveal-delay="3"
               className="mt-3.5 inline-flex border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
               href={link.href}
             >
               {link.label}
-            </Link>
+            </LocaleLink>
           ) : null}
         </div>
       </header>

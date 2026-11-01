@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 
 export type LinkListItem = {
   label: string;
@@ -31,9 +31,9 @@ export function LinkList({ links }: LinkListProps) {
                 {link.label}
               </a>
             ) : (
-              <Link className={className} href={link.href}>
+              <LocaleLink className={className} href={link.href}>
                 {link.label}
-              </Link>
+              </LocaleLink>
             )}
           </li>
         );

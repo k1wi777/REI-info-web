@@ -102,10 +102,10 @@ No continúes hasta completar estos pasos.
 
 | Ruta | Propósito |
 |------|-----------|
-| `app/` | Rutas, layouts, metadata y composición del App Router. |
+| `app/` | Rutas, layouts, metadata y composición del App Router. Las páginas viven bajo `app/[lang]/` (`/es` por defecto y `/en`). |
 | `features/` | Features verticales: UI, datos, tipos y lógica de presentación. Se crea con las primeras Features. |
 | `components/` | Primitivas de UI (`ui/`) y shell compartido (`layout/`). |
-| `content/` | Navegación, enlaces y metadata global del sitio. |
+| `content/` | Enlaces y datos globales del sitio; `content/i18n/` guarda los diccionarios es/en del shell. |
 | `lib/` | Utilidades puras y helpers compartidos. |
 | `public/` | Assets estáticos. |
 | `docs/` | Documentación de producto y estrategia del sitio. |

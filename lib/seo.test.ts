@@ -1,5 +1,7 @@
 import { SITE_URL_FALLBACK } from "@/content/site";
+import { TRANSLATED_ROUTES } from "@/content/i18n/coverage";
 import {
+  buildAlternateLanguages,
   buildCanonicalUrl,
   buildPageMetadata,
   getCanonicalUrl,
@@ -50,6 +52,7 @@ describe("getCanonicalUrl", () => {
 describe("buildPageMetadata", () => {
   it("deriva canonical, Open Graph y Twitter de un título string", () => {
     const metadata = buildPageMetadata({
+      lang: "es",
       path: "/producto",
       title: "Producto",
       description: "Descripción de producto.",
@@ -58,7 +61,7 @@ describe("buildPageMetadata", () => {
     expect(metadata.title).toBe("Producto");
     expect(metadata.description).toBe("Descripción de producto.");
     expect(metadata.alternates?.canonical).toBe(
-      `${SITE_URL_FALLBACK}/producto`,
+      `${SITE_URL_FALLBACK}/es/producto`,
     );
     expect(metadata.openGraph).toMatchObject({
       type: "website",
@@ -66,7 +69,7 @@ describe("buildPageMetadata", () => {
       locale: "es_ES",
       title: "Producto",
       description: "Descripción de producto.",
-      url: "/producto",
+      url: "/es/producto",
     });
     expect(metadata.twitter).toMatchObject({
       card: "summary_large_image",
@@ -77,6 +80,7 @@ describe("buildPageMetadata", () => {
 
   it("usa el título absolute para la tarjeta sin heredar el template", () => {
     const metadata = buildPageMetadata({
+      lang: "es",
       path: "/",
       title: { absolute: "REI Harness — El código empieza después de la aprobación" },
       description: "Descripción de la home.",
@@ -92,6 +96,7 @@ describe("buildPageMetadata", () => {
 
   it("omite las imágenes cuando no se reciben", () => {
     const metadata = buildPageMetadata({
+      lang: "es",
       path: "/docs",
       title: "Documentación",
       description: "Descripción de docs.",
@@ -113,6 +118,7 @@ describe("buildPageMetadata", () => {
 
     const metadata = buildPageMetadata(
       {
+        lang: "es",
         path: "/docs",
         title: "Documentación",
         description: "Descripción de docs.",
@@ -122,5 +128,57 @@ describe("buildPageMetadata", () => {
 
     expect(metadata.openGraph?.images).toEqual(images);
     expect(metadata.twitter?.images).toEqual(images);
+  });
+});
+
+describe("metadata por idioma", () => {
+  const input = {
+    path: "/producto",
+    title: "Producto",
+    description: "Descripción de producto.",
+  };
+
+  it("apunta el canonical de una ruta sin traducir en /en al español", () => {
+    const metadata = buildPageMetadata({ ...input, lang: "en" });
+
+    expect(metadata.alternates?.canonical).toBe(
+      `${SITE_URL_FALLBACK}/es/producto`,
+    );
+    expect(metadata.alternates?.languages).toBeUndefined();
+    expect(metadata.openGraph).toMatchObject({ locale: "es_ES" });
+  });
+
+  it("no declara alternates mientras solo exista el español", () => {
+    expect(buildPageMetadata({ ...input, lang: "es" }).alternates?.languages)
+      .toBeUndefined();
+    expect(buildAlternateLanguages("https://example.com", "/producto"))
+      .toBeUndefined();
+  });
+
+  describe("con una ruta traducida", () => {
+    beforeEach(() => {
+      (TRANSLATED_ROUTES as { en: readonly string[] }).en = ["/producto"];
+    });
+
+    afterEach(() => {
+      (TRANSLATED_ROUTES as { en: readonly string[] }).en = [];
+    });
+
+    it("emite canonical propio, hreflang y locale del idioma", () => {
+      const metadata = buildPageMetadata({ ...input, lang: "en" });
+
+      expect(metadata.alternates?.canonical).toBe(
+        `${SITE_URL_FALLBACK}/en/producto`,
+      );
+      expect(metadata.alternates?.languages).toEqual({
+        es: `${SITE_URL_FALLBACK}/es/producto`,
+        en: `${SITE_URL_FALLBACK}/en/producto`,
+        "x-default": `${SITE_URL_FALLBACK}/es/producto`,
+      });
+      expect(metadata.openGraph).toMatchObject({
+        locale: "en_US",
+        url: "/en/producto",
+      });
+    });
   });
 });

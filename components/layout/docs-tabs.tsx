@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { LocaleLink } from "@/components/ui/locale-link";
+import { useUnlocalizedPathname } from "@/components/ui/use-unlocalized-pathname";
 import { DOCS_SECTIONS } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -17,7 +17,7 @@ function isSectionActive(
 
 /** Tabs de modo: rutas reales, nunca estado de cliente ni `?tab=`. */
 export function DocsTabs() {
-  const pathname = usePathname();
+  const pathname = useUnlocalizedPathname();
 
   return (
     <nav
@@ -28,7 +28,7 @@ export function DocsTabs() {
         const active = isSectionActive(pathname, section);
 
         return (
-          <Link
+          <LocaleLink
             key={section.id}
             href={section.path}
             aria-current={active ? "page" : undefined}
@@ -40,7 +40,7 @@ export function DocsTabs() {
             )}
           >
             {section.label}
-          </Link>
+          </LocaleLink>
         );
       })}
     </nav>

@@ -1,13 +1,16 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import type { ReactNode } from "react";
 import { isExternal } from "@/content/site";
 import { cn } from "@/lib/cn";
+import type { Locale } from "@/lib/i18n";
 
 type ButtonLinkProps = {
   href: string;
   children: ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
+  /** Fuerza el idioma de un enlace interno; por defecto, el activo. */
+  locale?: Locale;
 };
 
 const BASE =
@@ -26,6 +29,7 @@ export function ButtonLink({
   children,
   variant = "primary",
   className,
+  locale,
 }: ButtonLinkProps) {
   const classes = cn(BASE, VARIANTS[variant], className);
 
@@ -43,8 +47,8 @@ export function ButtonLink({
   }
 
   return (
-    <Link className={classes} href={href}>
+    <LocaleLink className={classes} href={href} locale={locale}>
       {children}
-    </Link>
+    </LocaleLink>
   );
 }

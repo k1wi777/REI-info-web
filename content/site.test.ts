@@ -16,9 +16,9 @@ import {
   getSiteUrl,
   isExternal,
 } from "@/content/site";
-import type { NavItem } from "@/content/site";
+import type { LinkTarget } from "@/content/site";
 
-const NAV_ITEMS_ALL: NavItem[] = [
+const NAV_ITEMS_ALL: LinkTarget<string>[] = [
   ...NAV_ITEMS,
   PRIMARY_CTA,
   ...FOOTER_GROUPS.flatMap((group) => group.items),
@@ -32,16 +32,13 @@ describe("rutas del sitio", () => {
     }
   });
 
-  it("rellena las etiquetas de navegación y del pie", () => {
-    for (const item of NAV_ITEMS) {
-      expect(item.label.trim()).not.toBe("");
-    }
+  it("identifica cada elemento de navegación y del pie con un id único", () => {
+    const navIds = NAV_ITEMS.map((item) => item.id);
+    expect(new Set(navIds).size).toBe(navIds.length);
     for (const group of FOOTER_GROUPS) {
-      expect(group.title.trim()).not.toBe("");
       expect(group.items.length).toBeGreaterThan(0);
-      for (const item of group.items) {
-        expect(item.label.trim()).not.toBe("");
-      }
+      const ids = group.items.map((item) => item.id);
+      expect(new Set(ids).size).toBe(ids.length);
     }
   });
 
@@ -235,7 +232,7 @@ describe("árbol de producto", () => {
   });
 
   it("apunta la entrada Producto de la cabecera al hub", () => {
-    const entry = NAV_ITEMS.find((item) => item.label === "Producto");
+    const entry = NAV_ITEMS.find((item) => item.id === "product");
     expect(entry?.href).toBe("/producto");
   });
 });

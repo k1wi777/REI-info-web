@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import { InlineText } from "@/components/ui/inline-text";
 import { isExternal } from "@/content/site";
 import type { ProductAudience, ProductLink } from "@/features/product/types";
@@ -24,12 +24,12 @@ function AudienceLink({ link }: { link: ProductLink }) {
   }
 
   return (
-    <Link className={className} href={link.href}>
+    <LocaleLink className={className} href={link.href}>
       {link.label}
       <span aria-hidden="true" className="type-code text-muted-strong">
         →
       </span>
-    </Link>
+    </LocaleLink>
   );
 }
 

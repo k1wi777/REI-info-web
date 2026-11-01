@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import type { DocsEntry } from "@/features/docs/types";
 
 type DocsEntryGridProps = {
@@ -11,7 +11,7 @@ export function DocsEntryGrid({ entries }: DocsEntryGridProps) {
     <ul className="mt-8 grid gap-3 sm:grid-cols-2">
       {entries.map((entry) => (
         <li key={entry.href}>
-          <Link
+          <LocaleLink
             href={entry.href}
             className="flex h-full flex-col border border-hairline p-5 transition-colors duration-(--duration-fast) hover:border-border-strong"
           >
@@ -27,7 +27,7 @@ export function DocsEntryGrid({ entries }: DocsEntryGridProps) {
             <span className="mt-5 type-meta text-foreground">
               Abrir <span aria-hidden="true">→</span>
             </span>
-          </Link>
+          </LocaleLink>
         </li>
       ))}
     </ul>

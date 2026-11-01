@@ -294,22 +294,14 @@ La web se organizará por **features**, no por tipos de archivo. Una feature es 
 ```text
 .
 ├── app/                          # Rutas, layouts y metadata
-│   ├── layout.tsx                # Layout raíz: html, body, fuentes, tokens
-│   ├── not-found.tsx
+│   ├── [lang]/                   # Idioma (es | en); contiene el layout raíz
+│   │   ├── layout.tsx            # html lang, body, fuentes, tokens
+│   │   ├── not-found.tsx
+│   │   └── (site)/
+│   │       └── ...               # Rutas (producto, docs, instalar...), bajo /es y /en
+│   ├── global-not-found.tsx      # 404 sin idioma válido
 │   ├── robots.ts
-│   ├── sitemap.ts
-│   └── (site)/
-│       ├── layout.tsx            # Cabecera y pie comunes
-│       ├── page.tsx              # Inicio
-│       ├── que-es/page.tsx
-│       ├── como-funciona/page.tsx
-│       ├── instalacion/page.tsx
-│       ├── comandos/page.tsx
-│       ├── agentes/page.tsx
-│       ├── workflow/page.tsx
-│       ├── visor/page.tsx
-│       ├── github/page.tsx
-│       └── faq/page.tsx
+│   └── sitemap.ts
 ├── features/                     # Una carpeta por dominio funcional
 │   ├── home/
 │   ├── what-is-rei/
@@ -325,7 +317,8 @@ La web se organizará por **features**, no por tipos de archivo. Una feature es 
 │   ├── layout/                   # Header, footer, navegación, shell
 │   └── ui/                       # Primitivas reutilizables (botón, badge, card)
 ├── content/
-│   └── site.ts                   # Navegación, enlaces y metadata global
+│   ├── site.ts                   # Enlaces, nombre, versión y rutas
+│   └── i18n/                     # Diccionarios tipados es/en, cobertura y redirecciones
 ├── lib/                          # Utilidades puras y helpers compartidos
 ├── public/                       # Assets estáticos
 └── ...

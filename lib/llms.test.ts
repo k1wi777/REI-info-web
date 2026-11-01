@@ -24,7 +24,7 @@ const EXTERNAL_LINKS = new Set([
   REPOSITORY_README_URL,
 ]);
 
-const text = buildLlmsTxt(BASE);
+const text = buildLlmsTxt("es", BASE);
 const links = Array.from(
   text.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g),
   (match) => match[1],
@@ -44,12 +44,12 @@ describe("buildLlmsTxt", () => {
 
   it("incluye cada página de producto con título y URL canónica", () => {
     for (const page of PRODUCT_PAGES) {
-      expect(text).toContain(`[${page.title}](${BASE}${page.path})`);
+      expect(text).toContain(`[${page.title}](${BASE}/es${page.path})`);
     }
   });
 
   it("incluye la página de instalación en Empezar, antes de la docs", () => {
-    const entry = `[${INSTALL_PAGE.title}](${BASE}${INSTALL_PAGE.path})`;
+    const entry = `[${INSTALL_PAGE.title}](${BASE}/es${INSTALL_PAGE.path})`;
     const start = text.indexOf("## Empezar");
 
     expect(text).toContain(entry);
@@ -59,7 +59,7 @@ describe("buildLlmsTxt", () => {
 
   it("incluye cada página de documentación con título y URL canónica", () => {
     for (const page of DOCS_PAGES) {
-      expect(text).toContain(`[${page.title}](${BASE}${page.path})`);
+      expect(text).toContain(`[${page.title}](${BASE}/es${page.path})`);
     }
   });
 
@@ -96,5 +96,37 @@ describe("buildLlmsTxt", () => {
     expect(text.endsWith("\n")).toBe(true);
     expect(text.endsWith("\n\n")).toBe(false);
     expect(text.split("\n").some((line) => line !== line.trimEnd())).toBe(false);
+  });
+});
+
+describe("buildLlmsTxt en inglés", () => {
+  const english = buildLlmsTxt("en", BASE);
+
+  it("traduce cabecera y secciones", () => {
+    expect(english.startsWith("# REI Harness\n")).toBe(true);
+    for (const heading of [
+      "Product",
+      "Documentation",
+      "Get started",
+      "Reference",
+      "Operations",
+      "Source",
+    ]) {
+      expect(english).toContain(`## ${heading}`);
+    }
+    expect(english).toContain("Documented version:");
+    expect(english).not.toContain("## Producto");
+  });
+
+  it("enlaza a la versión en español las páginas sin traducir", () => {
+    for (const page of PRODUCT_PAGES) {
+      expect(english).toContain(`(${BASE}/es${page.path})`);
+    }
+    expect(english).not.toContain(`${BASE}/en/`);
+  });
+
+  it("mantiene el formato estable", () => {
+    expect(english.endsWith("\n")).toBe(true);
+    expect(english.endsWith("\n\n")).toBe(false);
   });
 });

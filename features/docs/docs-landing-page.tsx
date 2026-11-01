@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import { DocsEntryGrid } from "@/features/docs/components/docs-entry-grid";
 import { DOCS_ENTRIES } from "@/features/docs/data/entries";
 
@@ -36,18 +36,18 @@ export function DocsLandingPage() {
           preguntas frecuentes resuelven el resto.
         </p>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-          <Link
+          <LocaleLink
             className="-mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
             href="/docs/empezar/instalacion"
           >
             Empezar por la instalación
-          </Link>
-          <Link
+          </LocaleLink>
+          <LocaleLink
             className="-mt-1.5 border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
             href="/docs/empezar/primer-work-item"
           >
             Ver el primer Work Item
-          </Link>
+          </LocaleLink>
         </div>
       </section>
     </div>

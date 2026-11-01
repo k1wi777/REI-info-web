@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import { Container } from "@/components/ui/container";
 import { PRODUCT_PAGES } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -32,7 +32,7 @@ export function ProductPager({ path }: ProductPagerProps) {
         )}
       >
         {previous ? (
-          <Link
+          <LocaleLink
             className="group flex min-h-24 flex-col justify-between gap-4 bg-canvas p-5 transition-colors duration-(--duration-fast) hover:bg-surface"
             href={previous.path}
           >
@@ -45,11 +45,11 @@ export function ProductPager({ path }: ProductPagerProps) {
               </span>
               {previous.label}
             </span>
-          </Link>
+          </LocaleLink>
         ) : null}
 
         {next ? (
-          <Link
+          <LocaleLink
             className={cn(
               "group flex min-h-24 flex-col justify-between gap-4 bg-canvas p-5 transition-colors duration-(--duration-fast) hover:bg-surface",
               previous ? "sm:items-end sm:text-right" : "sm:flex-row sm:items-end",
@@ -65,7 +65,7 @@ export function ProductPager({ path }: ProductPagerProps) {
                 →
               </span>
             </span>
-          </Link>
+          </LocaleLink>
         ) : null}
       </nav>
     </Container>

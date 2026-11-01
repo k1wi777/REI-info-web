@@ -16,11 +16,6 @@ export const ISSUES_URL = "https://github.com/k1wi777/REI-Harness/issues";
 export const REPOSITORY_README_URL =
   "https://github.com/k1wi777/REI-Harness/blob/main/README.md";
 
-export const SITE_TITLE =
-  "REI Harness — El código empieza después de la aprobación";
-export const SITE_DESCRIPTION =
-  "REI Harness convierte el trabajo con agentes de IA en un proceso con especificación, aprobación humana y evidencia, dentro de tu propio repositorio.";
-
 export const SITE_URL_FALLBACK = "http://localhost:3000";
 
 export const INSTALL_PATH = "/instalar";
@@ -49,40 +44,60 @@ export function hasDeployedSiteUrl(): boolean {
   return Boolean(process.env.NEXT_PUBLIC_SITE_URL?.trim());
 }
 
-export const NAV_ITEMS: NavItem[] = [
-  { label: "Producto", href: "/producto" },
-  { label: "Docs", href: "/docs" },
-  { label: "GitHub", href: REPOSITORY_URL, external: true },
+/** Identificadores de navegación; el texto vive en el diccionario de cada idioma. */
+export type NavId = "product" | "docs" | "github";
+export type FooterItemId =
+  | "install"
+  | "start"
+  | "firstWorkItem"
+  | "commands"
+  | "faq"
+  | "repository"
+  | "releases"
+  | "issues"
+  | "projectStatus";
+export type FooterGroupId = "documentation" | "project";
+
+export type LinkTarget<Id extends string> = {
+  id: Id;
+  href: string;
+  external?: boolean;
+};
+
+export const NAV_ITEMS: LinkTarget<NavId>[] = [
+  { id: "product", href: "/producto" },
+  { id: "docs", href: "/docs" },
+  { id: "github", href: REPOSITORY_URL, external: true },
 ];
 
-export const PRIMARY_CTA: NavItem = {
-  label: "Instalar REI",
+export const PRIMARY_CTA: LinkTarget<"install"> = {
+  id: "install",
   href: INSTALL_PATH,
 };
 
 export type FooterGroup = {
-  title: string;
-  items: NavItem[];
+  id: FooterGroupId;
+  items: LinkTarget<FooterItemId>[];
 };
 
 export const FOOTER_GROUPS: FooterGroup[] = [
   {
-    title: "Documentación",
+    id: "documentation",
     items: [
-      { label: "Instalar", href: INSTALL_PATH },
-      { label: "Empezar", href: "/docs/empezar/instalacion" },
-      { label: "Primer Work Item", href: "/docs/empezar/primer-work-item" },
-      { label: "Comandos", href: "/docs/referencia/comandos" },
-      { label: "Preguntas frecuentes", href: "/docs/operacion/faq" },
+      { id: "install", href: INSTALL_PATH },
+      { id: "start", href: "/docs/empezar/instalacion" },
+      { id: "firstWorkItem", href: "/docs/empezar/primer-work-item" },
+      { id: "commands", href: "/docs/referencia/comandos" },
+      { id: "faq", href: "/docs/operacion/faq" },
     ],
   },
   {
-    title: "Proyecto",
+    id: "project",
     items: [
-      { label: "Repositorio", href: REPOSITORY_URL, external: true },
-      { label: "Releases", href: RELEASES_URL, external: true },
-      { label: "Issues", href: ISSUES_URL, external: true },
-      { label: "Estado del proyecto", href: REPOSITORY_README_URL, external: true },
+      { id: "repository", href: REPOSITORY_URL, external: true },
+      { id: "releases", href: RELEASES_URL, external: true },
+      { id: "issues", href: ISSUES_URL, external: true },
+      { id: "projectStatus", href: REPOSITORY_README_URL, external: true },
     ],
   },
 ];

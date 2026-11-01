@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import { InlineText } from "@/components/ui/inline-text";
 import type { HomeBlock } from "@/features/home/types";
 import { cn } from "@/lib/cn";
@@ -46,14 +46,14 @@ export function HomeSection({ block, columns = 2 }: HomeSectionProps) {
           ) : null}
 
           {block.link ? (
-            <Link
+            <LocaleLink
               data-reveal="fade"
               data-reveal-delay="2"
               className="mt-3.5 inline-flex border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
               href={block.link.href}
             >
               {block.link.label}
-            </Link>
+            </LocaleLink>
           ) : null}
         </div>
       </header>

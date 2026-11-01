@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import type { ProductLink } from "@/features/product/types";
 
 type ProductLinksProps = {
@@ -32,12 +32,12 @@ export function ProductLinks({ links }: ProductLinksProps) {
                 </span>
               </a>
             ) : (
-              <Link className={className} href={link.href}>
+              <LocaleLink className={className} href={link.href}>
                 {link.label}
                 <span aria-hidden="true" className="type-code text-muted-strong">
                   →
                 </span>
-              </Link>
+              </LocaleLink>
             )}
           </li>
         );

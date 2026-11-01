@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocaleLink } from "@/components/ui/locale-link";
 import { CodeBlock } from "@/components/ui/code-block";
 import { InlineText } from "@/components/ui/inline-text";
 import {
@@ -39,12 +39,12 @@ export function InstallAside() {
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <Link
+        <LocaleLink
           href={INSTALLATION_PATH}
           className="-mt-1.5 inline-flex w-fit border-b border-border-strong pb-0.5 pt-1.5 type-meta text-foreground transition-colors duration-(--duration-fast) hover:border-foreground"
         >
           Leer la documentación de instalación
-        </Link>
+        </LocaleLink>
       </section>
     </div>
   );
