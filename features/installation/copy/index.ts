@@ -9,3 +9,5 @@ const COPIES: Record<Locale, InstallCopy> = { es, en };
 export function getInstallCopy(lang: Locale): InstallCopy {
   return COPIES[lang];
 }
+
+export { getInstallationDocCopy } from "@/features/installation/copy/doc-index";

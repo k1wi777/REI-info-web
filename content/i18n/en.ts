@@ -51,6 +51,21 @@ export const en: Dictionary = {
     home: "Back to home",
     docs: "Open documentation",
   },
+  docs: {
+    modesLabel: "Documentation modes",
+    sectionsSummary: "Documentation sections",
+    tocLabel: "On this page",
+    pagerLabel: "Navigation between documentation pages",
+    previous: "Previous",
+    next: "Next",
+    open: "Open",
+    gate: {
+      label: "Planning approval",
+      status: "Pending",
+      detail: "A human sign-off releases the sheet. Silence is not approval.",
+      note: "Approval is recorded from the CLI; the viewer does not replace it.",
+    },
+  },
   og: {
     brand: "REI HARNESS",
     badge: "Human approval",

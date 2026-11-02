@@ -1,22 +1,25 @@
 import { DocArticle } from "@/components/layout/doc-article";
 import { DocBlocks } from "@/components/layout/doc-blocks";
-import {
-  FIRST_WORK_ITEM_PATH,
-  FIRST_WORK_ITEM_SECTIONS,
-  FIRST_WORK_ITEM_TOC,
-} from "@/features/first-work-item/data/first-work-item";
+import { sectionsToToc } from "@/content/docs";
+import { getDocsPageText } from "@/content/i18n/docs-nav";
+import { getCurrentLocale } from "@/content/i18n/server";
+import { getFirstWorkItemCopy } from "@/features/first-work-item/copy";
+import { FIRST_WORK_ITEM_PATH } from "@/features/first-work-item/data/first-work-item";
 
-export function FirstWorkItemPage() {
+export async function FirstWorkItemPage() {
+  const lang = await getCurrentLocale();
+  const copy = getFirstWorkItemCopy(lang);
+
   return (
     <DocArticle
       path={FIRST_WORK_ITEM_PATH}
-      eyebrow="Empezar · Tutorial"
-      title="Primer Work Item"
-      description="Recorre el ciclo completo una vez: inicializar el arnés, personalizar el proyecto, planificar, aprobar, implementar y revisar."
-      meta="7 pasos · Un Work Item completo"
-      toc={FIRST_WORK_ITEM_TOC}
+      eyebrow={copy.eyebrow}
+      title={getDocsPageText(lang, FIRST_WORK_ITEM_PATH).title.text}
+      description={copy.description}
+      meta={copy.articleMeta}
+      toc={sectionsToToc(copy.sections)}
     >
-      <DocBlocks sections={FIRST_WORK_ITEM_SECTIONS} />
+      <DocBlocks sections={copy.sections} />
     </DocArticle>
   );
 }

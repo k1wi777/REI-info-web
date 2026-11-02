@@ -1,4 +1,7 @@
-import { TRANSLATED_ROUTES } from "@/content/i18n/coverage";
+import {
+  TRANSLATED_DOCS_PATHS,
+  TRANSLATED_ROUTES,
+} from "@/content/i18n/coverage";
 import { PRODUCT_PAGES, ROUTES } from "@/content/site";
 import { buildSitemap } from "@/lib/sitemap";
 
@@ -61,7 +64,7 @@ describe("buildSitemap", () => {
     expect(new Set(urls).size).toBe(urls.length);
   });
 
-  it("con la cobertura real lista en inglés la home, la instalación y producto", () => {
+  it("con la cobertura real lista en inglés la home, la instalación, producto y docs (Empezar)", () => {
     mutableRoutes.en = REAL_EN_ROUTES;
     const urls = buildSitemap(BASE).map((entry) => entry.url);
 
@@ -71,6 +74,8 @@ describe("buildSitemap", () => {
         `${BASE}/en`,
         `${BASE}/en/instalar`,
         ...PRODUCT_PAGES.map((page) => `${BASE}/en${page.path}`),
+        `${BASE}/en/docs`,
+        ...TRANSLATED_DOCS_PATHS.map((path) => `${BASE}/en${path}`),
       ].sort(),
     );
   });

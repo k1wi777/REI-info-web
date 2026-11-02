@@ -51,6 +51,21 @@ export const es: Dictionary = {
     home: "Volver al inicio",
     docs: "Abrir documentación",
   },
+  docs: {
+    modesLabel: "Modos de documentación",
+    sectionsSummary: "Secciones de documentación",
+    tocLabel: "En esta página",
+    pagerLabel: "Navegación entre páginas de documentación",
+    previous: "Anterior",
+    next: "Siguiente",
+    open: "Abrir",
+    gate: {
+      label: "Aprobación de la planificación",
+      status: "Pendiente",
+      detail: "La firma humana libera la hoja. El silencio no aprueba.",
+      note: "La aprobación se registra desde el CLI; el visor no la sustituye.",
+    },
+  },
   og: {
     brand: "REI HARNESS",
     badge: "Aprobación humana",

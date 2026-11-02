@@ -1,5 +1,28 @@
-import { INSTALL_PATH, PRODUCT_PAGES, ROUTES } from "@/content/site";
+import {
+  INSTALL_PATH,
+  PRODUCT_PAGES,
+  ROUTES,
+  type DocsSection,
+} from "@/content/site";
 import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
+
+/**
+ * Modos de documentación con todas sus páginas traducidas. Junto con
+ * `TRANSLATED_DOCS_PATHS` es la única declaración de qué docs están en inglés:
+ * cada Work Item de traducción de un modo añade aquí su modo y sus páginas.
+ */
+export const TRANSLATED_DOCS_MODES = ["empezar"] as const satisfies readonly DocsSection["id"][];
+
+export const TRANSLATED_DOCS_PATHS = [
+  "/docs/empezar/instalacion",
+  "/docs/empezar/primer-work-item",
+] as const;
+
+export type TranslatedDocsMode = (typeof TRANSLATED_DOCS_MODES)[number];
+export type TranslatedDocsPath = (typeof TRANSLATED_DOCS_PATHS)[number];
+
+/** Landing de documentación: no pertenece a ningún modo. */
+export const DOCS_LANDING_PATH = "/docs";
 
 /**
  * Rutas con contenido de página realmente traducido, por idioma. El shell
@@ -9,7 +32,13 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
  */
 export const TRANSLATED_ROUTES: Record<Locale, readonly string[]> = {
   es: ROUTES,
-  en: ["/", INSTALL_PATH, ...PRODUCT_PAGES.map((page) => page.path)],
+  en: [
+    "/",
+    INSTALL_PATH,
+    ...PRODUCT_PAGES.map((page) => page.path),
+    DOCS_LANDING_PATH,
+    ...TRANSLATED_DOCS_PATHS,
+  ],
 };
 
 export function isTranslated(lang: Locale, path: string): boolean {

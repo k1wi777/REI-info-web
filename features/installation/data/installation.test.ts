@@ -1,5 +1,5 @@
 import { ARCH_IDS, OS_IDS } from "@/lib/release";
-import { getInstallCopy } from "@/features/installation/copy";
+import { getInstallCopy, getInstallationDocCopy } from "@/features/installation/copy";
 import { LOCALES } from "@/lib/i18n";
 import {
   ARCH_CHECKABLE,
@@ -15,17 +15,11 @@ import {
   COMMAND_UPDATE,
   COMMAND_UPDATE_CHECK,
   COMMAND_VERSION,
-  INSTALLATION_SECTIONS,
   INSTALL_STEP_COMMANDS,
   buildInstallSteps,
   fillArchiveName,
 } from "@/features/installation/data/installation";
 import { INSTALL_PATH } from "@/content/site";
-
-const docsCode = INSTALLATION_SECTIONS.flatMap((section) => section.blocks)
-  .filter((block) => block.kind === "code")
-  .map((block) => block.code)
-  .join("\n");
 
 describe.each(LOCALES)("INSTALL_STEPS (%s)", (lang) => {
   const INSTALL_STEPS = buildInstallSteps(getInstallCopy(lang).installer.steps);
@@ -53,7 +47,14 @@ describe.each(LOCALES)("INSTALL_STEPS (%s)", (lang) => {
   });
 });
 
-describe("documentación de instalación", () => {
+describe.each(LOCALES)("documentación de instalación (%s)", (lang) => {
+  const sections = getInstallationDocCopy(lang).sections;
+  const docsCode = sections
+    .flatMap((section) => section.blocks)
+    .filter((block) => block.kind === "code")
+    .map((block) => block.code)
+    .join("\n");
+
   it("reutiliza las mismas constantes de comandos", () => {
     for (const command of [
       COMMAND_EXTRACT_TAR,
@@ -67,7 +68,8 @@ describe("documentación de instalación", () => {
   });
 
   it("enlaza a la página de instalación", () => {
-    const links = INSTALLATION_SECTIONS.flatMap((section) => section.blocks)
+    const links = sections
+      .flatMap((section) => section.blocks)
       .filter((block) => block.kind === "links")
       .flatMap((block) => block.links.map((link) => link.href));
 

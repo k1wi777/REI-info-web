@@ -2,21 +2,27 @@
 
 import { LocaleLink } from "@/components/ui/locale-link";
 import { useUnlocalizedPathname } from "@/components/ui/use-unlocalized-pathname";
-import { DOCS_SECTIONS } from "@/content/site";
+import type { DocsNavModeProps } from "@/components/layout/docs-nav-types";
 
 /**
  * Sidebar de la sección activa. En móvil se sustituye por un disclosure
  * nativo: sin JavaScript obligatorio y accesible por teclado.
  */
-export function DocsSidebar() {
+export function DocsSidebar({
+  summary,
+  modes,
+}: {
+  summary: string;
+  modes: DocsNavModeProps[];
+}) {
   const pathname = useUnlocalizedPathname();
   const section =
-    DOCS_SECTIONS.find((candidate) =>
+    modes.find((candidate) =>
       candidate.pages.some(
         (page) =>
           pathname === page.path || pathname.startsWith(`${page.path}/`),
       ),
-    ) ?? DOCS_SECTIONS[0];
+    ) ?? modes[0];
 
   const items = (
     <ul className="flex flex-col gap-1">
@@ -26,6 +32,7 @@ export function DocsSidebar() {
           <li key={page.path}>
             <LocaleLink
               href={page.path}
+              lang={page.titleLang}
               aria-current={active ? "page" : undefined}
               className={
                 active
@@ -44,19 +51,23 @@ export function DocsSidebar() {
   return (
     <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
       <div className="hidden lg:block">
-        <p className="type-meta text-muted-strong">{section.label}</p>
+        <p lang={section.labelLang} className="type-meta text-muted-strong">
+          {section.label}
+        </p>
         <div className="mt-4">{items}</div>
       </div>
 
       <details className="group lg:hidden">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3 border border-muted px-3 py-2.5 type-meta text-secondary transition-colors duration-(--duration-fast) hover:text-foreground [&::-webkit-details-marker]:hidden">
-          Secciones de documentación
+          {summary}
           <span aria-hidden="true" className="text-micro">
             ▾
           </span>
         </summary>
         <div className="mt-2 border border-hairline p-4">
-          <p className="type-meta text-muted-strong">{section.label}</p>
+          <p lang={section.labelLang} className="type-meta text-muted-strong">
+            {section.label}
+          </p>
           <div className="mt-3">{items}</div>
         </div>
       </details>

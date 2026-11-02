@@ -1,21 +1,21 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { DocsLandingPage } from "@/features/docs";
+import { getDocsLandingCopy } from "@/features/docs/copy";
+import { toLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
-
-const description =
-  "Guías y referencia de REI Harness: instalación, primer Work Item, comandos y preguntas frecuentes.";
 
 export async function generateMetadata(
   { params }: PageProps<"/[lang]/docs">,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { lang } = await params;
+  const { meta } = getDocsLandingCopy(toLocale(lang));
 
   return pageMetadata(parent, {
     lang,
     path: "/docs",
-    title: "Documentación",
-    description,
+    title: meta.title,
+    description: meta.description,
   });
 }
 

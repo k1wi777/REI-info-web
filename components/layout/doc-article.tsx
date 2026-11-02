@@ -2,6 +2,9 @@ import type { ReactNode } from "react";
 import type { TocItem } from "@/content/docs";
 import { ApprovalBand } from "@/components/layout/approval-band";
 import { DocsPager } from "@/components/layout/docs-pager";
+import { getDictionary } from "@/content/i18n";
+import { getContentLocale } from "@/content/i18n/coverage";
+import { getCurrentLocale } from "@/content/i18n/server";
 import { DocsToc } from "@/components/layout/docs-toc";
 
 type DocArticleProps = {
@@ -15,7 +18,7 @@ type DocArticleProps = {
 };
 
 /** Artículo de documentación: encabezado, TOC, contenido, puerta y pager. */
-export function DocArticle({
+export async function DocArticle({
   path,
   eyebrow,
   title,
@@ -24,6 +27,9 @@ export function DocArticle({
   toc,
   children,
 }: DocArticleProps) {
+  const lang = await getCurrentLocale();
+  const { docs } = getDictionary(getContentLocale(lang, path));
+
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_13rem]">
       <article aria-labelledby="doc-title" className="min-w-0">
@@ -45,11 +51,11 @@ export function DocArticle({
 
         <div className="mt-8">{children}</div>
 
-        <ApprovalBand />
+        <ApprovalBand copy={docs.gate} />
         <DocsPager path={path} />
       </article>
 
-      <DocsToc items={toc} />
+      <DocsToc label={docs.tocLabel} items={toc} />
     </div>
   );
 }

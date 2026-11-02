@@ -43,6 +43,22 @@ export type Dictionary = {
     home: string;
     docs: string;
   };
+  /** Chrome del shell de documentación, compartido por todos los modos. */
+  docs: {
+    modesLabel: string;
+    sectionsSummary: string;
+    tocLabel: string;
+    pagerLabel: string;
+    previous: string;
+    next: string;
+    open: string;
+    gate: {
+      label: string;
+      status: string;
+      detail: string;
+      note: string;
+    };
+  };
   og: {
     brand: string;
     badge: string;

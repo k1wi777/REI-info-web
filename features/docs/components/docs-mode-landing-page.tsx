@@ -48,7 +48,7 @@ export function DocsModeLandingPage({ mode }: DocsModeLandingPageProps) {
         </p>
       </header>
 
-      <DocsEntryGrid entries={entries} />
+      <DocsEntryGrid entries={entries} lang="es" />
 
       {landing.outro ? (
         <div className="mt-10 flex flex-col gap-4 border-t border-hairline pt-6">

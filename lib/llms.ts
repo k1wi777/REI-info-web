@@ -1,5 +1,6 @@
 import { getDictionary, type Dictionary } from "@/content/i18n";
 import { getContentLocale } from "@/content/i18n/coverage";
+import { getDocsNav, getDocsPageText } from "@/content/i18n/docs-nav";
 import {
   DOCS_SECTIONS,
   DOCUMENTED_VERSION,
@@ -37,12 +38,12 @@ function getSection(id: DocsSection["id"]): DocsSection {
   return section;
 }
 
-function docsEntries(id: DocsSection["id"]): LlmsEntry[] {
-  return getSection(id).pages.map((page: DocsPage) => ({
-    title: page.title,
-    path: page.path,
-    description: page.description,
-  }));
+/** Entradas de un modo: texto del overlay en inglés solo donde está traducido. */
+function docsEntries(lang: Locale, id: DocsSection["id"]): LlmsEntry[] {
+  return getSection(id).pages.map((page: DocsPage) => {
+    const { title, description } = getDocsPageText(lang, page.path);
+    return { title: title.text, path: page.path, description: description.text };
+  });
 }
 
 function section(title: string, entries: string[]): string {
@@ -110,11 +111,13 @@ export function buildLlmsTxt(
       title: llms.docsIndexTitle,
       path: DOCS_INDEX_PATH,
       description: llms.docsIndexDescription(
-        DOCS_SECTIONS.map((docsSection) => docsSection.label).join(", "),
+        getDocsNav(lang)
+          .map((mode) => mode.label.text)
+          .join(", "),
       ),
     }),
-    ...docsEntries("conceptos").map(render),
-    ...docsEntries("guias").map(render),
+    ...docsEntries(lang, "conceptos").map(render),
+    ...docsEntries(lang, "guias").map(render),
   ]);
 
   const starting = section(llms.headings.start, [
@@ -122,15 +125,15 @@ export function buildLlmsTxt(
       ...getInstallCopy(getContentLocale(lang, INSTALL_PAGE.path)).meta,
       path: INSTALL_PAGE.path,
     }),
-    ...docsEntries("empezar").map(render),
+    ...docsEntries(lang, "empezar").map(render),
   ]);
   const reference = section(
     llms.headings.reference,
-    docsEntries("referencia").map(render),
+    docsEntries(lang, "referencia").map(render),
   );
   const operation = section(
     llms.headings.operation,
-    docsEntries("operacion").map(render),
+    docsEntries(lang, "operacion").map(render),
   );
 
   const source = section(llms.headings.source, [

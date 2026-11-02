@@ -5,6 +5,8 @@ import {
   getDictionary,
 } from "@/content/i18n";
 import {
+  DOCS_LANDING_PATH,
+  TRANSLATED_DOCS_PATHS,
   TRANSLATED_ROUTES,
   getContentLocale,
   isTranslated,
@@ -21,6 +23,7 @@ import {
   ROUTES,
   isExternal,
 } from "@/content/site";
+import { APPROVAL_GATE } from "@/content/rei";
 import { LOCALES } from "@/lib/i18n";
 
 type Leaf = string | ((...args: never[]) => string);
@@ -60,6 +63,17 @@ describe("diccionarios", () => {
     expect(en.shell.skipLink).not.toBe(es.shell.skipLink);
     expect(en.shell.cta).not.toBe(es.shell.cta);
     expect(en.notFound.title).not.toBe(es.notFound.title);
+  });
+
+  it("la puerta de aprobación del shell de docs en español iguala APPROVAL_GATE", () => {
+    expect(es.docs.gate.label).toBe(APPROVAL_GATE.label);
+    expect(es.docs.gate.status).toBe(APPROVAL_GATE.status);
+    expect(es.docs.gate.detail).toBe(APPROVAL_GATE.detail);
+  });
+
+  it("traduce el chrome de docs al inglés", () => {
+    expect(en.docs.tocLabel).not.toBe(es.docs.tocLabel);
+    expect(en.docs.previous).not.toBe(es.docs.previous);
   });
 
   it("devuelve el diccionario de cada idioma", () => {
@@ -131,11 +145,13 @@ describe("cobertura de traducción", () => {
     }
   });
 
-  it("declara traducidas en inglés la home, la instalación y producto", () => {
+  it("declara traducidas en inglés la home, la instalación, producto y docs (Empezar)", () => {
     expect([...TRANSLATED_ROUTES.en]).toEqual([
       "/",
       INSTALL_PATH,
       ...PRODUCT_PAGES.map((page) => page.path),
+      DOCS_LANDING_PATH,
+      ...TRANSLATED_DOCS_PATHS,
     ]);
     for (const page of PRODUCT_PAGES) {
       expect(translatedLocales(page.path)).toEqual(["es", "en"]);
@@ -147,11 +163,7 @@ describe("cobertura de traducción", () => {
   });
 
   it("deja el resto de rutas en español bajo /en", () => {
-    const translated = new Set<string>([
-      "/",
-      INSTALL_PATH,
-      ...PRODUCT_PAGES.map((page) => page.path),
-    ]);
+    const translated = new Set<string>(TRANSLATED_ROUTES.en);
     const rest = ROUTES.filter((path) => !translated.has(path));
 
     expect(rest.length).toBeGreaterThan(0);

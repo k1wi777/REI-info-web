@@ -132,6 +132,17 @@ describe("buildPageMetadata", () => {
 });
 
 describe("metadata por idioma", () => {
+  // Estas pruebas fijan su propia cobertura; la real se restaura al terminar.
+  const realEnglish = TRANSLATED_ROUTES.en;
+
+  beforeEach(() => {
+    (TRANSLATED_ROUTES as { en: readonly string[] }).en = [];
+  });
+
+  afterAll(() => {
+    (TRANSLATED_ROUTES as { en: readonly string[] }).en = realEnglish;
+  });
+
   const input = {
     path: "/docs",
     title: "Docs",

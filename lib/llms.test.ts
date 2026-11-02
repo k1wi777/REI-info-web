@@ -122,12 +122,15 @@ describe("buildLlmsTxt en inglés", () => {
   });
 
   it("enlaza a la versión en español las páginas sin traducir", () => {
-    expect(english).toContain(`(${BASE}/es/docs)`);
-    // Solo instalación y producto están traducidos bajo /en.
+    expect(english).toContain(`(${BASE}/es/docs/conceptos)`);
+    // Bajo /en solo están traducidos producto, instalación y docs (Empezar).
     const englishLinks = english.match(new RegExp(`${BASE}/en/[^)]*`, "g"));
     expect(englishLinks).toEqual([
       ...PRODUCT_PAGES.map((page) => `${BASE}/en${page.path}`),
+      `${BASE}/en/docs`,
       `${BASE}/en/instalar`,
+      `${BASE}/en/docs/empezar/instalacion`,
+      `${BASE}/en/docs/empezar/primer-work-item`,
     ]);
   });
 

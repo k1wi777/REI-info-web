@@ -1,21 +1,22 @@
 import type { TocItem } from "@/content/docs";
 
 type DocsTocProps = {
+  label: string;
   items: TocItem[];
 };
 
 /** Tabla de contenidos de la página, derivada de los datos de la feature. */
-export function DocsToc({ items }: DocsTocProps) {
+export function DocsToc({ label, items }: DocsTocProps) {
   if (items.length === 0) {
     return null;
   }
 
   return (
     <nav
-      aria-label="En esta página"
+      aria-label={label}
       className="hidden self-start lg:sticky lg:top-24 lg:block"
     >
-      <p className="type-meta text-muted-strong">En esta página</p>
+      <p className="type-meta text-muted-strong">{label}</p>
       <ul className="mt-3 flex flex-col gap-2 border-l border-hairline pl-3">
         {items.map((item) => (
           <li key={item.id}>

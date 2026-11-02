@@ -1,10 +1,13 @@
 import type { DocSection } from "@/content/docs";
+import type { Locale } from "@/lib/i18n";
 
 export type DocsEntry = {
   title: string;
   mode: string;
   description: string;
   href: string;
+  /** Idioma real del texto; ausente si es el del contenedor. */
+  lang?: Locale;
 };
 
 export type DocsContentPath =

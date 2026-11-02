@@ -1,3 +1,4 @@
+import type { DocSection } from "@/content/docs";
 import type { OsId } from "@/lib/release";
 
 export type InstallStepText = {
@@ -69,3 +70,16 @@ export type InstallCopy = {
   };
 };
 
+
+/**
+ * Textos de la página de instalación de la documentación (`/docs/empezar/instalacion`),
+ * distinta de `/instalar`. Los bloques de código se construyen en cada idioma
+ * desde las constantes de `data/installation.ts`.
+ */
+export type InstallationDocCopy = {
+  eyebrow: string;
+  description: string;
+  /** Línea bajo la descripción del artículo. */
+  articleMeta: string;
+  sections: DocSection[];
+};
