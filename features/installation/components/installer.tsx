@@ -21,6 +21,7 @@ import {
   type InstallerStatus,
   type Selection,
 } from "@/features/installation/types";
+import type { Dictionary } from "@/content/i18n/types";
 import type { Locale } from "@/lib/i18n";
 import { detectPlatform, type PlatformHints } from "@/lib/platform";
 import {
@@ -38,6 +39,7 @@ type InstallerProps = {
   release: Release | null;
   copy: InstallerCopy;
   lang: Locale;
+  copyLabels: Dictionary["copy"];
 };
 
 type UserAgentData = {
@@ -77,7 +79,7 @@ function isArchId(value: string): value is ArchId {
  * selección por defecto (legible sin JavaScript); tras hidratar solo ajusta la
  * selección inicial con lo detectado, sin pisar una elección ya hecha.
  */
-export function Installer({ status, release, copy, lang }: InstallerProps) {
+export function Installer({ status, release, copy, lang, copyLabels }: InstallerProps) {
   const [selection, setSelection] = useState<Selection>(DEFAULT_SELECTION);
   const [archUnknown, setArchUnknown] = useState(false);
   const [detectedOs, setDetectedOs] = useState<OsId | null>(null);
@@ -196,6 +198,7 @@ export function Installer({ status, release, copy, lang }: InstallerProps) {
             copy={copy}
             os={selection.os}
             archiveName={archiveName}
+            copyLabels={copyLabels}
           />
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { CodeBlock } from "@/components/ui/code-block";
+import { CodeBlockView } from "@/components/ui/code-block-view";
+import type { Dictionary } from "@/content/i18n/types";
 import { InlineText } from "@/components/ui/inline-text";
 import type { InstallerCopy } from "@/features/installation/copy/types";
 import {
@@ -11,10 +12,11 @@ type InstallStepsProps = {
   copy: InstallerCopy;
   os: OsId;
   archiveName: string;
+  copyLabels: Dictionary["copy"];
 };
 
 /** Pasos de instalación del sistema elegido, con el nombre real del archive. */
-export function InstallSteps({ copy, os, archiveName }: InstallStepsProps) {
+export function InstallSteps({ copy, os, archiveName, copyLabels }: InstallStepsProps) {
   const steps = buildInstallSteps(copy.steps);
 
   return (
@@ -32,7 +34,8 @@ export function InstallSteps({ copy, os, archiveName }: InstallStepsProps) {
             <InlineText text={step.text} />
           </p>
           {step.command ? (
-            <CodeBlock
+            <CodeBlockView
+            copyLabels={copyLabels}
               code={fillArchiveName(step.command, archiveName)}
               language="Shell"
             />

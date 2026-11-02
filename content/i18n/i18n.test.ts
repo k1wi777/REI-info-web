@@ -65,6 +65,12 @@ describe("diccionarios", () => {
     expect(en.notFound.title).not.toBe(es.notFound.title);
   });
 
+  it("traduce los textos del botón de copiar", () => {
+    for (const key of Object.keys(es.copy) as (keyof typeof es.copy)[]) {
+      expect(en.copy[key]).not.toBe(es.copy[key]);
+    }
+  });
+
   it("la puerta de aprobación del shell de docs en español iguala APPROVAL_GATE", () => {
     expect(es.docs.gate.label).toBe(APPROVAL_GATE.label);
     expect(es.docs.gate.status).toBe(APPROVAL_GATE.status);

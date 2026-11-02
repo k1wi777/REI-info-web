@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Container } from "@/components/ui/container";
 import { RevealController } from "@/components/ui/reveal-controller";
+import { getDictionary } from "@/content/i18n";
 import { getCurrentLocale } from "@/content/i18n/server";
 import { getCurrentInstallCopy } from "@/features/installation/copy/server";
 import { InstallAside } from "@/features/installation/components/install-aside";
@@ -38,6 +39,7 @@ export async function InstallPage() {
                 release={null}
                 copy={installer}
                 lang={lang}
+                copyLabels={getDictionary(lang).copy}
               />
             }
           >

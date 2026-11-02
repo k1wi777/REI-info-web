@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { Dictionary } from "@/content/i18n/types";
 import { cn } from "@/lib/cn";
 
 type CopyButtonProps = {
   code: string;
+  labels: Dictionary["copy"];
 };
 
 type CopyState = "idle" | "copied" | "error";
 
 /** Único JavaScript de cliente del sitio además del botón de navegación. */
-export function CopyButton({ code }: CopyButtonProps) {
+export function CopyButton({ code, labels }: CopyButtonProps) {
   const [state, setState] = useState<CopyState>("idle");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -42,10 +44,10 @@ export function CopyButton({ code }: CopyButtonProps) {
 
   const label =
     state === "copied"
-      ? "Copiado"
+      ? labels.copied
       : state === "error"
-        ? "No se pudo copiar"
-        : "Copiar";
+        ? labels.failed
+        : labels.copy;
 
   return (
     <span className="inline-flex items-center gap-2">
@@ -65,9 +67,9 @@ export function CopyButton({ code }: CopyButtonProps) {
       </button>
       <span aria-live="polite" role="status" className="sr-only">
         {state === "copied"
-          ? "Código copiado"
+          ? labels.copiedAnnouncement
           : state === "error"
-            ? "No se pudo copiar; selecciona el texto"
+            ? labels.failedAnnouncement
             : ""}
       </span>
     </span>

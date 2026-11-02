@@ -1,6 +1,7 @@
 import { Installer } from "@/features/installation/components/installer";
 import { getLatestRelease } from "@/features/installation/data/release";
 import { getCurrentInstallCopy } from "@/features/installation/copy/server";
+import { getDictionary } from "@/content/i18n";
 import { getCurrentLocale } from "@/content/i18n/server";
 import type { Release } from "@/lib/release";
 
@@ -26,6 +27,7 @@ export async function ReleaseSection() {
       release={release}
       copy={installer}
       lang={lang}
+      copyLabels={getDictionary(lang).copy}
     />
   );
 }

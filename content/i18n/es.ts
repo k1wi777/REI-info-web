@@ -1,6 +1,13 @@
 import type { Dictionary } from "@/content/i18n/types";
 
 export const es: Dictionary = {
+  copy: {
+    copy: "Copiar",
+    copied: "Copiado",
+    failed: "No se pudo copiar",
+    copiedAnnouncement: "Código copiado",
+    failedAnnouncement: "No se pudo copiar; selecciona el texto",
+  },
   meta: {
     title: "REI Harness — El código empieza después de la aprobación",
     description:

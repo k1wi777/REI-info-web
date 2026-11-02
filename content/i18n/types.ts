@@ -6,6 +6,13 @@ import type { FooterGroupId, FooterItemId, NavId } from "@/content/site";
  * transversales (hrefs, URLs, nombre, versión) viven en `content/site.ts`.
  */
 export type Dictionary = {
+  copy: {
+    copy: string;
+    copied: string;
+    failed: string;
+    copiedAnnouncement: string;
+    failedAnnouncement: string;
+  };
   meta: {
     title: string;
     description: string;
