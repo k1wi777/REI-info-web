@@ -1,6 +1,7 @@
 import {
   TRANSLATED_DOCS_MODES,
   TRANSLATED_DOCS_PATHS,
+  UNTRANSLATED_DOCS_PATHS,
   isTranslated,
 } from "@/content/i18n/coverage";
 import {
@@ -21,12 +22,31 @@ describe("cobertura de docs", () => {
 
   it("un modo está registrado si y solo si todas sus páginas lo están", () => {
     for (const section of DOCS_SECTIONS) {
-      const all = section.pages.every((page) =>
-        (TRANSLATED_DOCS_PATHS as readonly string[]).includes(page.path),
+      const all = section.pages.every(
+        (page) =>
+          (TRANSLATED_DOCS_PATHS as readonly string[]).includes(page.path) ||
+          (UNTRANSLATED_DOCS_PATHS as readonly string[]).includes(page.path),
       );
       expect(
         (TRANSLATED_DOCS_MODES as readonly string[]).includes(section.id),
       ).toBe(all);
+    }
+  });
+
+  it("cada ruta del árbol está en exactamente una lista de cobertura", () => {
+    for (const page of DOCS_PAGES) {
+      const inTranslated = (TRANSLATED_DOCS_PATHS as readonly string[]).includes(
+        page.path,
+      );
+      const inUntranslated = (
+        UNTRANSLATED_DOCS_PATHS as readonly string[]
+      ).includes(page.path);
+      const registered = (TRANSLATED_DOCS_MODES as readonly string[]).includes(
+        DOCS_SECTIONS.find((s) => s.pages.includes(page))!.id,
+      );
+
+      expect(inTranslated && inUntranslated).toBe(false);
+      if (registered) expect(inTranslated || inUntranslated).toBe(true);
     }
   });
 
@@ -83,7 +103,7 @@ describe("getDocsNav", () => {
   });
 
   it("deja las páginas no traducidas en español bajo en", () => {
-    const text = getDocsPageText("en", "/docs/conceptos/sdd");
+    const text = getDocsPageText("en", "/docs/operacion/faq");
 
     expect(text.title.lang).toBe("es");
     expect(text.description.lang).toBe("es");
@@ -92,28 +112,31 @@ describe("getDocsNav", () => {
   it("cambia a inglés al registrar un modo simulado, sin tocar componentes", () => {
     const overlay: DocsNavOverlay = {
       ...DOCS_NAV_EN,
-      modes: { ...DOCS_NAV_EN.modes, conceptos: { label: "Concepts" } },
+      modes: { ...DOCS_NAV_EN.modes, operacion: { label: "Operations" } },
       pages: {
         ...DOCS_NAV_EN.pages,
-        "/docs/conceptos/sdd": { title: "SDD", description: "About SDD." },
+        "/docs/operacion/troubleshooting": {
+          title: "Troubleshooting",
+          description: "Fixes.",
+        },
       },
     } as unknown as DocsNavOverlay;
     const translated = (lang: string, path: string) =>
-      lang === "en" && path.startsWith("/docs/conceptos");
-    const conceptos = getDocsNav("en", { isTranslated: translated, overlay }).find(
-      (mode) => mode.id === "conceptos",
+      lang === "en" && path.startsWith("/docs/operacion");
+    const operacion = getDocsNav("en", { isTranslated: translated, overlay }).find(
+      (mode) => mode.id === "operacion",
     );
 
-    expect(conceptos?.label).toEqual({ text: "Concepts", lang: "en" });
+    expect(operacion?.label).toEqual({ text: "Operations", lang: "en" });
     expect(
-      conceptos?.pages.find((page) => page.path === "/docs/conceptos/sdd")
-        ?.title,
-    ).toEqual({ text: "SDD", lang: "en" });
+      operacion?.pages.find(
+        (page) => page.path === "/docs/operacion/troubleshooting",
+      )?.title,
+    ).toEqual({ text: "Troubleshooting", lang: "en" });
     // Sin overlay para otra página cubierta, cae al español.
     expect(
-      conceptos?.pages.find(
-        (page) => page.path === "/docs/conceptos/aprobacion-humana",
-      )?.title.lang,
+      operacion?.pages.find((page) => page.path === "/docs/operacion/faq")
+        ?.title.lang,
     ).toBe("es");
   });
 });

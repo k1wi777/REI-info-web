@@ -1,4 +1,6 @@
 import type { TocItem } from "@/content/docs";
+import type { ReiProse } from "@/content/i18n/rei";
+import type { CommandsPageCopy } from "@/features/commands/copy/types";
 import {
   COMMAND_CATEGORIES,
   COMMAND_EXIT_CODE_CONVENTION,
@@ -29,10 +31,16 @@ export function commandAnchor(id: string): string {
 
 export { COMMAND_EXIT_CODE_CONVENTION };
 
-export const COMMANDS_TOC: TocItem[] = [
-  { id: COMMAND_EXIT_CODE_TOC_ID, title: "Códigos de salida" },
-  ...COMMAND_CATEGORIES.map((category) => ({
-    id: `comandos-${category.id}`,
-    title: category.label,
-  })),
-];
+/** Tabla de contenidos en el idioma pedido; los ids (anclas) no se traducen. */
+export function buildCommandsToc(
+  copy: CommandsPageCopy,
+  prose: ReiProse,
+): TocItem[] {
+  return [
+    { id: COMMAND_EXIT_CODE_TOC_ID, title: copy.exitCodes.heading },
+    ...COMMAND_CATEGORIES.map((category) => ({
+      id: `comandos-${category.id}`,
+      title: prose.categories[category.id].label,
+    })),
+  ];
+}

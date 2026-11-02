@@ -29,5 +29,11 @@ export const en: DocsLandingCopyEn = {
       description:
         "Walk through rei init, customization, planning, approval, implementation and review.",
     },
+    commands: {
+      title: "Look up the CLI",
+      mode: "Reference",
+      description:
+        "Commands, flags and real examples, grouped by the task they solve.",
+    },
   },
 };

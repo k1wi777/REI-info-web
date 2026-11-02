@@ -1,6 +1,8 @@
 import { COMMANDS, COMMAND_CATEGORIES } from "@/content/rei";
+import { getReiProse } from "@/content/i18n/rei";
+import { getCommandsCopy } from "@/features/commands/copy";
 import {
-  COMMANDS_TOC,
+  buildCommandsToc,
   COMMAND_EXIT_CODE_CONVENTION,
   COMMAND_GROUPS,
   commandAnchor,
@@ -40,12 +42,14 @@ describe("índice de comandos", () => {
   });
 
   it("abre la tabla de contenidos con los códigos de salida", () => {
-    expect(COMMANDS_TOC[0]).toEqual({
+    const toc = buildCommandsToc(getCommandsCopy("es"), getReiProse("es"));
+
+    expect(toc[0]).toEqual({
       id: "codigos-de-salida",
       title: "Códigos de salida",
     });
 
-    const ids = COMMANDS_TOC.map((item) => item.id);
+    const ids = toc.map((item) => item.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const category of COMMAND_CATEGORIES) {
       expect(ids).toContain(`comandos-${category.id}`);
@@ -59,5 +63,14 @@ describe("índice de comandos", () => {
     for (const exitCode of COMMAND_EXIT_CODE_CONVENTION) {
       expect(exitCode.meaning.trim()).not.toBe("");
     }
+  });
+
+  it("mantiene las anclas del índice entre idiomas y traduce los títulos", () => {
+    const es = buildCommandsToc(getCommandsCopy("es"), getReiProse("es"));
+    const en = buildCommandsToc(getCommandsCopy("en"), getReiProse("en"));
+
+    expect(en.map((item) => item.id)).toEqual(es.map((item) => item.id));
+    expect(en[0].title).toBe("Exit codes");
+    expect(en.every((item, index) => item.title !== es[index].title)).toBe(true);
   });
 });

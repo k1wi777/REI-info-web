@@ -42,7 +42,3 @@ export const DOCS_CONTENT_PATHS = Object.keys(
 export function isDocsContentPath(path: string): path is DocsContentPath {
   return Object.prototype.hasOwnProperty.call(DOCS_DOCUMENTS, path);
 }
-
-export function getDocsDocument(path: DocsContentPath): DocContent {
-  return DOCS_DOCUMENTS[path];
-}

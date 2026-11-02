@@ -1,23 +1,38 @@
 import { DocArticle } from "@/components/layout/doc-article";
+import { getDocsPageText } from "@/content/i18n/docs-nav";
+import { getReiProse } from "@/content/i18n/rei";
+import { getCurrentLocale } from "@/content/i18n/server";
 import { CommandDetail } from "@/features/commands/components/command-detail";
 import { CommandIndexTable } from "@/features/commands/components/command-index-table";
+import { getCommandsCopy } from "@/features/commands/copy";
 import {
   COMMANDS_PATH,
-  COMMANDS_TOC,
   COMMAND_EXIT_CODE_CONVENTION,
   COMMAND_EXIT_CODE_TOC_ID,
   COMMAND_GROUPS,
+  buildCommandsToc,
 } from "@/features/commands/data/commands";
+import { fillTemplate } from "@/lib/template";
 
-export function CommandsPage() {
+export async function CommandsPage() {
+  const lang = await getCurrentLocale();
+  const copy = getCommandsCopy(lang);
+  const prose = getReiProse(lang);
+
   return (
     <DocArticle
       path={COMMANDS_PATH}
-      eyebrow="Referencia"
-      title="Comandos"
-      description="Referencia del CLI rei agrupada por la tarea que resuelve. Todos los comandos aceptan rei <comando> --help."
-      meta={`${COMMAND_GROUPS.reduce((total, group) => total + group.commands.length, 0)} comandos · ${COMMAND_GROUPS.length} categorías`}
-      toc={COMMANDS_TOC}
+      eyebrow={copy.eyebrow}
+      title={getDocsPageText(lang, COMMANDS_PATH).title.text}
+      description={copy.description}
+      meta={fillTemplate(copy.metaTemplate, {
+        commands: COMMAND_GROUPS.reduce(
+          (total, group) => total + group.commands.length,
+          0,
+        ),
+        categories: COMMAND_GROUPS.length,
+      })}
+      toc={buildCommandsToc(copy, prose)}
     >
       <div className="flex flex-col gap-12">
         <section
@@ -28,25 +43,21 @@ export function CommandsPage() {
             id={`${COMMAND_EXIT_CODE_TOC_ID}-heading`}
             className="type-docs-heading text-foreground"
           >
-            Códigos de salida
+            {copy.exitCodes.heading}
           </h2>
           <p className="mt-2 max-w-(--container-reading) type-docs text-secondary">
-            La convención general se aplica salvo que el comando documente sus
-            propios códigos en el detalle. El código de salida es la señal que
-            usa el workflow para saber si una verificación pasó.
+            {copy.exitCodes.intro}
           </p>
           <div className="mt-4 w-full min-w-0 max-w-full overflow-x-auto border border-hairline">
             <table className="w-full border-collapse text-left">
-              <caption className="sr-only">
-                Convención de códigos de salida del CLI
-              </caption>
+              <caption className="sr-only">{copy.exitCodes.caption}</caption>
               <thead>
                 <tr className="border-b border-hairline-strong">
                   <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
-                    Código
+                    {copy.exitCodes.code}
                   </th>
                   <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
-                    Significado
+                    {copy.exitCodes.meaning}
                   </th>
                 </tr>
               </thead>
@@ -60,7 +71,7 @@ export function CommandsPage() {
                       {exitCode.code}
                     </td>
                     <td className="px-3 py-2.5 type-docs text-secondary">
-                      {exitCode.meaning}
+                      {prose.exitCodeConvention[exitCode.code]}
                     </td>
                   </tr>
                 ))}
@@ -69,31 +80,45 @@ export function CommandsPage() {
           </div>
         </section>
 
-        {COMMAND_GROUPS.map(({ category, commands }) => (
-          <section
-            key={category.id}
-            id={`comandos-${category.id}`}
-            aria-labelledby={`comandos-${category.id}-heading`}
-          >
-            <h2
-              id={`comandos-${category.id}-heading`}
-              className="type-docs-heading text-foreground"
+        {COMMAND_GROUPS.map(({ category, commands }) => {
+          const categoryProse = prose.categories[category.id];
+
+          return (
+            <section
+              key={category.id}
+              id={`comandos-${category.id}`}
+              aria-labelledby={`comandos-${category.id}-heading`}
             >
-              {category.label}
-            </h2>
-            <p className="mt-2 max-w-(--container-reading) type-docs text-secondary">
-              {category.description}
-            </p>
+              <h2
+                id={`comandos-${category.id}-heading`}
+                className="type-docs-heading text-foreground"
+              >
+                {categoryProse.label}
+              </h2>
+              <p className="mt-2 max-w-(--container-reading) type-docs text-secondary">
+                {categoryProse.description}
+              </p>
 
-            <CommandIndexTable category={category} commands={commands} />
+              <CommandIndexTable
+                categoryLabel={categoryProse.label}
+                commands={commands}
+                copy={copy}
+                prose={prose}
+              />
 
-            <div className="mt-8 flex flex-col gap-8">
-              {commands.map((command) => (
-                <CommandDetail key={command.id} command={command} />
-              ))}
-            </div>
-          </section>
-        ))}
+              <div className="mt-8 flex flex-col gap-8">
+                {commands.map((command) => (
+                  <CommandDetail
+                    key={command.id}
+                    command={command}
+                    copy={copy}
+                    prose={prose}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </DocArticle>
   );

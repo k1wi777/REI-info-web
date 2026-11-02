@@ -11,12 +11,38 @@ import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/lib/i18n";
  * `TRANSLATED_DOCS_PATHS` es la única declaración de qué docs están en inglés:
  * cada Work Item de traducción de un modo añade aquí su modo y sus páginas.
  */
-export const TRANSLATED_DOCS_MODES = ["empezar"] as const satisfies readonly DocsSection["id"][];
+export const TRANSLATED_DOCS_MODES = ["empezar", "conceptos", "guias", "referencia", "operacion"] as const satisfies readonly DocsSection["id"][];
 
 export const TRANSLATED_DOCS_PATHS = [
   "/docs/empezar/instalacion",
   "/docs/empezar/primer-work-item",
+  "/docs/conceptos",
+  "/docs/conceptos/sdd",
+  "/docs/conceptos/aprobacion-humana",
+  "/docs/conceptos/work-items-y-estados",
+  "/docs/conceptos/modo-directo",
+  "/docs/guias",
+  "/docs/guias/github-issues",
+  "/docs/guias/visor",
+  "/docs/guias/checks",
+  "/docs/guias/actualizar",
+  "/docs/referencia",
+  "/docs/referencia/comandos",
+  "/docs/referencia/configuracion",
+  "/docs/referencia/meta",
+  "/docs/referencia/estados",
+  "/docs/referencia/plantillas",
+  "/docs/referencia/adaptadores",
+  "/docs/operacion",
+  "/docs/operacion/troubleshooting",
+  "/docs/operacion/changelog",
 ] as const;
+
+/**
+ * Páginas de un modo traducido que siguen en español. Cada ruta de
+ * `DOCS_SECTIONS` está en exactamente una de las dos listas.
+ */
+export const UNTRANSLATED_DOCS_PATHS = ["/docs/operacion/faq"] as const;
 
 export type TranslatedDocsMode = (typeof TRANSLATED_DOCS_MODES)[number];
 export type TranslatedDocsPath = (typeof TRANSLATED_DOCS_PATHS)[number];

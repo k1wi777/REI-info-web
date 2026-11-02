@@ -57,6 +57,6 @@ describe("entradas de la landing de documentación", () => {
     const all = buildDocsEntries("en", () => true);
 
     expect(none.every((entry) => entry.lang === "es")).toBe(true);
-    expect(all.filter((entry) => entry.lang === "en")).toHaveLength(2);
+    expect(all.filter((entry) => entry.lang === "en")).toHaveLength(3);
   });
 });

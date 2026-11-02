@@ -1,4 +1,5 @@
-import type { DocsEntry } from "@/features/docs/types";
+import type { DocBlock } from "@/content/docs";
+import type { DocContent, DocsEntry } from "@/features/docs/types";
 
 /** Texto de una tarjeta de la landing; el `href` vive en `data/entries.ts`. */
 export type DocsEntryText = Pick<DocsEntry, "title" | "mode" | "description">;
@@ -13,7 +14,7 @@ export type DocsEntryId =
 /** Tarjetas cuyo destino está traducido: las únicas que existen en inglés. */
 export type TranslatedEntryId = Extract<
   DocsEntryId,
-  "install" | "first-work-item"
+  "install" | "first-work-item" | "commands"
 >;
 
 export type DocsLandingCopyBase = {
@@ -41,3 +42,9 @@ export type DocsLandingCopyEn = DocsLandingCopyBase & {
 export type DocsLandingCopy = DocsLandingCopyBase & {
   entries: Partial<Record<DocsEntryId, DocsEntryText>>;
 };
+
+/** Texto de un documento de contenido; el `path` lo aporta el registro. */
+export type DocCopy = Pick<DocContent, "eyebrow" | "meta" | "sections">;
+
+/** Texto de la landing de un modo; título y tarjetas salen del árbol. */
+export type DocsModeLandingCopy = { intro: string; outro?: DocBlock[] };

@@ -1,32 +1,39 @@
-import type { Command, CommandCategory } from "@/content/rei";
+import type { ReiProse } from "@/content/i18n/rei";
+import type { Command } from "@/content/rei";
+import type { CommandsPageCopy } from "@/features/commands/copy/types";
 import { commandAnchor } from "@/features/commands/data/commands";
+import { fillTemplate } from "@/lib/template";
 
 type CommandIndexTableProps = {
-  category: CommandCategory;
+  categoryLabel: string;
   commands: Command[];
+  copy: CommandsPageCopy;
+  prose: ReiProse;
 };
 
 /** Índice de una categoría: enlace al detalle, resumen y nombres de flags. */
 export function CommandIndexTable({
-  category,
+  categoryLabel,
   commands,
+  copy,
+  prose,
 }: CommandIndexTableProps) {
   return (
     <div className="mt-4 w-full min-w-0 max-w-full overflow-x-auto border border-hairline">
       <table className="w-full min-w-[36rem] border-collapse text-left">
         <caption className="sr-only">
-          {category.label}: comandos, qué hacen y flags
+          {fillTemplate(copy.index.captionTemplate, { category: categoryLabel })}
         </caption>
         <thead>
           <tr className="border-b border-hairline-strong">
             <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
-              Comando
+              {copy.index.command}
             </th>
             <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
-              Qué hace
+              {copy.index.whatItDoes}
             </th>
             <th scope="col" className="px-3 py-2 type-meta text-muted-strong">
-              Flags
+              {copy.index.flags}
             </th>
           </tr>
         </thead>
@@ -48,7 +55,7 @@ export function CommandIndexTable({
                 </a>
               </th>
               <td className="px-3 py-3 type-docs text-secondary">
-                {command.summary}
+                {prose.commands[command.id].summary}
               </td>
               <td className="px-3 py-3 type-code text-muted-strong">
                 {command.flags.length > 0 ? (

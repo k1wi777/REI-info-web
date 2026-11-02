@@ -7,6 +7,7 @@ import {
   REPOSITORY_README_URL,
   REPOSITORY_URL,
 } from "@/content/site";
+import { TRANSLATED_DOCS_PATHS } from "@/content/i18n/coverage";
 import { getInstallCopy } from "@/features/installation/copy";
 import { getProductCopy } from "@/features/product/copy";
 import { buildLlmsTxt } from "@/lib/llms";
@@ -122,16 +123,17 @@ describe("buildLlmsTxt en inglés", () => {
   });
 
   it("enlaza a la versión en español las páginas sin traducir", () => {
-    expect(english).toContain(`(${BASE}/es/docs/conceptos)`);
-    // Bajo /en solo están traducidos producto, instalación y docs (Empezar).
+    expect(english).toContain(`(${BASE}/es/docs/operacion/faq)`);
+    // Bajo /en están traducidos producto, instalación, docs y los modos registrados.
     const englishLinks = english.match(new RegExp(`${BASE}/en/[^)]*`, "g"));
-    expect(englishLinks).toEqual([
-      ...PRODUCT_PAGES.map((page) => `${BASE}/en${page.path}`),
-      `${BASE}/en/docs`,
-      `${BASE}/en/instalar`,
-      `${BASE}/en/docs/empezar/instalacion`,
-      `${BASE}/en/docs/empezar/primer-work-item`,
-    ]);
+    expect([...(englishLinks ?? [])].sort()).toEqual(
+      [
+        ...PRODUCT_PAGES.map((page) => `${BASE}/en${page.path}`),
+        `${BASE}/en/docs`,
+        `${BASE}/en/instalar`,
+        ...TRANSLATED_DOCS_PATHS.map((path) => `${BASE}/en${path}`),
+      ].sort(),
+    );
   });
 
   it("describe las páginas de producto en inglés", () => {
