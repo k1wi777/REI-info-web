@@ -102,8 +102,21 @@ describe("getDocsNav", () => {
     ).toEqual({ text: "First Work Item", lang: "en" });
   });
 
-  it("deja las páginas no traducidas en español bajo en", () => {
+  it("traduce la FAQ y no deja páginas en español bajo en", () => {
     const text = getDocsPageText("en", "/docs/operacion/faq");
+
+    expect(text.title).toEqual({
+      text: "Frequently asked questions",
+      lang: "en",
+    });
+    expect(text.description.lang).toBe("en");
+    expect(UNTRANSLATED_DOCS_PATHS).toEqual([]);
+  });
+
+  it("deja en español una página no traducida (cobertura inyectada)", () => {
+    const text = getDocsPageText("en", "/docs/operacion/faq", {
+      isTranslated: () => false,
+    });
 
     expect(text.title.lang).toBe("es");
     expect(text.description.lang).toBe("es");
@@ -133,10 +146,15 @@ describe("getDocsNav", () => {
         (page) => page.path === "/docs/operacion/troubleshooting",
       )?.title,
     ).toEqual({ text: "Troubleshooting", lang: "en" });
-    // Sin overlay para otra página cubierta, cae al español.
+    // Una página fuera de la cobertura inyectada cae al español.
+    const partial = getDocsNav("en", {
+      isTranslated: (lang, path) =>
+        lang === "en" && path !== "/docs/operacion/faq",
+      overlay: DOCS_NAV_EN,
+    }).find((mode) => mode.id === "operacion");
     expect(
-      operacion?.pages.find((page) => page.path === "/docs/operacion/faq")
-        ?.title.lang,
+      partial?.pages.find((page) => page.path === "/docs/operacion/faq")?.title
+        .lang,
     ).toBe("es");
   });
 });

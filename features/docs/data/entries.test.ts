@@ -29,18 +29,13 @@ describe("entradas de la landing de documentación", () => {
     }
   });
 
-  it("el español tiene todas las tarjetas y el inglés solo las traducidas", () => {
+  it("el español tiene todas las tarjetas y el inglés también (todo el destino está traducido)", () => {
     const ids = DOCS_ENTRIES.map((entry) => entry.id).sort();
-    const translated = DOCS_ENTRIES.filter((entry) =>
-      isTranslated("en", entry.href),
-    )
-      .map((entry) => entry.id)
-      .sort();
-
-    expect(Object.keys(getDocsLandingCopy("es").entries).sort()).toEqual(ids);
-    expect(Object.keys(getDocsLandingCopy("en").entries).sort()).toEqual(
-      translated,
+    expect(DOCS_ENTRIES.every((entry) => isTranslated("en", entry.href))).toBe(
+      true,
     );
+    expect(Object.keys(getDocsLandingCopy("es").entries).sort()).toEqual(ids);
+    expect(Object.keys(getDocsLandingCopy("en").entries).sort()).toEqual(ids);
   });
 
   it("las tarjetas sin traducción conservan el español y lo declaran", () => {
@@ -57,6 +52,6 @@ describe("entradas de la landing de documentación", () => {
     const all = buildDocsEntries("en", () => true);
 
     expect(none.every((entry) => entry.lang === "es")).toBe(true);
-    expect(all.filter((entry) => entry.lang === "en")).toHaveLength(3);
+    expect(all.filter((entry) => entry.lang === "en")).toHaveLength(4);
   });
 });

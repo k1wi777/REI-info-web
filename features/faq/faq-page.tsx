@@ -1,23 +1,30 @@
 import { DocArticle } from "@/components/layout/doc-article";
 import { InlineText } from "@/components/ui/inline-text";
-import {
-  FAQ_PATH,
-  FAQ_THEMES,
-  FAQ_TOC,
-} from "@/features/faq/data/faq";
+import { getDocsPageText } from "@/content/i18n/docs-nav";
+import { getCurrentLocale } from "@/content/i18n/server";
+import { getFaqCopy } from "@/features/faq/copy";
+import { FAQ_PATH, buildFaqThemes, buildFaqToc } from "@/features/faq/data/faq";
+import { fillTemplate } from "@/lib/template";
 
-export function FaqPage() {
+export async function FaqPage() {
+  const lang = await getCurrentLocale();
+  const copy = getFaqCopy(lang);
+  const themes = buildFaqThemes(copy);
+
   return (
     <DocArticle
       path={FAQ_PATH}
-      eyebrow="Operación"
-      title="Preguntas frecuentes"
-      description="Dudas reales sobre Work Items en paralelo, cambios directos, checks, git, historial y documentación necesaria."
-      meta={`${FAQ_THEMES.reduce((total, theme) => total + theme.items.length, 0)} preguntas · ${FAQ_THEMES.length} temas`}
-      toc={FAQ_TOC}
+      eyebrow={copy.eyebrow}
+      title={getDocsPageText(lang, FAQ_PATH).title.text}
+      description={copy.description}
+      meta={fillTemplate(copy.metaTemplate, {
+        questions: themes.reduce((total, theme) => total + theme.items.length, 0),
+        topics: themes.length,
+      })}
+      toc={buildFaqToc(copy)}
     >
       <div className="flex flex-col gap-10">
-        {FAQ_THEMES.map((theme) => (
+        {themes.map((theme) => (
           <section
             key={theme.id}
             id={`faq-${theme.id}`}

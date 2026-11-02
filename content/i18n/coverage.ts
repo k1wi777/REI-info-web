@@ -36,13 +36,15 @@ export const TRANSLATED_DOCS_PATHS = [
   "/docs/operacion",
   "/docs/operacion/troubleshooting",
   "/docs/operacion/changelog",
+  "/docs/operacion/faq",
 ] as const;
 
 /**
- * Páginas de un modo traducido que siguen en español. Cada ruta de
+ * Páginas de un modo traducido que siguen en español. Hoy vacía: una página
+ * nueva de un modo ya traducido se declara aquí hasta traducirla. Cada ruta de
  * `DOCS_SECTIONS` está en exactamente una de las dos listas.
  */
-export const UNTRANSLATED_DOCS_PATHS = ["/docs/operacion/faq"] as const;
+export const UNTRANSLATED_DOCS_PATHS = [] as const;
 
 export type TranslatedDocsMode = (typeof TRANSLATED_DOCS_MODES)[number];
 export type TranslatedDocsPath = (typeof TRANSLATED_DOCS_PATHS)[number];

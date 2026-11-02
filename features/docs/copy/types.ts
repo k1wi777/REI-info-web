@@ -11,12 +11,6 @@ export type DocsEntryId =
   | "commands"
   | "faq";
 
-/** Tarjetas cuyo destino está traducido: las únicas que existen en inglés. */
-export type TranslatedEntryId = Extract<
-  DocsEntryId,
-  "install" | "first-work-item" | "commands"
->;
-
 export type DocsLandingCopyBase = {
   meta: { title: string; description: string };
   eyebrow: string;
@@ -30,13 +24,13 @@ export type DocsLandingCopyBase = {
   };
 };
 
-/** Español: todas las tarjetas. Inglés: solo las de destino traducido. */
+/** Todas las tarjetas existen en español y en inglés. */
 export type DocsLandingCopyEs = DocsLandingCopyBase & {
   entries: Record<DocsEntryId, DocsEntryText>;
 };
 
 export type DocsLandingCopyEn = DocsLandingCopyBase & {
-  entries: Record<TranslatedEntryId, DocsEntryText>;
+  entries: Record<DocsEntryId, DocsEntryText>;
 };
 
 export type DocsLandingCopy = DocsLandingCopyBase & {

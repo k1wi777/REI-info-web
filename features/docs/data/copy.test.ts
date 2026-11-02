@@ -92,11 +92,11 @@ describe("cobertura de documentos en inglés", () => {
     }
   });
 
-  it("los cuatro modos están registrados y solo la FAQ queda en español", () => {
+  it("los cuatro modos están registrados y no queda ninguna página en español", () => {
     for (const mode of ["conceptos", "guias", "referencia", "operacion"]) {
       expect(TRANSLATED_DOCS_MODES).toContain(mode);
     }
-    expect(UNTRANSLATED_DOCS_PATHS).toEqual(["/docs/operacion/faq"]);
+    expect(UNTRANSLATED_DOCS_PATHS).toEqual([]);
   });
 });
 

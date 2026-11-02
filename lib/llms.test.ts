@@ -122,8 +122,9 @@ describe("buildLlmsTxt en inglés", () => {
     expect(english).not.toContain("## Producto");
   });
 
-  it("enlaza a la versión en español las páginas sin traducir", () => {
-    expect(english).toContain(`(${BASE}/es/docs/operacion/faq)`);
+  it("enlaza a /en todas las páginas, incluida la FAQ", () => {
+    expect(english).toContain(`(${BASE}/en/docs/operacion/faq)`);
+    expect(english).not.toContain(`${BASE}/es/docs`);
     // Bajo /en están traducidos producto, instalación, docs y los modos registrados.
     const englishLinks = english.match(new RegExp(`${BASE}/en/[^)]*`, "g"));
     expect([...(englishLinks ?? [])].sort()).toEqual(

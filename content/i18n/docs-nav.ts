@@ -141,6 +141,11 @@ export const DOCS_NAV_EN: DocsNavOverlay = {
       description:
         "The documented version, its date and the verifiable topics of the v0.3.0 release.",
     },
+    "/docs/operacion/faq": {
+      title: "Frequently asked questions",
+      description:
+        "Real questions about parallel Work Items, direct changes, checks, git and history.",
+    },
   },
 };
 

@@ -142,12 +142,17 @@ describe("cobertura de traducción", () => {
     }
   });
 
-  it("recurre al español para el contenido sin traducir", () => {
-    const untranslated = ROUTES.find((path) => !isTranslated("en", path));
+  it("recurre al español para una ruta fuera de la cobertura", () => {
+    const synthetic = "/ruta-inexistente";
 
-    if (untranslated) {
-      expect(getContentLocale("en", untranslated)).toBe("es");
-      expect(translatedLocales(untranslated)).toEqual(["es"]);
+    expect(getContentLocale("en", synthetic)).toBe("es");
+    expect(translatedLocales(synthetic)).toEqual([]);
+  });
+
+  it("cubre en inglés todas las rutas del sitio", () => {
+    for (const path of ROUTES) {
+      expect(isTranslated("en", path)).toBe(true);
+      expect(getContentLocale("en", path)).toBe("en");
     }
   });
 
@@ -166,16 +171,5 @@ describe("cobertura de traducción", () => {
     expect(translatedLocales("/")).toEqual(["es", "en"]);
     expect(translatedLocales(INSTALL_PATH)).toEqual(["es", "en"]);
     expect(getContentLocale("en", INSTALL_PATH)).toBe("en");
-  });
-
-  it("deja el resto de rutas en español bajo /en", () => {
-    const translated = new Set<string>(TRANSLATED_ROUTES.en);
-    const rest = ROUTES.filter((path) => !translated.has(path));
-
-    expect(rest.length).toBeGreaterThan(0);
-    for (const path of rest) {
-      expect(isTranslated("en", path)).toBe(false);
-      expect(getContentLocale("en", path)).toBe("es");
-    }
   });
 });

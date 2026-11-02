@@ -35,5 +35,11 @@ export const en: DocsLandingCopyEn = {
       description:
         "Commands, flags and real examples, grouped by the task they solve.",
     },
+    faq: {
+      title: "Get answers",
+      mode: "Operations",
+      description:
+        "Parallel Work Items, direct changes, checks, git, history and the documentation you need.",
+    },
   },
 };
